@@ -10,7 +10,7 @@ public interface UserService extends BaseService<User> {
     
     public abstract void createUser(User user);
     
-    public abstract long resetPassword(String username, String password);
+    public abstract Long resetPassword(String username, String password);
     
     /**
      * 根据用户名查找用户

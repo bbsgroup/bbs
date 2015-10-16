@@ -41,11 +41,11 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
      * java.lang.String)
      */
     @Override
-    public long resetPassword(String username, String password) {
+    public Long resetPassword(String username, String password) {
         User user = userDao.findByUsername(username);
         user.setPassword(password);
         passwordHelper.encryptPassword(user);
-        return (long) userDao.save(user);
+        return (Long) userDao.save(user);
     }
     
     /*
