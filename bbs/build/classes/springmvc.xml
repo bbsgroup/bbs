@@ -55,6 +55,10 @@
 	<!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> 
 		<property name="exceptionMappings"> <props> <prop key="org.hxj.core.exception.MyException">error</prop> 
 		</props> </property> </bean> -->
+		
+	<bean id="exceptionHandler" class="org.base.exception.MyExceptionHandler"/>  
+		
+		
 
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
