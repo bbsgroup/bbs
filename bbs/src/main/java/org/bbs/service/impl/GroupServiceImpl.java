@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class GroupServiceImpl extends BaseServiceImpl<Group> implements GroupService {
     
-	 @Autowired
-	 private GroupDao groupDao;
+	 
     
 }

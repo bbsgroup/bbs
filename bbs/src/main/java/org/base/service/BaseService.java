@@ -19,7 +19,7 @@ public interface BaseService<T> {
     public abstract T get(Serializable id);
     
     public abstract T load(Serializable id);
-    
+        
     public abstract List<T> listAll();
     
     public abstract Page<T> findPage();

@@ -1,28 +1,31 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <!DOCTYPE html>
 <html>
 <head>
 <title></title>
 <meta charset="UTF-8">
 
-<link href="${request.contextPath}/media/css/bootstrap.min.css"
+<link href="${pageContext.request.contextPath}/media/css/bootstrap.min.css"
 	rel="stylesheet" />
-<link href="${request.contextPath}/media/css/style.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/media/css/style.css" rel="stylesheet" />
 
 </head>
 <body>
 
 
-	<form id="userInfo" action="${request.contextPath}/admin/user/add"
+	<form id="userInfo" action="${pageContext.request.contextPath}/admin/user/add"
 		method="post" class="form-group definewidth m20">
 		<div id="myAlert" class="alert alert-warning" style="display: none;">
 			<a href="#" class="close" data-dismiss="alert">&times;</a> ${error}
 		</div>
 		<table class="table table-bordered table-hover definewidth m10">
-
+			
 			<div class="form-group">
 				<td width="10%" class="tableleft">登录名</td>
 				<td class="has-error"><input class="form-element" type="text"
-					id="username" name="username" /></td>
+					id="username" name="username" value="${user.username}" /></td>
 			</div>
 			<tr>
 				<td class="tableleft">密码</td>
@@ -34,7 +37,7 @@
 			</tr>
 			<tr>
 				<td class="tableleft">邮箱</td>
-				<td><input type="text" name="email" /></td>
+				<td><input type="text" name="email" value="${user.email}"/></td>
 			</tr>
 			<tr>
 				<td class="tableleft">状态</td>
@@ -44,9 +47,11 @@
 			<tr>
 				<td class="tableleft">用户组</td>
 				<td>
-				<c:forEach items=${groups}  var=group>
-				<input type="radio" name="groupId" value="${group.id}">${group.name}</input>
-				</c:forEach>		
+			
+				<c:forEach items="${groups}"  var="group">
+				
+				<input type="radio" name="groupId" value="${group.id}" <c:if test="${group.id == 1}">checked</c:if> >&nbsp;${group.name}</input>
+				</c:forEach>
 				</td>
 			</tr>
 			<tr>
@@ -55,7 +60,7 @@
 					<button type="submit" class="btn btn-primary" type="button">保存</button>
 					&nbsp;&nbsp;
 					<button type="button" class="btn btn-success" name="backid"
-						id="backid">返回列表</button>
+						id="backid" onclick="javascript:history.back()">返回列表</button>
 				</td>
 			</tr>
 			
@@ -63,18 +68,16 @@
 	</form>
 </body>
 </html>
-<script src="${request.contextPath}/media/js/jquery-2.1.4.min.js"></script>
-<script src="${request.contextPath}/media/js/bootstrap.min.js"></script>
-<script src="${request.contextPath}/media/js/jquery.validate.min.js"></script>
+<script src="${pageContext.request.contextPath}/media/js/jquery-2.1.4.min.js"></script>
+<script src="${pageContext.request.contextPath}/media/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/media/js/jquery.validate.min.js"></script>
 <script>
 	$(function() {
 		var error = "${error}";
 		if(null != error && ""!=error){
 			$("#myAlert").css('display','block');
 		}
-		$('#backid').click(function() {
-			window.location.href = "${request.contextPath}/admin/user/list";
-		});
+		
 		$("#userInfo").validate({
 			errorClass : "invalid",
 			rules : {

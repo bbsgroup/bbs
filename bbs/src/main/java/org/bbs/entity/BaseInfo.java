@@ -1,5 +1,9 @@
 package org.bbs.entity;
-
+/**
+ * 网站基本信息
+ * @author huangxj
+ *
+ */
 public class BaseInfo {
 	private String name;
 	private String address;

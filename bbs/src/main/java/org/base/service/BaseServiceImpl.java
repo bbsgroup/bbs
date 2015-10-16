@@ -26,7 +26,17 @@ public class BaseServiceImpl<T> implements BaseService<T> {
         this.baseDao = baseDao;
     }
     
-    /*
+    
+    
+    
+    public BaseDao<T> getBaseDao() {
+		return baseDao;
+	}
+
+
+
+
+	/*
      * (non-Javadoc)
      * @see org.hxj.base.service.impl.BaseService#add(T)
      */

@@ -1,14 +1,17 @@
 package org.bbs.service.impl;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
+import java.util.UUID;
 
 import org.base.entity.Page;
 import org.base.service.BaseServiceImpl;
 import org.bbs.dao.UserDao;
 import org.bbs.entity.User;
 import org.bbs.service.UserService;
+import org.common.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
     
-    @Autowired
-    private PasswordHelper passwordHelper;
-    
+
     @Autowired
     private UserDao userDao;
     
@@ -30,7 +31,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
      */
     @Override
     public void createUser(User user) {
-        passwordHelper.encryptPassword(user);
+        encryptPassword(user);
         user.setCreateDate(new Date());
         this.add(user);
     }
@@ -44,7 +45,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     public Long resetPassword(String username, String password) {
         User user = userDao.findByUsername(username);
         user.setPassword(password);
-        passwordHelper.encryptPassword(user);
+        encryptPassword(user);
         return (Long) userDao.save(user);
     }
     
@@ -100,5 +101,17 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     public Page<User> findByUsernameLike(String keyword) {
         return userDao.findByUsernameLike(keyword);
     }
+    
+    public void encryptPassword(User user){
+		  UUID uuid = UUID.randomUUID();
+		  user.setSalt(uuid.toString());
+		  try {
+			String pwd = SecurityUtil.md5(user.getPassword()+user.getSalt());
+			user.setPassword(pwd);
+		} catch (NoSuchAlgorithmException e) {	
+			e.printStackTrace();
+		}
+
+	}
     
 }
