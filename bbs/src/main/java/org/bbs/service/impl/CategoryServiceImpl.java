@@ -19,5 +19,15 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category> implements Ca
 		
 		return categoryDao.findByName(name);
 	}
+	@Override
+	public void moveUp() {
+		
+		
+	}
+	@Override
+	public void moveDown() {
+		
+		
+	}
  
 }

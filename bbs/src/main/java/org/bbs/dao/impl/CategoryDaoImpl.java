@@ -13,4 +13,17 @@ public class CategoryDaoImpl extends BaseDaoImpl<Category> implements CategoryDa
 			Category c = (Category) this.queryObject(hql, new Object[] { name }, null);
 			return c;
 	 }
+
+	@Override
+	public Category findUp(Long id) {
+		String hql = "from category c where c.sort <? ";
+		
+		return null;
+	}
+
+	@Override
+	public Category findDown(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

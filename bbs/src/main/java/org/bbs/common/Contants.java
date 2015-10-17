@@ -22,11 +22,11 @@ public class Contants {
 	public static final String PERMIT_DOWNLOAD = "I";
 	// 上传附件
 	public static final String PERMIT_UPLOAD = "J";
-	// 置顶
+	// 置顶主题
 	public static final String PERMIT_TOP_POST = "K";
-	// 允许编辑帖子
+	// 允许编辑主题
 	public static final String PERMIT_EDIT_POST = "L";
-	// 允许删除帖子
+	// 允许删除主题
 	public static final String PERMIT_DELETE_POST = "M";
 	//公告管理
 	public static final String PERMIT_CLOSE_POST = "N";

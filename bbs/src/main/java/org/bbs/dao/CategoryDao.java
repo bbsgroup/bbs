@@ -9,4 +9,8 @@ import org.bbs.entity.User;
 public interface CategoryDao extends BaseDao<Category> {
     
 	 public Category findByName(String name);
+	 
+	 public Category findUp(Long id);
+	 
+	 public Category findDown(Long id);
 }

@@ -15,34 +15,25 @@
 <body>
 
 
-	<form id="userInfo" action="${pageContext.request.contextPath}/admin/user/update"
+	<form id="formInfo" action="${pageContext.request.contextPath}/admin/category/add"
 		method="post" class="form-group definewidth m20">
 		<div id="myAlert" class="alert alert-warning" style="display: none;">
 			<a href="#" class="close" data-dismiss="alert">&times;</a> ${error}
 		</div>
 		<table class="table table-bordered table-hover definewidth m10">
-           <input type="hidden" name="id" value="${user.id}"/>
+			
 			<tr class="form-group">
-				<td width="10%" class="tableleft">登录名</td>
-				<td class="has-error">${user.username}</td>
-			</tr>	
-			<tr>
-				<td class="tableleft">邮箱</td>
-				<td><input type="text" name="email" value="${user.email}"/></td>
+				<td width="10%" class="tableleft">分区名</td>
+				<td><input class="form-element" type="text"
+			id="name"	name="name" value="${category.name}" /></td>
 			</tr>
+	
 			<tr>
 				<td class="tableleft">状态</td>
-				<td><input type="radio" name="status" value="true" <c:if test="${user.status == true}">checked</c:if>  /> 启用
-					<input type="radio" name="status" value="false"  <c:if test="${user.status == false}">checked</c:if>  /> 禁用</td>
+				<td><input type="radio" name="status" value="true" checked  /> 启用
+					<input type="radio" name="status" value="false"   /> 禁用</td>
 			</tr>
-			<tr>
-				<td class="tableleft">用户组</td>
-				<td>
-				<c:forEach items="${groups}"  var="group">
-				<input type="radio" name="groupId" value="${group.id}" <c:if test="${group.id == user.group.id}">checked</c:if> >&nbsp;${group.name}</input>
-				</c:forEach>
-				</td>
-			</tr>
+
 			<tr>
 				<td class="tableleft"></td>
 				<td>
@@ -67,10 +58,10 @@
 			$("#myAlert").css('display','block');
 		}
 		
-		$("#userInfo").validate({
+		$("#formInfo").validate({
 			errorClass : "invalid",
 			rules : {
-				username : {
+				name : {
 					required : true
 				},
 				password : {
@@ -87,7 +78,7 @@
 
 			},
 			messages : {
-				username : "请输入姓名",
+				name : "请输入分区名",
 				password : "密码不能为空",
 				re_password : " 与第一次输入密码不符",
 				email : {

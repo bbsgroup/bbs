@@ -18,6 +18,11 @@ public class Category {
 	private Long id;
 
 	private String name;
+	
+	private Boolean status=Boolean.TRUE;
+	
+	private String moderators;
+	
 	@Id
 	@GeneratedValue
 	public Long getId() {
@@ -35,5 +40,24 @@ public class Category {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+
+	public String getModerators() {
+		return moderators;
+	}
+
+	public void setModerators(String moderators) {
+		this.moderators = moderators;
+	}
+	
+	
+	
 
 }

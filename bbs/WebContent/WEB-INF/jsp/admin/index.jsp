@@ -154,14 +154,13 @@ body {
 								</ul>
 							</div>
 							<div class="div2">
-								<div class="xwzx"></div>
-								新闻中心
+							 版块管理
 							</div>
 							<div class="div3">
 								<ul>
-									<li>管理文章</li>
-									<li>文章分类</li>
-									<li>添加文章</li>
+									<li><a href="${pageContext.request.contextPath}/admin/category/list"
+										target="content">分区管理</a></li>
+									<li>版块管理</li>
 								</ul>
 							</div>
 							<div class="div2">

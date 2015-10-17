@@ -14,6 +14,8 @@ public class Board {
 	private Long id;
 	
 	private String name;
+	
+	private Boolean status=Boolean.TRUE;
 
 	public Long getId() {
 		return id;
@@ -29,6 +31,14 @@ public class Board {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
 	}
 	
 	
