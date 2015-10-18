@@ -30,6 +30,19 @@ public class Board implements Comparable<Board> {
 	private long sort;
 
 	private String description;
+	
+	private String visitGroups;
+	
+	private String topicGroups;
+	
+	private String replyGroups;
+	
+	private String downloadGroups;
+	
+	private String uploadGroups;
+	
+	
+	
 
 	@Id
 	@GeneratedValue
@@ -100,5 +113,50 @@ public class Board implements Comparable<Board> {
 	public void setModerators(String moderators) {
 		this.moderators = moderators;
 	}
+
+	public String getVisitGroups() {
+		return visitGroups;
+	}
+
+	public void setVisitGroups(String visitGroups) {
+		this.visitGroups = visitGroups;
+	}
+
+	public String getTopicGroups() {
+		return topicGroups;
+	}
+
+	public void setTopicGroups(String topicGroups) {
+		this.topicGroups = topicGroups;
+	}
+
+	public String getReplyGroups() {
+		return replyGroups;
+	}
+
+	public void setReplyGroups(String replyGroups) {
+		this.replyGroups = replyGroups;
+	}
+
+	public String getDownloadGroups() {
+		return downloadGroups;
+	}
+
+	public void setDownloadGroups(String downloadGroups) {
+		this.downloadGroups = downloadGroups;
+	}
+
+	public String getUploadGroups() {
+		return uploadGroups;
+	}
+
+	public void setUploadGroups(String uploadGroups) {
+		this.uploadGroups = uploadGroups;
+	}
+
+	
+	
+	
+	
 
 }

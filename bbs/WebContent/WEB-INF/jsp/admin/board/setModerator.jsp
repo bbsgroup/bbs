@@ -15,22 +15,22 @@
 <body>
 
 
-	<form action="${pageContext.request.contextPath}/admin/category/setModerator"
+	<form action="${pageContext.request.contextPath}/admin/board/setModerator"
 		method="post" class="form-group definewidth m20">
 		<div id="myAlert" class="alert alert-warning" style="display: none;">
 			<a href="#" class="close" data-dismiss="alert">&times;</a> ${error}
 		</div>
-		<input type="hidden" name="id" value="${category.id}"/>
+		<input type="hidden" name="id" value="${board.id}"/>
 		<table class="table table-bordered table-hover definewidth m10">
 			
 			<tr class="form-group">
-				<td width="10%" class="tableleft">分区名</td>				
-				<td>${category.name}</td>
+				<td width="10%" class="tableleft">版块名</td>				
+				<td>${board.name}</td>
 			</tr>
 			
 			<tr class="form-group">
 				<td width="10%" class="tableleft">版主：</td>				
-				<td><input type="text" name="usernames" value="${category.moderators }"  width="400"/><br/>(请输入版主用户名，多个以','分隔)</td>
+				<td><input type="text" name="usernames" value="${board.moderators }"  width="400"/><br/>(请输入版主用户名，多个以','分隔)</td>
 			</tr>
 			
 			

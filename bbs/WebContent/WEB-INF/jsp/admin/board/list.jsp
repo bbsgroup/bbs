@@ -24,7 +24,7 @@ body {
 	<ul class="breadcrumb">
 		<li><i class="icon-home"></i> <a href="javascript:;">后台管理</a> <i
 			class="icon-angle-right"></i></li>
-		<li><a href="${pageContext.request.contextPath}/admin/category/list">版块管理</a></li>
+		<li><a href="${pageContext.request.contextPath}/admin/board/list">版块管理</a></li>
 	</ul>
 	<!-- END PAGE TITLE & BREADCRUMB-->
 	</div>
@@ -42,7 +42,7 @@ body {
 		
 		<thead style="text-align:center;">
 			<tr>
-				<th colspan="3">分区：${category.name}</th>
+				<th colspan="4">分区：${category.name}</th>
 				
 			</tr>
 		</thead>
@@ -51,10 +51,13 @@ body {
 		<tbody>
 		<c:forEach items="${category.boards}" var="board">
 		<tr class="odd gradeX" >
-				<td class="hidden-480" width="20%">${board.name}</td>
-				<td class="hidden-480"><c:if  test="${board.status == true}">启用</c:if > <c:if 
-					test="${board.status== false}">禁用</c:if ></td>
-				<td>
+				<td width="20%">${board.name}</td>
+				<td ><c:if  test="${board.status == true}">启用</c:if > <c:if 
+					test="${board.status== false}">禁用</c:if ></td>	
+				
+				<td >${board.moderators}
+				</td>
+				<td >
 				<a href="moveUp?id=${board.id }&categoryId=${category.id}" class="btn mini purple"><i
 						class="icon-edit"></i> 上移</a> 
 					<a href="moveDown?id=${board.id }&categoryId=${category.id}" class="btn mini purple"><i

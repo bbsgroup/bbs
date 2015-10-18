@@ -8,9 +8,11 @@ import java.util.List;
 
 import org.bbs.entity.Board;
 import org.bbs.entity.Category;
+import org.bbs.entity.Group;
 import org.bbs.entity.User;
 import org.bbs.service.BoardService;
 import org.bbs.service.CategoryService;
+import org.bbs.service.GroupService;
 import org.bbs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,10 +30,11 @@ public class BoardController {
 	UserService userService;
 	@Autowired
 	CategoryService categoryService;
+	@Autowired
+	GroupService groupService;
 
 	@RequestMapping("/list")
-	public String list(Model model)
-			throws UnsupportedEncodingException {
+	public String list(Model model) throws UnsupportedEncodingException {
 		List<Category> categorys = categoryService.listAll();
 		Collections.sort(categorys);
 		model.addAttribute("categorys", categorys);
@@ -42,48 +45,72 @@ public class BoardController {
 	public String toAdd(Model model) {
 		List<Category> categorys = categoryService.listAll();
 		Collections.sort(categorys);
-		model.addAttribute("categorys", categorys);	
+		model.addAttribute("categorys", categorys);
+		List<Group> groups = groupService.listAll();
+		model.addAttribute("groups", groups);
 		return "admin/board/add";
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String add(Model model, Board board,Long categoryId) {
+	public String add(Model model, Board board, Long categoryId) {
 		Category c = categoryService.get(categoryId);
-		if(c==null){
+		if (c == null) {
 			List<Category> categorys = categoryService.listAll();
 			Collections.sort(categorys);
-			model.addAttribute("categorys", categorys);	
-			model.addAttribute("board", board);	
+			model.addAttribute("categorys", categorys);
+			model.addAttribute("board", board);
 			model.addAttribute("error", "分区不存在");
 		}
 		Board b = boardService.findByName(board.getName(), c);
-		if(b!=null){
+		if (b != null) {
 			List<Category> categorys = categoryService.listAll();
 			Collections.sort(categorys);
-			model.addAttribute("categorys", categorys);	
-			model.addAttribute("board", board);	
+			model.addAttribute("categorys", categorys);
+			model.addAttribute("board", board);
 			model.addAttribute("error", "版块已存在");
 		}
 		board.setCategory(c);
 		boardService.add(board);
-		
+
 		return "redirect:/admin/board/list";
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public String toUpdate(Long id, Model model) {
-		model.addAttribute("Board", boardService.get(id));
-		return "admin/Board/edit";
+		List<Category> categorys = categoryService.listAll();
+		Collections.sort(categorys);
+		model.addAttribute("categorys", categorys);
+		List<Group> groups = groupService.listAll();
+		model.addAttribute("groups", groups);
+		model.addAttribute("board", boardService.get(id));
+		return "admin/board/edit";
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(Model model, Board Board) {
+	public String update(Model model, Board board,Long categoryId) {
 
-		Board c2 = boardService.get(Board.getId());
-		if (c2 != null) {
-			c2.setStatus(Board.getStatus());
+		Board b = boardService.get(board.getId());
+		if (b != null) {
+			
+			Category c = categoryService.get(categoryId);
+			if (c == null) {
+				List<Category> categorys = categoryService.listAll();
+				Collections.sort(categorys);
+				model.addAttribute("categorys", categorys);
+				model.addAttribute("board", board);
+				model.addAttribute("error", "分区不存在");
+			}
+			b.setCategory(c);
+			b.setStatus(board.getStatus());
+			b.setCategory(board.getCategory());
+			b.setDescription(board.getDescription());
+			b.setDownloadGroups(board.getDownloadGroups());
+			b.setReplyGroups(board.getReplyGroups());
+			b.setTopicGroups(board.getTopicGroups());
+			b.setUploadGroups(board.getUploadGroups());
+			b.setVisitGroups(board.getVisitGroups());		
 		}
-		boardService.update(c2);
+		boardService.update(b);
 		return "redirect:/admin/board/list";
 	}
 
@@ -95,7 +122,7 @@ public class BoardController {
 
 	@RequestMapping(value = "/setModerator", method = RequestMethod.GET)
 	public String toSetModerator(Long id, Model model) {
-		model.addAttribute("Board", boardService.get(id));
+		model.addAttribute("board", boardService.get(id));
 		return "admin/board/setModerator";
 	}
 
@@ -106,7 +133,7 @@ public class BoardController {
 		for (String name : names) {
 			User u = userService.findByUsername(name);
 			if (u == null) {
-				model.addAttribute("Board", boardService.get(id));
+				model.addAttribute("board", boardService.get(id));
 				model.addAttribute("usernames", usernames);
 				model.addAttribute("error", "用户" + name + "不存在");
 				return "admin/board/setModerator";
@@ -114,8 +141,8 @@ public class BoardController {
 				set.add(name);
 			}
 		}
-		Board Board = boardService.get(id);
-		if (Board != null) {
+		Board board = boardService.get(id);
+		if (board != null) {
 			Iterator<String> iterator = set.iterator();
 			StringBuilder newnames = new StringBuilder();
 			String newnamesStr = "";
@@ -126,23 +153,23 @@ public class BoardController {
 			if (newnames.length() > 0) {
 				newnamesStr = newnames.substring(0, newnames.length() - 1);
 			}
-			//board.setModerators(newnamesStr);
-			boardService.update(Board);
+			board.setModerators(newnamesStr);
+			boardService.update(board);
 		}
 		return "redirect:/admin/board/list";
 	}
 
 	@RequestMapping("/moveUp")
-	public String moveUp(Long id,Long categoryId) {
+	public String moveUp(Long id, Long categoryId) {
 		Category c = categoryService.get(categoryId);
-		boardService.moveUp(id,c);
+		boardService.moveUp(id, c);
 		return "redirect:/admin/board/list";
 	}
 
 	@RequestMapping("/moveDown")
-	public String moveDown(Long id,Long categoryId) {
+	public String moveDown(Long id, Long categoryId) {
 		Category c = categoryService.get(categoryId);
-		boardService.moveDown(id,c);
+		boardService.moveDown(id, c);
 		return "redirect:/admin/board/list";
 	}
 

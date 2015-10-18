@@ -34,7 +34,7 @@
 			<tr>
 				<td width="10%" class="tableleft">分区</td>
 				<td><select name="categoryId">
-						<c:forEach items="${categorys }" var="category"> 
+						<c:forEach items="${categorys }" var="category">
 							<option value="${category.id }">${category.name}</option>
 						</c:forEach>
 				</select></td>
@@ -46,27 +46,68 @@
 				<td><input type="radio" name="status" value="true" checked />
 					启用 <input type="radio" name="status" value="false" /> 禁用</td>
 			</tr>
-			
-			
+
+
 			<tr>
 				<td width="10%" class="tableleft">描述</td>
-				<td>
-				<textarea name="description" rows="5" cols="50"></textarea>
+				<td><textarea name="description" rows="5" cols="50"></textarea>
 				</td>
 			</tr>
+
+		</table>
+
+
+		<table class="table table-bordered table-hover definewidth m10">
+
+
+			<thead style="text-align: center;">
+				<tr>
+					<th width="20%">用户组</th>
+					<th>允许浏览</th>
+					<th>允许发帖</th>
+					<th>允许回复</th>
+					<th>下载附件</th>
+					<th>上传附件</th>
+				</tr>
+			</thead>
+
+			<c:forEach items="${groups}" var="group">
+				<tr>
+					<td><input value="${group.id }" type=checkbox
+						id="allowGroups${group.id }" onclick="changeGroups('${group.id}')" />
+						&nbsp;${group.name }</td>
+
+					<td><input type="checkbox" name="visitGroups"
+						id="visitGroups${group.id }" value="${group.id }" /></td>
+
+					<td><input type="checkbox" name="topicGroups"
+						id="topicGroups${group.id }" value="${group.id }" /></td>
+
+					<td><input type="checkbox" name="replyGroups"
+						id="replyGroups${group.id }" value="${group.id }" /></td>
+					<td><input type="checkbox" name="downloadGroups"
+						id="downloadGroups${group.id }" value=" ${group.id }" /></td>
+					<td><input type="checkbox" name="uploadGroups"
+						id="uploadGroups${group.id }" value="${group.id }" /></td>
+
+				</tr>
+
+			</c:forEach>
 
 
 			<tr>
 				<td class="tableleft"></td>
-				<td>
+				<td colspan="5">
 					<button type="submit" class="btn btn-primary" type="button">保存</button>
 					&nbsp;&nbsp;
 					<button type="button" class="btn btn-success" name="backid"
 						id="backid" onclick="javascript:history.back()">返回列表</button>
 				</td>
 			</tr>
-
 		</table>
+
+
+
 	</form>
 </body>
 </html>
@@ -116,4 +157,20 @@
 		});
 
 	});
+	function changeGroups(id) {
+		if ($('#allowGroups' + id).prop('checked')) {
+			$('#visitGroups' + id).prop('checked', true);
+			$('#topicGroups' + id).prop('checked', true);
+			$('#replyGroups' + id).prop('checked', true);
+			$('#downloadGroups' + id).prop('checked', true);
+			$('#uploadGroups' + id).prop('checked', true);
+		} else {
+			$('#visitGroups' + id).prop('checked', false);
+			$('#topicGroups' + id).prop('checked', false);
+			$('#replyGroups' + id).prop('checked', false);
+			$('#downloadGroups' + id).prop('checked', false);
+			$('#uploadGroups' + id).prop('checked', false);
+		}
+
+	}
 </script>
