@@ -7,8 +7,9 @@ public interface CategoryService extends BaseService<Category> {
     
 	public abstract Category findByName(String name);
 	
-	public abstract void moveUp();
+
+	public void moveUp(Long id);
 	
-	public abstract void moveDown();
+	public void moveDown(Long id);
     
 }

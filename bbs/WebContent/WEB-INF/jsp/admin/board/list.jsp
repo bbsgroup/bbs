@@ -19,67 +19,63 @@ body {
 </head>
 <body>
 	<h3 class="page-title">
-		分区管理 <small>分区列表</small>
+		版块管理 <small>版块列表</small>
 	</h3>
 	<ul class="breadcrumb">
 		<li><i class="icon-home"></i> <a href="javascript:;">后台管理</a> <i
 			class="icon-angle-right"></i></li>
-		<li><a href="${pageContext.request.contextPath}/admin/category/list">分区管理</a></li>
+		<li><a href="${pageContext.request.contextPath}/admin/category/list">版块管理</a></li>
 	</ul>
 	<!-- END PAGE TITLE & BREADCRUMB-->
 	</div>
 	</div>
 	<form class="form-inline definewidth m20" action="list" method="get">
-		分区名称： <input type="text" name="keyword" id="categoryname"
-			class="abc input-default" placeholder="" value="">&nbsp;&nbsp;
-		<button type="submit" class="btn btn-primary">查询</button>
-		&nbsp;&nbsp; <a type="button" class="btn btn-success"
-			href="${pageContext.request.contextPath}/admin/category/add">新增分区</a>
+		 <a type="button" class="btn btn-success"
+			href="${pageContext.request.contextPath}/admin/board/add">新增版块</a>
 				
 	</form>
+	
+	
+	<c:forEach items="${categorys}" var="category">  
 	<table class="table table-bordered table-hover definewidth m10"
 		id="sample_1" >
+		
 		<thead style="text-align:center;">
 			<tr>
-				<th>分区名</th>
-				<th class="hidden-480">分区状态</th>
-				<th class="hidden-480">操作</th>
+				<th colspan="3">分区：${category.name}</th>
+				
 			</tr>
 		</thead>
-		<tbody>
-		
 
-         <c:forEach items="${page.content}" var="category">  
-	
-			<tr class="odd gradeX" >
-				<td class="hidden-480">${category.name}</td>
-				<td class="hidden-480"><c:if  test="${category.status == true}">启用</c:if > <c:if 
-					test="${category.status== false}">禁用</c:if ></td>
+		
+		<tbody>
+		<c:forEach items="${category.boards}" var="board">
+		<tr class="odd gradeX" >
+				<td class="hidden-480" width="20%">${board.name}</td>
+				<td class="hidden-480"><c:if  test="${board.status == true}">启用</c:if > <c:if 
+					test="${board.status== false}">禁用</c:if ></td>
 				<td>
-				<a href="moveUp?id=${category.id }" class="btn mini purple"><i
+				<a href="moveUp?id=${board.id }&categoryId=${category.id}" class="btn mini purple"><i
 						class="icon-edit"></i> 上移</a> 
-					<a href="moveDown?id=${category.id }" class="btn mini purple"><i
+					<a href="moveDown?id=${board.id }&categoryId=${category.id}" class="btn mini purple"><i
 						class="icon-edit"></i> 下移</a> 
 				
-				<a href="update?id=${category.id }" class="btn mini purple"><i
+				<a href="update?id=${board.id }&categoryId=${category.id}" class="btn mini purple"><i
 						class="icon-edit"></i> 编辑</a> 
 						
-						<a href="setModerator?id=${category.id }" class="btn mini purple"><i
-						class="icon-edit"></i>设置分区版主</a> 
+						<a href="setModerator?id=${board.id }&categoryId=${category.id}" class="btn mini purple"><i
+						class="icon-edit"></i>设置版主</a> 
 						
-						<a href="delete?id=${category.id }"
+						<a href="delete?id=${board.id }"
 					class="btn mini black"
 					onclick="return confirm('确定要删除吗？一旦删除将不能恢复！')"><i
 						class="icon-trash"></i> 删除</a> </td>
 			</tr>
-			</c:forEach> 
-			<tr>
-				<td colspan="5">
-				<%@ include file="/WEB-INF/jsp/common/pageView.jspf"%>
-				</td>
-			</tr>
+		</c:forEach>
+	
 		</tbody>
 	</table>
+	</c:forEach> 
 </body>
 <script src="${pageContext.request.contextPath}/media/js/jquery-2.1.4.min.js"></script>
 <script src="${pageContext.request.contextPath}/media/js/bootstrap.min.js"></script>

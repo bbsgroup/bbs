@@ -160,7 +160,8 @@ body {
 								<ul>
 									<li><a href="${pageContext.request.contextPath}/admin/category/list"
 										target="content">分区管理</a></li>
-									<li>版块管理</li>
+									<li><a href="${pageContext.request.contextPath}/admin/board/list"
+										target="content">版块管理</a></li>
 								</ul>
 							</div>
 							<div class="div2">
