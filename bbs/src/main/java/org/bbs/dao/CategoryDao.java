@@ -10,7 +10,8 @@ public interface CategoryDao extends BaseDao<Category> {
     
 	 public Category findByName(String name);
 	 
-	 public Category findUp(Long id);
+	 public Category findUp(long sort);
 	 
-	 public Category findDown(Long id);
+	 public Category findDown(long sort);
+ 
 }

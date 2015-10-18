@@ -31,12 +31,12 @@ public class CategoryController {
 			throws UnsupportedEncodingException {
 
 		Page<Category> page = null;
-		SystemContext.setSort("id");
-		SystemContext.setOrder("desc");
+		SystemContext.setSort("sort");
+		SystemContext.setOrder("asc");
 		if (null != keyword && !("").equals(keyword)) {
 			keyword = new String(keyword.getBytes("ISO-8859-1"), "utf-8");
 			// page = userService.findByUsernameLike(keyword);
-			page = categoryService.findByKeyWordLike("username", keyword);
+			page = categoryService.findByKeyWordLike("name", keyword);
 			model.addAttribute("keyword", keyword);
 		} else
 			page = categoryService.findPage();
@@ -105,26 +105,37 @@ public class CategoryController {
 				model.addAttribute("usernames", usernames);
 				model.addAttribute("error", "用户" + name + "不存在");
 				return "admin/category/setModerator";
-			}
-			else{
+			} else {
 				set.add(name);
 			}
 		}
 		Category category = categoryService.get(id);
 		if (category != null) {
 			Iterator<String> iterator = set.iterator();
-	        StringBuilder newnames =new StringBuilder();
-	        String  newnamesStr="";
-			while(iterator.hasNext()){
+			StringBuilder newnames = new StringBuilder();
+			String newnamesStr = "";
+			while (iterator.hasNext()) {
 				String username = iterator.next();
-				newnames.append(username+",");
+				newnames.append(username + ",");
 			}
-			if(newnames.length()>0){
-				newnamesStr=newnames.substring(0,newnames.length()-1);
+			if (newnames.length() > 0) {
+				newnamesStr = newnames.substring(0, newnames.length() - 1);
 			}
 			category.setModerators(newnamesStr);
 			categoryService.update(category);
 		}
+		return "redirect:/admin/category/list";
+	}
+
+	@RequestMapping("/moveUp")
+	public String moveUp(Long id) {
+		categoryService.moveUp(id);
+		return "redirect:/admin/category/list";
+	}
+
+	@RequestMapping("/moveDown")
+	public String moveDown(Long id) {
+		categoryService.moveDown(id);
 		return "redirect:/admin/category/list";
 	}
 

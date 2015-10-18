@@ -15,15 +15,18 @@ public class CategoryDaoImpl extends BaseDaoImpl<Category> implements CategoryDa
 	 }
 
 	@Override
-	public Category findUp(Long id) {
-		String hql = "from category c where c.sort <? ";
-		
-		return null;
+	public Category findUp(long sort) {
+		String hql = "From Category c where c.sort <? order by c.sort desc";
+		Category category= (Category)getSession().createQuery(hql).setParameter(0, sort).setFirstResult(0).setMaxResults(1).uniqueResult();
+		return category;
 	}
 
 	@Override
-	public Category findDown(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Category findDown(long sort) {
+		String hql = "From Category c where c.sort >? order by c.sort asc";
+		Category category= (Category)getSession().createQuery(hql).setParameter(0, sort).setFirstResult(0).setMaxResults(1).uniqueResult();
+		return category;
 	}
+	
+	
 }

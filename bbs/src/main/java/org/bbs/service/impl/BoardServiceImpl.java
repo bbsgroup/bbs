@@ -1,28 +1,29 @@
 package org.bbs.service.impl;
 
 import org.base.service.BaseServiceImpl;
-import org.bbs.dao.CategoryDao;
+import org.bbs.dao.BoardDao;
+import org.bbs.entity.Board;
 import org.bbs.entity.Category;
-import org.bbs.service.CategoryService;
+import org.bbs.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class CategoryServiceImpl extends BaseServiceImpl<Category> implements CategoryService {
+public class BoardServiceImpl extends BaseServiceImpl<Board> implements BoardService {
 
     @Autowired
-    private CategoryDao categoryDao;
+    private BoardDao boardDao;
 	@Override
-	public Category findByName(String name) {
+	public Board findByName(String name,Category c) {
 		
-		return categoryDao.findByName(name);
+		return boardDao.findByName(name, c);
 	}
 	@Override
-	public void moveUp(Long id) {
-		Category src = categoryDao.get(id);
-		Category tag = categoryDao.findUp(src.getSort());
+	public void moveUp(Long id,Category c) {
+		Board src = boardDao.get(id);
+		Board tag = boardDao.findUp(src.getSort(),c);
 		if(src==null||tag==null){
 			return;
 		}
@@ -34,9 +35,11 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category> implements Ca
 		
 	}
 	@Override
-	public void moveDown(Long id) {
-		Category src = categoryDao.get(id);
-		Category tag = categoryDao.findDown(src.getSort());
+	public void moveDown(Long id,Category c) {
+		
+		Board src = boardDao.get(id);
+		Board tag = boardDao.findDown(src.getSort(),c);
+		
 		if(src==null||tag==null){
 			return;
 		}
@@ -48,7 +51,7 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category> implements Ca
 		
 	}
 	@Override
-	public void add(Category t) {
+	public void add(Board t) {
 		super.add(t);
 		t.setSort(t.getId());
 	}

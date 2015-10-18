@@ -56,7 +56,7 @@
 		<property name="exceptionMappings"> <props> <prop key="org.hxj.core.exception.MyException">error</prop> 
 		</props> </property> </bean> -->
 		
-	<bean id="exceptionHandler" class="org.base.exception.MyExceptionHandler"/>  
+<!-- 	<bean id="exceptionHandler" class="org.base.exception.MyExceptionHandler"/>   -->
 		
 		
 
