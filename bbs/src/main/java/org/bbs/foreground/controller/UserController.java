@@ -32,24 +32,24 @@ public class UserController {
 		if (u != null) {
 			model.addAttribute("user", user);
 			model.addAttribute("error", "用户已存在");
-			return "/register";
+			return "test/register";
 		}
 		try {
 			u = userService.findByEmail(user.getEmail());
 		} catch (Exception e) {
 			model.addAttribute("user", user);
 			model.addAttribute("error", "邮箱已被占用");
-			return "register";
+			return "test/register";
 		}
 		
-			Group group = groupService.get(1);
+			Group group = groupService.get(new Long(1));
 			user.setGroup(group);
 			user.setCreateDate(new Date());
 			userService.createUser(user);
 			userInfo.setUser(user);
 			userInfoService.addUserInfo(userInfo);
 			model.addAttribute("user", user);
-		return "registerSuccess";
+		return "test/registerSuccess";
 	}
 
 	@RequestMapping(value = "/registerPage", method = RequestMethod.GET)

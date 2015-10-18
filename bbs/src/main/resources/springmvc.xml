@@ -16,7 +16,7 @@
 	<!-- 使用注解的包，包括子集 -->
 	<mvc:annotation-driven />
 	<context:component-scan base-package="org.hxj.*.controller" />
-	<context:component-scan base-package="org.bbs.controller" />
+	<context:component-scan base-package="org.bbs.*.controller" />
 	<mvc:resources mapping="/media/**" location="/media/" />
 	<!-- <mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/admin/**" 
 		/> <bean class="org.hxj.web.shrio.AuthInterceptor" /> </mvc:interceptor> 

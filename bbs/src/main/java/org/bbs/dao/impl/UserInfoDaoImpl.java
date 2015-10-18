@@ -10,8 +10,11 @@ public class UserInfoDaoImpl extends BaseDaoImpl<UserInfo> implements
 		UserInfoDao {
 
 	@Override
-	public void add(UserInfo userInfo) {
-		this.add(userInfo);
+	public void createUserInfo(UserInfo userInfo) {
+		// TODO Auto-generated method stub
+		this.save(userInfo);
 	}
+
+	
 
 }

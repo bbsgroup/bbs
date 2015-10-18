@@ -18,7 +18,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements
     private UserInfoDao userInfoDao;
 	@Override
 	public void addUserInfo(UserInfo userInfo) {
-			userInfoDao.add(userInfo);
+			userInfoDao.createUserInfo(userInfo);
 	}
 
 }

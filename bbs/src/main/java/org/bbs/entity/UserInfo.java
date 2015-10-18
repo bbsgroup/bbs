@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class UserInfo {
 	private Long userInfoId;
 	private String  passwordQuestion;
-	private String passwordAnsewer;
+	private String passwordAnswer;
 	private Date loginTime;
 	private Date lastLoginTime;
 	private String Ip;
@@ -45,11 +45,11 @@ public class UserInfo {
 	public void setPasswordQuestion(String passwordQuestion) {
 		this.passwordQuestion = passwordQuestion;
 	}
-	public String getPasswordAnsewer() {
-		return passwordAnsewer;
+	public String getPasswordAnswer() {
+		return passwordAnswer;
 	}
-	public void setPasswordAnsewer(String passwordAnsewer) {
-		this.passwordAnsewer = passwordAnsewer;
+	public void setPasswordAnswer(String passwordAnswer) {
+		this.passwordAnswer = passwordAnswer;
 	}
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
