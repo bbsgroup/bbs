@@ -1,5 +1,7 @@
 package org.bbs.dao.impl;
 
+import java.util.List;
+
 import org.base.dao.BaseDaoImpl;
 import org.bbs.dao.UserInfoDao;
 import org.bbs.entity.UserInfo;
@@ -15,6 +17,11 @@ public class UserInfoDaoImpl extends BaseDaoImpl<UserInfo> implements
 		this.save(userInfo);
 	}
 
-	
+	@Override
+	public UserInfo findByUserId(Long id) {
+		String hql = "from UserInfo u where u.user.id = ?";
+		List<UserInfo> userInfo = this.list(hql, id);
+			return userInfo.get(0);
+	}
 
 }

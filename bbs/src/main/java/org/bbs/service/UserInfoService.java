@@ -11,4 +11,6 @@ public interface UserInfoService extends BaseService<UserInfo> {
 
 	void addUserInfo(UserInfo userInfo);
 
+	UserInfo findByUserId(Long id);
+
 }

@@ -21,7 +21,7 @@ public class UserInfo {
 	private String passwordAnswer;
 	private Date loginTime;
 	private Date lastLoginTime;
-	private String Ip;
+	private String ip;
 	private String lastIp;
 	private Integer totalPost;
 	private Integer totalGoodPost;
@@ -67,11 +67,12 @@ public class UserInfo {
 	public void setLastLoginTime(Date lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
 	}
+
 	public String getIp() {
-		return Ip;
+		return ip;
 	}
 	public void setIp(String ip) {
-		Ip = ip;
+		this.ip = ip;
 	}
 	public String getLastIp() {
 		return lastIp;

@@ -7,4 +7,6 @@ public interface UserInfoDao extends BaseDao<UserInfo> {
 
 	void createUserInfo(UserInfo userInfo);
 
+	UserInfo findByUserId(Long id);
+
 }

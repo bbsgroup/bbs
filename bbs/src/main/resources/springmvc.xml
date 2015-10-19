@@ -47,7 +47,9 @@
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/" />
-		<property name="suffix" value=".jsp">
+		<property name="suffix" value=".jsp" >
+	<!--	<property name="allowSessionOverride" value="true"> --> 
+	 <!-- 这里允许复写session中的对象   -->
 		</property>
 	</bean>
 

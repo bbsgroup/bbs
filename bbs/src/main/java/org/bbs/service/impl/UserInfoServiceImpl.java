@@ -2,6 +2,7 @@ package org.bbs.service.impl;
 
 
 import org.base.service.BaseServiceImpl;
+import org.bbs.dao.UserDao;
 import org.bbs.dao.UserInfoDao;
 import org.bbs.entity.UserInfo;
 import org.bbs.service.UserInfoService;
@@ -20,5 +21,11 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements
 	public void addUserInfo(UserInfo userInfo) {
 			userInfoDao.createUserInfo(userInfo);
 	}
+	@Override
+	public UserInfo findByUserId(Long id) {
+		UserInfo userInfo = userInfoDao.findByUserId( id);
+		return userInfo;
+	}
+
 
 }
