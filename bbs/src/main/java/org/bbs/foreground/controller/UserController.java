@@ -5,8 +5,6 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.base.entity.Page;
-import org.base.entity.SystemContext;
 import org.bbs.entity.Group;
 import org.bbs.entity.User;
 import org.bbs.entity.UserInfo;
@@ -18,14 +16,13 @@ import org.common.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-@Controller
-@RequestMapping(value = "/user")
+@Controller("foregroudUserController")
+@RequestMapping(value = "/forum/user")
 @SessionAttributes("currentUser")
 public class UserController {
 	@Autowired
@@ -117,37 +114,5 @@ public class UserController {
 		sessionStatus.setComplete();
 		return "test/login";
 	}
-	/*
-	 * 列出简单用户信息 (未通过测试)　写了前端测试jsp 不过我打算完善用户信息以后在来列出用户详细信息
-	 */
-	@RequestMapping(value = "/listUser", method = RequestMethod.GET)
-	public String ListUser(Model model){
-		Page<UserInfo> page = null;
-		SystemContext.setSort("id");
-		SystemContext.setOrder("desc");
-		page = userInfoService.findPage();
-		SystemContext.removeOrder();
-		SystemContext.removeSort();
-		model.addAttribute("page", page);
-		return "test/listUser";
-	}
 	
-	/**
-	 * desc:转向用户信息修改页面
-	 * @return
-	 */
-	@RequestMapping(value = "/updateUserInfoPage", method = RequestMethod.GET)
-	public String updateUserInfoPage(){
-		return "test/updateUserInfo";
-	}
-	
-	/*
-	 *  修改用户信息
-	 */
-	@RequestMapping(value = "/updateUserInfo", method = RequestMethod.POST)
-	public String updateUserInfo(@ModelAttribute User currentUser,UserInfo userInfo){
-		
-		
-		return "test/showUserInfo";
-	}
 }

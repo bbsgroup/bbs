@@ -17,6 +17,7 @@
 	<mvc:annotation-driven />
 	<context:component-scan base-package="org.hxj.*.controller" />
 	<context:component-scan base-package="org.bbs.controller" />
+	<context:component-scan base-package="org.bbs.*.controller" />
 	<mvc:resources mapping="/media/**" location="/media/" />
 	<!-- <mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/admin/**" 
 		/> <bean class="org.hxj.web.shrio.AuthInterceptor" /> </mvc:interceptor> 
@@ -47,7 +48,9 @@
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/" />
-		<property name="suffix" value=".jsp">
+		<property name="suffix" value=".jsp" >
+	<!--	<property name="allowSessionOverride" value="true"> --> 
+	 <!-- 这里允许复写session中的对象   -->
 		</property>
 	</bean>
 
