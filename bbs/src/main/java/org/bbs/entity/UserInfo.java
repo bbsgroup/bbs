@@ -30,6 +30,10 @@ public class UserInfo {
 	private User user;
 	private boolean showSign = false;
 	private boolean showHead = false;
+	private String sex;
+	private Date birthday;
+	private 	String nativePlace;
+	private Date latestPosting;
 	
 	@Id
 	@GeneratedValue
@@ -122,6 +126,30 @@ public class UserInfo {
 	}
 	public void setShowHead(boolean showHead) {
 		this.showHead = showHead;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	public Date getBirthday() {
+		return birthday;
+	}
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+	public String getNativePlace() {
+		return nativePlace;
+	}
+	public void setNativePlace(String nativePlace) {
+		this.nativePlace = nativePlace;
+	}
+	public Date getLatestPosting() {
+		return latestPosting;
+	}
+	public void setLatestPosting(Date latestPosting) {
+		this.latestPosting = latestPosting;
 	}
 	
 	
