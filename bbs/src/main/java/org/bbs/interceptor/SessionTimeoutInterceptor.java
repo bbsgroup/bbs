@@ -7,7 +7,7 @@ import org.base.exception.SessionTimeoutException;
 import org.bbs.entity.User;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-public class SessionTimeOutInterceptor extends HandlerInterceptorAdapter {
+public class SessionTimeoutInterceptor extends HandlerInterceptorAdapter {
 	
 	
 	 public String[] allowUrls;//还没发现可以直接配置不拦截的资源，所以在代码里面来排除  
