@@ -82,12 +82,6 @@
 	<!-- <bean id="exceptionHandler" class="org.base.exception.MyExceptionHandler"/> -->
 
 
-
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="maxUploadSize" value="500000000"></property>
-	</bean>
-
 	<!-- 拦截器拦截用户是否登录，只对/forum/user**后的东西拦截 -->
 
 	<!--<mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/forum/user/**"/> 
@@ -98,7 +92,7 @@
 		<!-- session超时 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/forum/user/**" />
-			<bean class="SessionTimeoutInterceptor">
+			<bean class="org.bbs.interceptor.SessionTimeoutInterceptor">
 				<property name="allowUrls">
 					<list>
 						<!-- 如果请求中包含以下路径，则不进行拦截 -->
@@ -108,7 +102,6 @@
 						<value>/checkpasswordAnswer</value>
 						<value>/forgetPasswordPage</value>
 						<value>/checkuserNameExit"</value>
-						
 						<value>/js</value>
 						<value>/css</value>
 						<value>/image</value>
