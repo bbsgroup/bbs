@@ -78,7 +78,7 @@ public class UserController {
 
 	@RequestMapping(value = "/registerPage", method = RequestMethod.GET)
 	public String registerPage() {
-		return "test/register";
+		return "bbs/registerPage";
 	}
 
 	@RequestMapping(value = "/loginPage", method = RequestMethod.GET)

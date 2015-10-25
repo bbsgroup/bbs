@@ -69,17 +69,17 @@
 	</bean>
 
 
-	<bean id="exceptionResolver"
+<!-- 	<bean id="exceptionResolver"
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
-				<!-- <prop key="org.hxj.core.exception.MyException">error</prop> -->
+				<prop key="org.hxj.core.exception.MyException">error</prop>
 				 <prop key="org.base.exception.SessionTimeoutException">redirect:/forum/user/loginPage</prop>  
 			</props>
 		</property>
 	</bean>
-
-	<!-- <bean id="exceptionHandler" class="org.base.exception.MyExceptionHandler"/> -->
+ -->
+<bean id="exceptionHandler" class="org.base.exception.MyExceptionHandler"/> 
 
 
 	<!-- 拦截器拦截用户是否登录，只对/forum/user**后的东西拦截 -->
