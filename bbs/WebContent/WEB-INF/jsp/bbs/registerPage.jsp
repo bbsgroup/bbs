@@ -1,4 +1,5 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -8,44 +9,22 @@
 <TITLE>注册新用户</TITLE>
 <LINK href="${pageContext.request.contextPath}/media/css/forum.css"
 	type=text/css rel=stylesheet>
+<SCRIPT src="${pageContext.request.contextPath}/media/js/common.js"
+	type=text/javascript></SCRIPT>
+<SCRIPT src="${pageContext.request.contextPath}/media/js/member.js"
+	type=text/javascript></SCRIPT>
+<SCRIPT src="${pageContext.request.contextPath}/media/js/ajax.js"
+	type=text/javascript></SCRIPT>
+<SCRIPT src="${pageContext.request.contextPath}/media/js/md5.js"
+	type=text/javascript></SCRIPT>
 </HEAD>
 <BODY onkeydown="if(event.keyCode==27) return false;" onload="loaded()">
-	<SCRIPT src="${pageContext.request.contextPath}/media/js/common.js"
-		type=text/javascript></SCRIPT>
-	<SCRIPT src="${pageContext.request.contextPath}/media/js/member.js"
-		type=text/javascript></SCRIPT>
-	<SCRIPT src="${pageContext.request.contextPath}/media/js/ajax.js"
-		type=text/javascript></SCRIPT>
-	<SCRIPT src="${pageContext.request.contextPath}/media/js/md5.js"
-		type=text/javascript></SCRIPT>
+
+
 
 	<DIV class=wrap>
-		<DIV id=header>
-			<H2>
-				<A href="/ejforum/"><IMG alt="unnamed"
-					src="/ejforum/images/logo.gif" border=0></A>
-			</H2>
-		</DIV>
-		<UL class="popmenu_popup headermenu_popup" id=advsearch_menu
-			style="DISPLAY: none;width:60px">
-			<LI style="width:60px"><A href="/ejforum/advsearch.jsp">网页搜索</A></LI>
-			<LI style="width:60px"><A
-				href="javascript:searchImages('localhost/ejforum');">图片搜索</A></LI>
-		</UL>
-		<DIV id=headermenu>
-			<UL>
-				<LI><A
-					href="${pageContext.request.contextPath}/forum/user/registerPage">注册</A></LI>
-				<LI><A
-					href="${pageContext.request.contextPath}/forum/user/loginPage">登录</A></LI>
-				<LI><A href="/ejforum/feeds.jsp">订阅</A></LI>
-				<LI><A href="/ejforum/userlist.jsp">会员列表</A></LI>
-				<LI class=dropmenu id=advsearch onmouseover='showMenu(this.id)'
-					style='BACKGROUND-POSITION:94%'><A
-					href="/ejforum/advsearch.jsp">搜索</A></LI>
-				<LI><A href="/ejforum/help/index.jsp">帮助</A></LI>
-			</UL>
-		</DIV>
+
+		<%@include file="head.jsp"%>
 
 		<DIV id=nav>
 			<A href="/ejforum/index.jsp">unnamed</A> &raquo;&nbsp; 注册
@@ -69,10 +48,12 @@
 						<TR>
 							<TH><LABEL for=verifycode>验证码 *</LABEL></TH>
 							<TD>
-								<DIV id=verifycodeimage style="margin-bottom:3px"></DIV>
-								<INPUT id=verifycode onblur=checkverifycode() tabIndex=1
-								maxLength=4 size=15 name=verifycode> <SPAN
-								id=checkverifycode></SPAN>
+								<DIV id=verifycodeimage1 style="margin-bottom: 3px"></DIV> <INPUT
+								id=verifycode onblur=checkverifycode() tabIndex=1 maxLength=4
+								size=15 name=code> <img id="verifycodeimage"
+								alt="点击更换验证码"
+								src="${pageContext.request.contextPath}/forum/code"
+								onclick="changecode()"><SPAN id=checkverifycode></SPAN>
 							</TD>
 							<SCRIPT type=text/javascript>
 								refreshVerifyCode(112, 42);
@@ -141,7 +122,7 @@
 						</TR>
 						<TR>
 							<TH vAlign=top><LABEL for=brief>自我介绍&nbsp;/&nbsp;个性签名</LABEL>
-							</TD>
+								</TD>
 							<TD><TEXTAREA id=brief tabIndex=28 name=PersonSign rows=5
 									cols=40 maxLength=200></TEXTAREA></TD>
 						</TR>
@@ -165,7 +146,7 @@
 							<TH>&nbsp;</TH>
 							<TD height="30">
 								<BUTTON class=submit tabIndex=100 name=regsubmit type=submit
-									disabled id=regsubmit style="color:gray">提交</BUTTON>
+									disabled id=regsubmit style="color: gray">提交</BUTTON>
 							</TD>
 						</TR>
 					</TBODY>
@@ -177,6 +158,11 @@
 			var passwd_dismatch = '两次输入的密码不一致，请检查后重试';
 			var lastuserID = lastpwd = lastemail = '';
 
+			function changecode() {
+				var img1 = document.getElementById("verifycodeimage");
+				img1.src = "${pageContext.request.contextPath}/forum/code?"
+						+ new Date().getTime();
+			}
 			$('userID').focus();
 
 			function checkfields() {
@@ -302,23 +288,10 @@
 				agreerule();
 			}
 		</SCRIPT>
-	</DIV>
-
-
-	<DIV id=footer>
-		<DIV class=wrap>
-			<DIV id=footlinks>
-				<P>当前时区&nbsp;GMT+8, 现在时间是&nbsp;2015-10-25 14:11</P>
-				<P>
-					<span class="scrolltop" title="顶部" onclick="window.scrollTo(0,0);">TOP</span>
-				</P>
-			</DIV>
-			<P class=copyright>
-				Powered by <STRONG><A href="http://www.easyjforum.cn/"
-					target=_blank>EasyJForum</A></STRONG> <EM>3.0</EM> &copy; 2005-2015 <A
-					href="http://www.hongshee.com/" target=_blank>Hongshee software</A>
-			</P>
 		</DIV>
-	</DIV>
+
+
+	<%@include file="foot.jsp"%>
+
 </BODY>
 </HTML>

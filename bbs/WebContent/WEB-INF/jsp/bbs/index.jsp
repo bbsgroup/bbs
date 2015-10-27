@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -8,13 +8,17 @@
 <title>bbs</title>
 <meta name="keywords" content="">
 <meta name="description" content="bbs">
-<link href="${pageContext.request.contextPath}/media/css/forum.css"
-	type="text/css" rel="stylesheet">
+<LINK href="${pageContext.request.contextPath}/media/css/forum.css"
+	type=text/css rel=stylesheet>
+<SCRIPT src="${pageContext.request.contextPath}/media/js/common.js"
+	type=text/javascript></SCRIPT>
+<SCRIPT src="${pageContext.request.contextPath}/media/js/member.js"
+	type=text/javascript></SCRIPT>
+<SCRIPT src="${pageContext.request.contextPath}/media/js/ajax.js"
+	type=text/javascript></SCRIPT>
+<SCRIPT src="${pageContext.request.contextPath}/media/js/md5.js"
+	type=text/javascript></SCRIPT>
 
-<script src="${pageContext.request.contextPath}/media/js/common.js"
-	type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/media/js/ajax.js"
-	type="text/javascript"></script>
 
 </head>
 
@@ -23,32 +27,8 @@
 	style="backgroud-color: red">
 
 	<div class="wrap">
-		<div id="header">
-			<h2>
 
-				<a href="#"><img alt="unnamed"
-					src="${pageContext.request.contextPath}/media/images/logo.gif"
-					border="0"></a>
-			</h2>
-
-		</div>
-		<ul class="popmenu_popup headermenu_popup" id="advsearch_menu"
-			style="DISPLAY: none; width: 60px">
-			<li style="width: 60px"><a href="#advsearch.jsp">网页搜索</a></li>
-			<li style="width: 60px"><a
-				href="javascript:searchImages('localhost/ejforum');">图片搜索</a></li>
-		</ul>
-		<div id="headermenu">
-			<ul>
-				<li><a href="#register.jsp">注册</a></li>
-				<li><a href="#login.jsp">登录</a></li>
-				<li><a href="#feeds.jsp">订阅</a></li>
-				<li><a href="#userlist.jsp">会员列表</a></li>
-				<li class="dropmenu" id="advsearch" onmouseover="showMenu(this.id)"
-					style="BACKGROUND-POSITION: 94%"><a href="#advsearch.jsp">搜索</a></li>
-				<li><a href="#help/index.jsp">帮助</a></li>
-			</ul>
-		</div>
+		<%@include file="head.jsp"%>
 
 		<div id="foruminfo">
 			<div id="nav">
@@ -120,7 +100,8 @@ function checkfield(theform) {
 
 			<div class="mainbox forumlist">
 				<span class="headactions"><img id="section_0_img"
-					title="收起/展开" onclick="toggle_collapse(&#39;section_${category.id }&#39;);"
+					title="收起/展开"
+					onclick="toggle_collapse(&#39;section_${category.id }&#39;);"
 					alt="收起/展开"
 					src="${pageContext.request.contextPath}/media/images/collapsed_no.gif"></span>
 				<h3>
@@ -140,15 +121,17 @@ function checkfield(theform) {
 					<tbody>
 						<c:forEach items="${category.boards}" var="board">
 							<tr>
-								<th >
+								<th>
 									<h2>
-										<a href="${pageContext.request.contextPath}/board?id=${board.id}">${board.name }</a>
+										<a
+											href="${pageContext.request.contextPath}/board?id=${board.id}">${board.name }</a>
 									</h2>
 									<p></p>
-									<p class="moderators">版主:
-									<c:if test="${empty board.moderators}">空缺中</c:if>
-									${board.moderators }
-									 </p>
+									<p class="moderators">
+										版主:
+										<c:if test="${empty board.moderators}">空缺中</c:if>
+										${board.moderators }
+									</p>
 								</th>
 								<td class="nums">0</td>
 								<td class="nums">0</td>
@@ -217,21 +200,6 @@ function checkfield(theform) {
 		</div>
 	</div>
 
-	<div id="footer">
-		<div class="wrap">
-			<div id="footlinks">
-				<p>当前时区&nbsp;GMT+8, 现在时间是&nbsp;2015-10-12 15:31</p>
-				<p>
-					<span class="scrolltop" title="顶部" onclick="window.scrollTo(0,0);">TOP</span>
-				</p>
-			</div>
-			<p class="copyright">
-				Powered by <strong><a href="http://www.easyjforum.cn/"
-					target="_blank">EasyJForum</a></strong> <em>3.0</em> © 2005-2015 <a
-					href="http://www.hongshee.com/" target="_blank">Hongshee
-					software</a>
-			</p>
-		</div>
-	</div>
+	<%@include file="foot.jsp"%>
 </body>
 </html>

@@ -51,7 +51,13 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String register(Model model, User user, UserInfo userInfo) {
+	public String register(Model model, User user, UserInfo userInfo,HttpSession session,String code) {
+		
+		if(!code.equalsIgnoreCase((String)session.getAttribute("code"))){
+			model.addAttribute("error", "验证码错误");
+			return "redirect:registerPage";
+		}
+		
 		User u = userService.findByUsername(user.getUsername());
 		if (u != null) {
 			model.addAttribute("user", user);
@@ -83,7 +89,7 @@ public class UserController {
 
 	@RequestMapping(value = "/loginPage", method = RequestMethod.GET)
 	public String loginPage() {
-		return "test/login";
+		return "bbs/loginPage";
 	}
 
 	/*
@@ -141,10 +147,6 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/updateUserInfoPage", method = RequestMethod.GET)
 	public String updateUserInfoPage(Model model,HttpSession session) {
-		if (!this.isLogin(session, "currentUser")) {
-			model.addAttribute("error", "请前去登录");
-			return "redirect:loginPage";
-		}
 		return "test/updateUserInfoPage";
 	}
 
@@ -159,12 +161,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/updateUserInfo", method = RequestMethod.POST)
 	public String updateUserInfo(HttpServletRequest request, Model model,
-			HttpSession session, UserInfo userInfo) {
-		if (!this.isLogin(session, "currentUser")) {
-			model.addAttribute("error", "请前去登录");
-			return "redirect:loginPage";
-		}
-		User currentUser  = (User) session.getAttribute("currentUser");
+			HttpSession session, UserInfo userInfo,@ModelAttribute("currentUser")User currentUser) {
 		UserInfo currentUserInfo = userInfoService.findByUserId(currentUser
 				.getId());
 		currentUserInfo.setSex(userInfo.getSex());
@@ -206,10 +203,6 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/showUserInfo", method = RequestMethod.GET)
 	public String showUserInfo(String userInfoId, Model model,HttpSession session) {
-		if (!this.isLogin(session, "currentUser")) {
-			model.addAttribute("error", "请前去登录");
-			return "redirect:loginPage";
-		}
 		UserInfo currentuserInfo = userInfoService.get(Long.parseLong(userInfoId));
 		if (currentuserInfo == null) {
 			model.addAttribute("error", "您查询了不存在的用户信息");
