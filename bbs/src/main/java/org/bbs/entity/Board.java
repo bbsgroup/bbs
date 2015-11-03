@@ -1,5 +1,6 @@
 package org.bbs.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,19 +31,16 @@ public class Board implements Comparable<Board> {
 	private long sort;
 
 	private String description;
-	
+
 	private String visitGroups;
-	
+
 	private String topicGroups;
-	
+
 	private String replyGroups;
-	
+
 	private String downloadGroups;
-	
+
 	private String uploadGroups;
-	
-	
-	
 
 	@Id
 	@GeneratedValue
@@ -70,7 +68,7 @@ public class Board implements Comparable<Board> {
 		this.status = status;
 	}
 
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.ALL })
 	public Category getCategory() {
 		return category;
 	}
@@ -153,10 +151,5 @@ public class Board implements Comparable<Board> {
 	public void setUploadGroups(String uploadGroups) {
 		this.uploadGroups = uploadGroups;
 	}
-
-	
-	
-	
-	
 
 }

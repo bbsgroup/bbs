@@ -18,6 +18,7 @@
 </UL>
 <DIV id=headermenu>
 	<UL>
+		<li>${currentUser.username }</li>
 		<LI><A
 			href="${pageContext.request.contextPath}/forum/user/registerPage">注册</A></LI>
 		<LI><A

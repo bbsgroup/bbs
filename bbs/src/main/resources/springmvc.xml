@@ -79,7 +79,7 @@
 		</property>
 	</bean>
  -->
-<bean id="exceptionHandler" class="org.base.exception.MyExceptionHandler"/> 
+<!-- <bean id="exceptionHandler" class="org.base.exception.MyExceptionHandler"/>  -->
 
 
 	<!-- 拦截器拦截用户是否登录，只对/forum/user**后的东西拦截 -->

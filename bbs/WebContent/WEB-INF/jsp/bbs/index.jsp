@@ -12,8 +12,7 @@
 	type=text/css rel=stylesheet>
 <SCRIPT src="${pageContext.request.contextPath}/media/js/common.js"
 	type=text/javascript></SCRIPT>
-<SCRIPT src="${pageContext.request.contextPath}/media/js/member.js"
-	type=text/javascript></SCRIPT>
+
 <SCRIPT src="${pageContext.request.contextPath}/media/js/ajax.js"
 	type=text/javascript></SCRIPT>
 <SCRIPT src="${pageContext.request.contextPath}/media/js/md5.js"
