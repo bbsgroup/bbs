@@ -16,7 +16,6 @@ import org.bbs.entity.UserInfo;
 import org.bbs.service.GroupService;
 import org.bbs.service.UserInfoService;
 import org.bbs.service.UserService;
-import org.bbs.service.impl.UserServiceImpl;
 import org.common.util.IpUtil;
 import org.common.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;

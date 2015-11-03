@@ -99,10 +99,10 @@ public class BoardController {
 				model.addAttribute("categorys", categorys);
 				model.addAttribute("board", board);
 				model.addAttribute("error", "分区不存在");
+				return  "admin/board/edit";
 			}
-			b.setCategory(c);
+			b.setCategory(c);	
 			b.setStatus(board.getStatus());
-			b.setCategory(board.getCategory());
 			b.setDescription(board.getDescription());
 			b.setDownloadGroups(board.getDownloadGroups());
 			b.setReplyGroups(board.getReplyGroups());

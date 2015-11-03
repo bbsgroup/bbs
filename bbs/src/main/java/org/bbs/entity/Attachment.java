@@ -17,10 +17,9 @@ public class Attachment {
 	private Long id;
 	private String filename;
 	private String filepath;
-	private int downloadTimes;
-	private int size;
+	private int downloadTimes=0;
+	private long size;
 	private String description;
-	private Topic topic;
 	@Id
 	@GeneratedValue
 	public Long getId() {
@@ -47,10 +46,10 @@ public class Attachment {
 	public void setDownloadTimes(int downloadTimes) {
 		this.downloadTimes = downloadTimes;
 	}
-	public int getSize() {
+	public long getSize() {
 		return size;
 	}
-	public void setSize(int size) {
+	public void setSize(long size) {
 		this.size = size;
 	}
 	public String getDescription() {
@@ -59,14 +58,7 @@ public class Attachment {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	@ManyToOne
-	public Topic getTopic() {
-		return topic;
-	}
-	public void setTopic(Topic topic) {
-		this.topic = topic;
-	}
-	
+
 	
 
 }

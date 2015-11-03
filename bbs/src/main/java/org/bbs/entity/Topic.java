@@ -4,9 +4,12 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -116,7 +119,7 @@ public class Topic {
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
-
+	@Column(length = 16777216) 
 	public String getContent() {
 		return content;
 	}
@@ -342,7 +345,8 @@ public class Topic {
 		this.voteChoices = voteChoices;
 	}
 
-	@OneToMany(mappedBy="topic")
+	@OneToMany
+	@JoinTable(name = "bbs_topic_attachment", joinColumns = { @JoinColumn(name = "topic_id") }, inverseJoinColumns = { @JoinColumn(name = "attachment_id") })
 	public List<Attachment> getAttachments() {
 		return attachments;
 	}

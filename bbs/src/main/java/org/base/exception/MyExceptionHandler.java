@@ -19,8 +19,12 @@ public class MyExceptionHandler implements HandlerExceptionResolver {
 			model.put("ex", "亲，您还没登录或者太久没动作了，请重新登录吧");
 			return new ModelAndView("error/msg", model);
 			}
-		model.put("ex", ex);
-		return new ModelAndView("error/error", model);
+		if(ex instanceof BusinessException){
+			model.put("message", ex.getMessage());
+			return new ModelAndView("bbs/msg", model);
+			}
+		model.put("message", ex.getMessage());
+		return new ModelAndView("bbs/msg", model);
 	}
 
 }
