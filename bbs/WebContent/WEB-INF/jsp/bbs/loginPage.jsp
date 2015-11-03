@@ -33,7 +33,7 @@ if(self.parent.frames.length != 0) {
 			<A href="/ejforum/index.jsp">unnamed</A> &raquo; 会员登录
 		</DIV>
 		<FORM name=login onSubmit="checkfield(this); return false;"
-			action="/ejforum/perform.jsp?act=lgn" method=post>
+			action="${pageContext.request.contextPath}/forum/user/login" method=post>
 			<DIV class="mainbox formbox">
 				<SPAN class=headactions> <A class=notabs
 					href="/ejforum/help/member.jsp" target=_blank>登录帮助</A></SPAN>
@@ -43,15 +43,15 @@ if(self.parent.frames.length != 0) {
 						<TR>
 							<TH onclick=document.login.userID.focus();><LABEL for=userID>用户名</LABEL></TH>
 							<TD><INPUT id=userID tabIndex=2 maxLength=40 size=25
-								name=userID> &nbsp;<A
-								href="/ejforum/register.jsp?from=/ejforum/perform.jsp?act=reg">立即注册</A>
+								name=username> &nbsp;<A
+								href="${pageContext.request.contextPath}/forum/user/registerPage">立即注册</A>
 								<INPUT type=hidden name=fromPath
 								value="/ejforum/perform.jsp?act=reg"></TD>
 						</TR>
 						<TR>
 							<TH><LABEL for=pwd1>密码</LABEL></TH>
 							<TD><INPUT id=pwd1 tabIndex=5 type=password size=25
-								name=pwd1> &nbsp;<A href="/ejforum/findpwd.jsp">忘记密码</A><INPUT
+								name=password> &nbsp;<A href="/ejforum/findpwd.jsp">忘记密码</A><INPUT
 								type=hidden id=pwd name=pwd></TD>
 						</TR>
 						<TR>
@@ -76,7 +76,7 @@ if(self.parent.frames.length != 0) {
 			</DIV>
 		</FORM>
 
-<SCRIPT type=text/javascript>
+<!-- <SCRIPT type=text/javascript>
 function checkfield(theform) {
 	if(trim($('userID').value) == '') {
 		alert('用户名不可以为空');return false;
@@ -87,7 +87,7 @@ function checkfield(theform) {
 		$('pwd1').value = '';
 		theform.submit();return false;
 	}
-}
+} -->
 </SCRIPT>
 	</DIV>
 

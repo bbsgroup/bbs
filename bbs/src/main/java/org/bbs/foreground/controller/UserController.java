@@ -79,7 +79,7 @@ public class UserController {
 		userInfo.setUser(user);
 		userInfoService.addUserInfo(userInfo);
 		model.addAttribute("user", user);
-		return "test/registerSuccess";
+		return "redirect:/index";
 	}
 
 	@RequestMapping(value = "/registerPage", method = RequestMethod.GET)
@@ -126,7 +126,7 @@ public class UserController {
 		currentUserInfo.setLoginTime(new Date());
 		userInfoService.update(currentUserInfo);
 		model.addAttribute("userInfo", currentUserInfo);
-		return "test/loginSuccess";
+		return "redirect:/index";
 	}
 
 	/*
@@ -135,7 +135,7 @@ public class UserController {
 	@RequestMapping(value = "/quit", method = RequestMethod.GET)
 	public String quit(SessionStatus sessionStatus) {
 		sessionStatus.setComplete();
-		return "redirect:/forum/index";
+		return "redirect:/index";
 	}
 
 	/**
@@ -213,13 +213,18 @@ public class UserController {
 	}
 	
 	/**
-	 * 用来校验用户名是否被使用了
+	 * 用来校验用户名是否被使用了(待测试)
 	 * @param username
 	 * @param out
 	 */
-	@RequestMapping(value = "/checkuserNameExit", method = RequestMethod.GET)
+	@RequestMapping(value = "/checkusername", method = RequestMethod.GET)
 	public void checkuserNameExit(String username, PrintWriter out){
-		//还没想好如何校验的结果如何传回去
+		if(userService.findByUsername(username)!=null){
+			out.print("用户名已经被使用，请更换新用户名");
+		}else{
+			out.print("用户名可用");
+		}
+		
 	}
 	
 	
