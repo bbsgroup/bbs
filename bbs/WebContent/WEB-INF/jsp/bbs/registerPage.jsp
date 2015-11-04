@@ -17,6 +17,14 @@
 	type=text/javascript></SCRIPT>
 <SCRIPT src="${pageContext.request.contextPath}/media/js/md5.js"
 	type=text/javascript></SCRIPT>
+<SCRIPT
+	src="${pageContext.request.contextPath}/media/js/jquery-1.10.0.js"
+	type=text/javascript></SCRIPT>
+<SCRIPT
+	src="${pageContext.request.contextPath}/media/js/jquery.validate-1.13.1.js"
+	type=text/javascript></SCRIPT>
+
+
 </HEAD>
 <BODY onkeydown="if(event.keyCode==27) return false;" onload="loaded()">
 
@@ -29,7 +37,7 @@
 		<DIV id=nav>
 			<A href="/ejforum/index.jsp">unnamed</A> &raquo;&nbsp; 注册
 		</DIV>
-		<FORM name="register" onsubmit="return checkfields();"
+		<FORM name="register" 
 			action="${pageContext.request.contextPath}/forum/user/register"
 			method="post">
 			<INPUT type=hidden name=fromPath value="">
@@ -55,9 +63,6 @@
 								src="${pageContext.request.contextPath}/forum/code"
 								onclick="changecode()"><SPAN id=checkverifycode></SPAN>
 							</TD>
-							<SCRIPT type=text/javascript>
-								refreshVerifyCode(112, 42);
-							</SCRIPT>
 						</TR>
 						<TR>
 							<TH><LABEL for=userID>用户名 *</LABEL></TH>
@@ -79,12 +84,12 @@
 						<TR>
 							<TH><LABEL for=pwd2>确认密码 *</LABEL></TH>
 							<TD><INPUT id=pwd2 onblur=checkpwd2() tabIndex=5
-								type=password maxLength=15 size=25 name=pwd2> <SPAN
+								type=password maxLength=15 size=25 name=confirm-password> <SPAN
 								id=checkpwd2>&nbsp;</SPAN></TD>
 						</TR>
 						<TR>
 							<TH><LABEL for=email>Email *</LABEL></TH>
-							<TD><INPUT id=email onblur=checkemail() tabIndex=6 size=25
+							<TD><INPUT id=email  tabIndex=6 size=25
 								maxLength=40 name=email> <SPAN id=checkemail>&nbsp;</SPAN></TD>
 						</TR>
 						<TR>
@@ -122,7 +127,7 @@
 						</TR>
 						<TR>
 							<TH vAlign=top><LABEL for=brief>自我介绍&nbsp;/&nbsp;个性签名</LABEL>
-								</TD>
+							</TD>
 							<TD><TEXTAREA id=brief tabIndex=28 name=PersonSign rows=5
 									cols=40 maxLength=200></TEXTAREA></TD>
 						</TR>
@@ -146,150 +151,67 @@
 							<TH>&nbsp;</TH>
 							<TD height="30">
 								<BUTTON class=submit tabIndex=100 name=regsubmit type=submit
-									disabled id=regsubmit style="color: gray">提交</BUTTON>
+									 id=regsubmit style="color: green">提交</BUTTON>
 							</TD>
 						</TR>
 					</TBODY>
 				</TABLE>
 			</DIV>
 		</FORM>
-		<SCRIPT type=text/javascript>
-			var verifycode_invalid = '验证码输入错误，请重新填写';
-			var passwd_dismatch = '两次输入的密码不一致，请检查后重试';
-			var lastuserID = lastpwd = lastemail = '';
-
-			function changecode() {
-				var img1 = document.getElementById("verifycodeimage");
-				img1.src = "${pageContext.request.contextPath}/forum/code?"
-						+ new Date().getTime();
-			}
-			$('userID').focus();
-
-			function checkfields() {
-				var tmpStr = trim($('userID').value);
-				if (tmpStr == '') {
-					warning($('checkuserID'), '请输入用户名');
-					$('userID').focus();
-					return false;
-				}
-				if (tmpStr.indexOf('=') >= 0 || tmpStr.indexOf('*') >= 0
-						|| tmpStr.indexOf('\\') >= 0
-						|| tmpStr.indexOf('&') >= 0 || tmpStr.indexOf('>') >= 0
-						|| tmpStr.indexOf('<') >= 0 || tmpStr.indexOf(',') >= 0
-						|| tmpStr.indexOf('\'') >= 0
-						|| tmpStr.indexOf('"') >= 0) {
-					warning($('checkuserID'),
-							'对不起，用户名中不能包含如下字符：= * & < > , \" \' \\');
-					$('userID').focus();
-					return false;
-				}
-				if (trim($('pwd1').value) == '') {
-					warning($('checkpwd'), '请输入密码');
-					$('pwd1').focus();
-					return false;
-				}
-				if (trim($('pwd2').value) == '') {
-					warning($('checkpwd2'), '请再次输入密码');
-					$('pwd2').focus();
-					return false;
-				}
-				if (!checkpwd2()) {
-					$('pwd2').focus();
-					return false;
-				}
-				if (trim($('email').value) == '') {
-					warning($('checkemail'), '请输入您的 Email');
-					$('email').focus();
-					return false;
-				}
-				if (trim($('verifycode').value) == '') {
-					warning($('checkverifycode'), '请输入验证码');
-					$('verifycode').focus();
-					return false;
-				}
-				if (!checkverifycode()) {
-					$('verifycode').focus();
-					return false;
-				}
-				$('pwd').value = hex_md5(trim($('pwd1').value));
-				$('pwd1').value = '';
-				register.regsubmit.disabled = true;
-			}
-			function checkuserID() {
-				var userID = trim($('userID').value);
-				$('userID').value = userID = userID.replace(/[\s]+/g, '');
-
-				if (userID == lastuserID) {
-					return;
-				} else {
-					lastuserID = userID;
-				}
-				var cu = $('checkuserID');
-				var unlen = userID.replace(/[^\x00-\xff]/g, "**").length;
-
-				if (unlen < 3) {
-					warning(cu, '对不起，您输入的用户名小于3个字符, 请输入一个较长的用户名');
-					return;
-				}
-				ajaxcheck(
-						'checkuserID',
-						'act=checkuserID&user='
-								+ (is_ie && document.charset == 'utf-8' ? encodeURIComponent(userID)
-										: userID));
-			}
-			function checkemail() {
-				var email = trim($('email').value);
-				if (email == lastemail) {
-					return;
-				} else {
-					lastemail = email;
-				}
-				if (!isLegalEmail(email)) {
-					var ce = $('checkemail');
-					warning(ce, 'Email 地址无效，请重新填写');
-					return;
-				}
-				ajaxcheck(
-						'checkemail',
-						'act=checkemail&mail='
-								+ (is_ie && document.charset == 'utf-8' ? encodeURIComponent(email)
-										: email));
-			}
-			function ajaxcheck(objId, data) {
-				var x = new Ajax();
-				x.get('ajax?' + data, function(s) {
-					var obj = $(objId);
-					if (s == 'OK') {
-						obj.style.display = '';
-						obj.innerHTML = '&nbsp;';
-						obj.className = "passed";
-					} else {
-						warning(obj, s);
+	</DIV>
+	<script type="text/javascript">
+		$(function() {
+			$("form").validate({
+				debug : true,
+				rules : {
+					username : {
+						required : true,
+						minlength : 2,
+						maxlength : 10,
+						remote:"${pageContext.request.contextPath}/forum/user/checkusername"
+					},
+					password : {
+						required : true,
+						minlength : 2,
+						maxlength : 16
+					},
+					"confirm-password" : {
+						equalTo : "#password"
+					},
+					email : {
+						required : true,
+						email:true
+					},
+				},
+				messages : {
+					username : {
+						required : '请输入用户名',
+						minlength : '用户名不能小于2个字符',
+						maxlength : '用户名不能超过10个字符',
+						remote : '用户名已经被使用'
+					},
+					password : {
+						required : '请输入密码',
+						minlength : '密码不能小于2个字符',
+						maxlength : '密码不能超过16个字符'
+					},
+					"confirm-password" : {
+						equalTo : "两次输入密码不一致"
+					},
+					email : {
+						required : '请输入邮箱地址',
+						email:"请输入合法的email地址"
 					}
-				});
-			}
-			function showadv() {
-				if (document.register.advshow.checked == true) {
-					$("adv").style.display = "";
-				} else {
-					$("adv").style.display = "none";
-				}
-			}
-			function agreerule() {
-				if (document.register.protocol.checked == true) {
-					$("regsubmit").disabled = false;
-					$("regsubmit").style.color = "#090";
-				} else {
-					$("regsubmit").disabled = true;
-					$("regsubmit").style.color = "gray";
-				}
-			}
-			function loaded() {
-				agreerule();
-			}
-		</SCRIPT>
-		</DIV>
 
+				}
+
+			})
+			{
+
+			}
+
+		})
+	</script>
 
 	<%@include file="foot.jsp"%>
 

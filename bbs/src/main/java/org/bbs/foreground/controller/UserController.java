@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.base.entity.Page;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -217,11 +219,12 @@ public class UserController {
 	 * @param out
 	 */
 	@RequestMapping(value = "/checkusername", method = RequestMethod.GET)
-	public void checkuserNameExit(String username, PrintWriter out){
+	@ResponseBody
+	public boolean checkuserNameExit(String username){
 		if(userService.findByUsername(username)!=null){
-			out.print("用户名已经被使用，请更换新用户名");
+			return true;
 		}else{
-			out.print("用户名可用");
+			return false;
 		}
 		
 	}
