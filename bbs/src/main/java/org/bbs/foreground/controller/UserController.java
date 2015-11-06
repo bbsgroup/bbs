@@ -222,9 +222,9 @@ public class UserController {
 	@ResponseBody
 	public boolean checkuserNameExit(String username){
 		if(userService.findByUsername(username)!=null){
-			return true;
-		}else{
 			return false;
+		}else{
+			return true;
 		}
 		
 	}

@@ -26,7 +26,7 @@
 
 
 </HEAD>
-<BODY onkeydown="if(event.keyCode==27) return false;" onload="loaded()">
+<BODY>
 
 
 
@@ -37,7 +37,7 @@
 		<DIV id=nav>
 			<A href="/ejforum/index.jsp">unnamed</A> &raquo;&nbsp; 注册
 		</DIV>
-		<FORM name="register" 
+		<FORM name="register"
 			action="${pageContext.request.contextPath}/forum/user/register"
 			method="post">
 			<INPUT type=hidden name=fromPath value="">
@@ -66,9 +66,8 @@
 						</TR>
 						<TR>
 							<TH><LABEL for=userID>用户名 *</LABEL></TH>
-							<TD><INPUT id=userID onblur=checkuserID() tabIndex=2
-								maxLength=15 size=25 name=username> <SPAN id=checkuserID>&nbsp;</SPAN>
-							</TD>
+							<TD><INPUT id=userID tabIndex=2 maxLength=15 size=25
+								name=username> <SPAN id=checkuserID>&nbsp;</SPAN></TD>
 						</TR>
 						<TR>
 							<TH><LABEL for=nickname>呢称</LABEL></TH>
@@ -77,25 +76,25 @@
 						</TR>
 						<TR>
 							<TH><LABEL for=pwd1>密码 *</LABEL></TH>
-							<TD><INPUT id=pwd1 tabIndex=4 type=password maxLength=15
+							<TD><INPUT id=password tabIndex=4 type=password maxLength=15
 								size=25 name=password> <SPAN id=checkpwd>&nbsp;</SPAN> <INPUT
 								type=hidden id=pwd name=pwd></TD>
 						</TR>
 						<TR>
 							<TH><LABEL for=pwd2>确认密码 *</LABEL></TH>
-							<TD><INPUT id=pwd2 onblur=checkpwd2() tabIndex=5
-								type=password maxLength=15 size=25 name=confirm-password> <SPAN
+							<TD><INPUT id=confirm-password tabIndex=5 type=password
+								maxLength=15 size=25 name=confirm-password> <SPAN
 								id=checkpwd2>&nbsp;</SPAN></TD>
 						</TR>
 						<TR>
 							<TH><LABEL for=email>Email *</LABEL></TH>
-							<TD><INPUT id=email  tabIndex=6 size=25
-								maxLength=40 name=email> <SPAN id=checkemail>&nbsp;</SPAN></TD>
+							<TD><INPUT id=email tabIndex=6 size=25 maxLength=40
+								name=email> <SPAN id=checkemail>&nbsp;</SPAN></TD>
 						</TR>
 						<TR>
 							<TH>&nbsp;</TH>
-							<TD><INPUT class=checkbox id=advshow onclick=showadv()
-								tabIndex=12 type=checkbox value=1 name=advshow> 显示扩展信息</TD>
+							<TD><INPUT class=checkbox id=advshow tabIndex=12
+								type=checkbox value=1 name=advshow> 显示扩展信息</TD>
 						</TR>
 					</TBODY>
 				</TABLE>
@@ -117,7 +116,7 @@
 						<TR>
 							<TH><LABEL for=birth>生日</LABEL></TH>
 							<TD><INPUT id=birth tabIndex=20 size=25 maxLength=10
-								value=1970-01-01 name=birthday> (&nbsp;格式为 yyyy-mm-dd ,
+								value=1970-01-01 name=birthday readonly> (&nbsp;格式为 yyyy-mm-dd ,
 								年-月-日&nbsp;)</TD>
 						</TR>
 						<TR>
@@ -151,7 +150,7 @@
 							<TH>&nbsp;</TH>
 							<TD height="30">
 								<BUTTON class=submit tabIndex=100 name=regsubmit type=submit
-									 id=regsubmit style="color: green">提交</BUTTON>
+									id=regsubmit style="color: green">提交</BUTTON>
 							</TD>
 						</TR>
 					</TBODY>
@@ -160,58 +159,87 @@
 		</FORM>
 	</DIV>
 	<script type="text/javascript">
+		var validator;
 		$(function() {
-			$("form").validate({
-				debug : true,
-				rules : {
-					username : {
-						required : true,
-						minlength : 2,
-						maxlength : 10,
-						remote:"${pageContext.request.contextPath}/forum/user/checkusername"
-					},
-					password : {
-						required : true,
-						minlength : 2,
-						maxlength : 16
-					},
-					"confirm-password" : {
-						equalTo : "#password"
-					},
-					email : {
-						required : true,
-						email:true
-					},
-				},
-				messages : {
-					username : {
-						required : '请输入用户名',
-						minlength : '用户名不能小于2个字符',
-						maxlength : '用户名不能超过10个字符',
-						remote : '用户名已经被使用'
-					},
-					password : {
-						required : '请输入密码',
-						minlength : '密码不能小于2个字符',
-						maxlength : '密码不能超过16个字符'
-					},
-					"confirm-password" : {
-						equalTo : "两次输入密码不一致"
-					},
-					email : {
-						required : '请输入邮箱地址',
-						email:"请输入合法的email地址"
-					}
+			validator = $("form")
+					.validate(
+							{
 
-				}
+								rules : {
+									username : {
+										required : true,
+										minlength : 2,
+										maxlength : 10,
+										remote : "${pageContext.request.contextPath}/forum/user/checkusername"
+									},
+									password : {
+										required : true,
+										minlength : 2,
+										maxlength : 16
+									},
+									"confirm-password" : {
+										equalTo : "#password"
+									},
+									email : {
+										required : true,
+										email : true
+									},
+									birthday : {
+										date : true,
+									}
+								},
+								messages : {
+									username : {
+										required : '请输入用户名',
+										minlength : '用户名不能小于2个字符',
+										maxlength : '用户名不能超过10个字符',
+										remote : '用户名已经被使用'
+									},
+									password : {
+										required : '请输入密码',
+										minlength : '密码不能小于2个字符',
+										maxlength : '密码不能超过16个字符'
+									},
+									"confirm-password" : {
+										equalTo : "两次输入密码不一致"
+									},
+									email : {
+										required : '请输入邮箱地址',
+										email : "请输入合法的email地址"
+									},
+									birthday : {
+										date : "请输入合法的日期格式"
+									}
+								}
 
+							})
+			$("#userID").blur(function() {
+				if (validator.element("#userID") == true) {
+					$("#userID~span").text("用户名可以使用");
+				} else
+					$("#userID~span").text("");
 			})
-			{
 
-			}
-
+			$("#advshow").click(function() {
+				if ($("#advshow").is(':checked')) {
+					$("#adv").show();
+				} else
+					$("#adv").hide();
+			});
 		})
+		//日期控件
 	</script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/media/nogray_js/ng_all.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/media/nogray_js/ng_ui.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/media/nogray_js/components/calendar.js"></script>
+	<script type="text/javascript">
+		var my_basic_cal = new ng.Calendar({
+			input : 'birth',
+			date_format : 'Y-m-d',
+			display_date : new Date()
+		});
+	</script>
+
 
 	<%@include file="foot.jsp"%>
 
