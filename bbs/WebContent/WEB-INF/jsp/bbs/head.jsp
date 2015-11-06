@@ -21,8 +21,8 @@
 </UL>
 <DIV id=headermenu>
 	<UL>
-		<c:if test="${not empty sessionScope.currentUser}">
-			<li><a href="#">欢迎${sessionScope.currentUser.username}</a></li>
+		<c:if test="${not empty currentUser}">
+			<li><a href="#">欢迎${currentUser.username}</a></li>
 			<li><a href="${pageContext.request.contextPath}/forum/user/quit">退出</a></li>
 		</c:if>
 		<c:if test="${ empty sessionScope.currentUser}">

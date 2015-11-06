@@ -235,8 +235,10 @@
 	<script type="text/javascript">
 		var my_basic_cal = new ng.Calendar({
 			input : 'birth',
+			start_date: 'year-100',
+			end_date:'year+100',
 			date_format : 'Y-m-d',
-			display_date : new Date()
+			display_date: 'today'
 		});
 	</script>
 

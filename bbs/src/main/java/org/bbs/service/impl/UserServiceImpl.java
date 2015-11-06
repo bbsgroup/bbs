@@ -18,100 +18,124 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
-    
+public class UserServiceImpl extends BaseServiceImpl<User> implements
+		UserService {
 
-    @Autowired
-    private UserDao userDao;
-    
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.hxj.sys.service.impl.UserService#createUser(org.hxj.sys.entity.User)
-     */
-    @Override
-    public void createUser(User user) {
-        encryptPassword(user);
-        user.setCreateDate(new Date());
-        this.add(user);
-    }
-    
-    /*
-     * (non-Javadoc)
-     * @see org.hxj.sys.service.impl.UserService#resetPassword(java.lang.String,
-     * java.lang.String)
-     */
-    @Override
-    public Long resetPassword(String username, String password) {
-        User user = userDao.findByUsername(username);
-        user.setPassword(password);
-        encryptPassword(user);
-        return (Long) userDao.save(user);
-    }
-    
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.hxj.sys.service.impl.UserService#findByUsername(java.lang.String)
-     */
-    @Override
-    public User findByUsername(String username) {
-        return userDao.findByUsername(username);
-    }
-    
-    /*
-     * (non-Javadoc)
-     * @see org.hxj.sys.service.impl.UserService#findRoles(java.lang.String)
-     */
-    @Override
-    public Set<String> findRoles(String username) {
-        User user = findByUsername(username);
-        
-        if (user == null) { return Collections.EMPTY_SET; }
-  
-        return null;
-    }
-    
-    /*
-     * (non-Javadoc)
-     * @see
-     * org.hxj.sys.service.impl.UserService#findPermissions(java.lang.String)
-     */
-    @Override
-    public Set<String> findPermissions(String username) {
-        
-        User user = findByUsername(username);
-        
-        if (user == null) { return Collections.EMPTY_SET; }
-       
-        return null;
-        
-    }
-    
-    /*
-     * (non-Javadoc)
-     * @see org.hxj.sys.service.impl.UserService#findByEmail(java.lang.String)
-     */
-    @Override
-    public User findByEmail(String email) {
-        return userDao.findByEmail(email);
-    }
-    
-    @Override
-    public Page<User> findByUsernameLike(String keyword) {
-        return userDao.findByUsernameLike(keyword);
-    }
-    
-    public void encryptPassword(User user){
-		  UUID uuid = UUID.randomUUID();
-		  user.setSalt(uuid.toString());
-		  try {
-			String pwd = SecurityUtil.md5(user.getPassword()+user.getSalt());
+	@Autowired
+	private UserDao userDao;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.hxj.sys.service.impl.UserService#createUser(org.hxj.sys.entity.User)
+	 */
+	@Override
+	public void createUser(User user) {
+		encryptPassword(user);
+		user.setCreateDate(new Date());
+		this.add(user);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.hxj.sys.service.impl.UserService#resetPassword(java.lang.String,
+	 * java.lang.String)
+	 */
+	@Override
+	public Long resetPassword(String username, String password) {
+		User user = userDao.findByUsername(username);
+		user.setPassword(password);
+		encryptPassword(user);
+		return (Long) userDao.save(user);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.hxj.sys.service.impl.UserService#findByUsername(java.lang.String)
+	 */
+	@Override
+	public User findByUsername(String username) {
+		return userDao.findByUsername(username);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.hxj.sys.service.impl.UserService#findRoles(java.lang.String)
+	 */
+	@Override
+	public Set<String> findRoles(String username) {
+		User user = findByUsername(username);
+
+		if (user == null) {
+			return Collections.EMPTY_SET;
+		}
+
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.hxj.sys.service.impl.UserService#findPermissions(java.lang.String)
+	 */
+	@Override
+	public Set<String> findPermissions(String username) {
+
+		User user = findByUsername(username);
+
+		if (user == null) {
+			return Collections.EMPTY_SET;
+		}
+
+		return null;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.hxj.sys.service.impl.UserService#findByEmail(java.lang.String)
+	 */
+	@Override
+	public User findByEmail(String email) {
+		return userDao.findByEmail(email);
+	}
+
+	@Override
+	public Page<User> findByUsernameLike(String keyword) {
+		return userDao.findByUsernameLike(keyword);
+	}
+
+	public void encryptPassword(User user) {
+		UUID uuid = UUID.randomUUID();
+		user.setSalt(uuid.toString());
+		try {
+			String pwd = SecurityUtil.md5(user.getPassword() + user.getSalt());
 			user.setPassword(pwd);
-		} catch (NoSuchAlgorithmException e) {	
+		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
 
 	}
-    
+
+	@Override
+	public boolean exsit(String username, String password) throws NoSuchAlgorithmException {
+		User user = this.findByUsername(username.trim());
+		if (user == null) {
+			return false;
+		}
+		String pwd = SecurityUtil.md5(password.trim() + user.getSalt());
+		if (pwd.equals(user.getPassword())) {
+			return true;
+		}
+
+		return false;
+	}
+
 }

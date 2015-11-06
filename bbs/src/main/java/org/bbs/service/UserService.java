@@ -1,5 +1,6 @@
 package org.bbs.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Set;
 
 import org.base.entity.Page;
@@ -39,5 +40,7 @@ public interface UserService extends BaseService<User> {
     public abstract User findByEmail(String email);
     
     public abstract Page<User> findByUsernameLike(String keyword);
+    
+    public abstract boolean exsit(String username,String password)throws NoSuchAlgorithmException;
     
 }

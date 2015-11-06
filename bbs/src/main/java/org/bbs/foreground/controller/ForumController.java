@@ -57,7 +57,7 @@ public class ForumController {
 	GroupService groupService;
 
 	@RequestMapping("/index")
-	private String index(Model model) {
+	private String index(Model model,HttpSession session) {
 		List<Category> list = categoryService.listAll();
 		Collections.sort(list);
 		model.addAttribute("categorys", list);
