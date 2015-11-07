@@ -110,8 +110,10 @@ public class UserController {
 			attr.addFlashAttribute("usernameError", "用户不存在");
 			return "redirect:loginPage";
 		}
+		
+	
 		try {
-			String pwd = SecurityUtil.md5(user.getPassword().trim()
+			 String  pwd = SecurityUtil.md5(user.getPassword().trim()
 					+ currentUser.getSalt());
 			if (!pwd.equals(currentUser.getPassword())) {
 				attr.addFlashAttribute("passwordError", "用户密码错误");
@@ -145,7 +147,7 @@ public class UserController {
 		} else {
 			// 新写一个cookie
 			Cookie cookie = new Cookie("userCookie", user.getUsername().trim()
-					+ "," + user.getPassword().trim());
+					+ "," +currentUser.getPassword());
 			cookie.setMaxAge(cookieTime);// 保存cookie的时间
 			cookie.setPath("/");// 设置同一服务器下其他服务也能获取
 			response.addCookie(cookie);

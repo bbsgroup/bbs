@@ -125,17 +125,14 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements
 	}
 
 	@Override
-	public boolean exsit(String username, String password) throws NoSuchAlgorithmException {
+	public boolean exsit(String username, String password) {
 		User user = this.findByUsername(username.trim());
 		if (user == null) {
 			return false;
-		}
-		String pwd = SecurityUtil.md5(password.trim() + user.getSalt());
-		if (pwd.equals(user.getPassword())) {
+		} else if (password.equals(user.getPassword())) {
 			return true;
-		}
-
-		return false;
+		} else
+			return false;
 	}
 
 }

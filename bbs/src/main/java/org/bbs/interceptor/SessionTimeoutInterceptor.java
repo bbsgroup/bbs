@@ -24,7 +24,7 @@ public class SessionTimeoutInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request,
-			HttpServletResponse response, Object handler) throws Exception {
+			HttpServletResponse response, Object handler) throws SessionTimeoutException {
 	      String requestUrl = request.getRequestURI().replace(request.getContextPath(), "");    
 	        if(null != allowUrls && allowUrls.length>=1)  
 	            for(String url : allowUrls) {    
