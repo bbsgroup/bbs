@@ -23,8 +23,9 @@
 
 		<%@include file="head.jsp"%>
 
-		<DIV id=nav><!-- 这里要显示上一页的路径 -->
-			<A href="./index.jsp">返回上一页</A> &raquo;&nbsp; 会员列表　
+		<DIV id=nav>
+			<!-- 这里要显示上一页的路径 -->
+			<A href="./index.jsp">返回上一页</A> &raquo;&nbsp; 会员列表
 		</DIV>
 		<DIV class=container style="padding-bottom: 0px">
 			<DIV class=mainbox>
@@ -42,36 +43,50 @@
 						</TR>
 					</THEAD>
 					<TBODY>
-				<c:forEach items="${page.content}" var = "userInfo">
+						<c:forEach items="${page.content}" var="userInfo">
 							<TR>
-							<TD><A href="uspace.jsp?uid=administrator" target="_blank"><c:out value="${userInfo.user.username }"/></A></TD>
-							<TD><c:out value="${userInfo.user.nickname}"/></TD>
-							<TD><c:out value="${userInfo.sex }"/></TD>
-							<TD><c:out value="${userInfo.user.group.name }"/></TD>
-							<TD><c:out value="${userInfo.lastLoginTime }"/></TD>
-							<TD><c:out value="${userInfo.totalPost }"/></TD>
-							<TD><c:out value="${userInfo.user.createDate }"/></TD>
-						</TR>
-				</c:forEach>
-			
+								<c:if test="${ not empty currentUser}">
+									<TD><A href="uspace.jsp?uid=administrator" target="_blank"><font
+											color="green"><c:out
+													value="${userInfo.user.username }" /></A></font></TD>
+								</c:if>
+								<c:if test="${  empty currentUser}">
+									<TD><A href="javascript:void();" target="_blank"><c:out
+												value="${userInfo.user.username }" /></A></TD>
+								</c:if>
+								<TD><c:out value="${userInfo.user.nickname}" /></TD>
+								<TD><c:out value="${userInfo.sex }" /></TD>
+								<TD><c:out value="${userInfo.user.group.name }" /></TD>
+								<TD><c:out value="${userInfo.lastLoginTime }" /></TD>
+								<TD><c:out value="${userInfo.totalPost }" /></TD>
+								<TD><c:out value="${userInfo.user.createDate }" /></TD>
+							</TR>
+						</c:forEach>
+
 					</TBODY>
 				</TABLE>
 			</DIV>
 
 		</DIV>
 		<DIV id="footfilter" class=legend style="margin-top: 0px">
-			<form id="frmsearch" name="frmsearch" action="${pageContext.request.contextPath}/forum/user/listUser"
+			<form id="frmsearch" name="frmsearch"
+				action="${pageContext.request.contextPath}/forum/user/listUser"
 				method="post" style="float: right; padding: 1px">
 				用户名: <input type="text" size="15" name="username" />&nbsp;
 				<button type="submit">搜索</button>
 			</form>
-			<DIV style="padding-left: 2px"> <!-- 分页要怎么做？ -->
-				排序方式: <a href="${pageContext.request.contextPath}/forum/user/listUser?sort=userid">用户名</a> - <a
-					href="${pageContext.request.contextPath}/forum/user/listUser?sort=groupid">用户组</a> - <a
-					href="${pageContext.request.contextPath}/forum/user/listUser?sort=credits">积分</a> - <a
-					href="${pageContext.request.contextPath}/forum/user/listUser?sort=posts">帖子数</a> - <a
-					href="${pageContext.request.contextPath}/forum/user/listUser?sort=lastvisited">上次访问</a> - <a
-					href="${pageContext.request.contextPath}/forum/user/listUser?sort=createtime">注册日期</a>
+			<DIV style="padding-left: 2px">
+				<!-- 分页要怎么做？ -->
+				排序方式: <a
+					href="${pageContext.request.contextPath}/forum/user/listUser?sort=user.username">用户名</a>
+				- <a
+					href="${pageContext.request.contextPath}/forum/user/listUser?sort=user.group.id">用户组</a>
+				- <a
+					href="${pageContext.request.contextPath}/forum/user/listUser?sort=totalPost">帖子数</a>
+				- <a
+					href="${pageContext.request.contextPath}/forum/user/listUser?sort=lastLoginTime">上次访问</a>
+				- <a
+					href="${pageContext.request.contextPath}/forum/user/listUser?sort=user.createDate">注册日期</a>
 			</DIV>
 		</DIV>
 	</DIV>
