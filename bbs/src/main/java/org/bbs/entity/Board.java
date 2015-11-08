@@ -1,5 +1,7 @@
 package org.bbs.entity;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,6 +43,12 @@ public class Board implements Comparable<Board> {
 	private String downloadGroups;
 
 	private String uploadGroups;
+		
+	private Date lastPostTime;
+	
+	private long topicTimes =0;
+	
+	private long replyTimes=0;
 
 	@Id
 	@GeneratedValue
@@ -151,5 +159,31 @@ public class Board implements Comparable<Board> {
 	public void setUploadGroups(String uploadGroups) {
 		this.uploadGroups = uploadGroups;
 	}
+
+	public Date getLastPostTime() {
+		return lastPostTime;
+	}
+
+	public void setLastPostTime(Date lastPostTime) {
+		this.lastPostTime = lastPostTime;
+	}
+
+	public long getTopicTimes() {
+		return topicTimes;
+	}
+
+	public void setTopicTimes(long topicTimes) {
+		this.topicTimes = topicTimes;
+	}
+
+	public long getReplyTimes() {
+		return replyTimes;
+	}
+
+	public void setReplyTimes(long replyTimes) {
+		this.replyTimes = replyTimes;
+	}
+	
+	
 
 }

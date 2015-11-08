@@ -20,9 +20,10 @@ public class Reply {
 	private Long id;
 	private Topic topic;
 	private String content;
-	private Reply parent;
-	private User autor;
+	private User author;
 	private Date time;
+	private long floor=0;
+	
 	@Id
 	@GeneratedValue
 	public Long getId() {
@@ -44,19 +45,13 @@ public class Reply {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
 	@ManyToOne
-	public Reply getParent() {
-		return parent;
+	public User getAuthor() {
+		return author;
 	}
-	public void setParent(Reply parent) {
-		this.parent = parent;
-	}
-	@ManyToOne
-	public User getAutor() {
-		return autor;
-	}
-	public void setAutor(User autor) {
-		this.autor = autor;
+	public void setAuthor(User autor) {
+		this.author = author;
 	}
 	public Date getTime() {
 		return time;
@@ -64,6 +59,14 @@ public class Reply {
 	public void setTime(Date time) {
 		this.time = time;
 	}
+	public long getFloor() {
+		return floor;
+	}
+	public void setFloor(long floor) {
+		this.floor = floor;
+	}
+	
+	
 	
 
 }

@@ -12,6 +12,7 @@ public class PermissionUtil {
 			return false;
 		} else {
 			if (Contants.PERMIT_VISIT.equals(permission)) {
+				
 				if (board.getVisitGroups() != null) {
 					String[] list = board.getVisitGroups().split(",");
 					for (String item : list) {
@@ -47,6 +48,7 @@ public class PermissionUtil {
 			}
 
 			if (Contants.PERMIT_DOWNLOAD.equals(permission)) {
+				
 				if (board.getDownloadGroups() != null) {
 					String[] list = board.getDownloadGroups().split(",");
 					for (String item : list) {
@@ -91,9 +93,11 @@ public class PermissionUtil {
 	}
 
 	public static boolean isModerator(User user, Board board) {
-
+		if(user==null){
+			return false;
+		}
 		Group group = user.getGroup();
-		if (group.getId() == 6) // 管理员
+		if (group.getId() == 6||group.getId()==5) // 管理员
 			return true;
 		if (board.getCategory().getModerators().contains(user.getUsername()))
 			return true;

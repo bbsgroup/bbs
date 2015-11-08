@@ -95,7 +95,7 @@
 						<c:if test="${fn:contains(board.replyGroups,group.id) }">checked</c:if>
 						/></td>
 					<td><input type="checkbox" name="downloadGroups"
-						id="downloadGroups${group.id }" value=" ${group.id }" 
+						id="downloadGroups${group.id }" value="${group.id }" 
 						<c:if test="${fn:contains(board.downloadGroups,group.id) }">checked</c:if>
 						/></td>
 					<td><input type="checkbox" name="uploadGroups"

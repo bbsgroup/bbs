@@ -34,6 +34,7 @@ public class Category implements Comparable<Category> {
 
 	private List<Board> boards = new LinkedList<Board>();
 
+
 	@Id
 	@GeneratedValue
 	public Long getId() {

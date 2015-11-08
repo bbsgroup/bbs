@@ -1,6 +1,9 @@
 package org.bbs.foreground.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -9,21 +12,28 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
+import org.base.entity.Page;
+import org.base.entity.SystemContext;
 import org.base.exception.BusinessException;
 import org.bbs.common.Contants;
 import org.bbs.entity.Attachment;
+import org.bbs.entity.Board;
 import org.bbs.entity.Category;
 import org.bbs.entity.Group;
+import org.bbs.entity.Reply;
 import org.bbs.entity.Topic;
 import org.bbs.entity.User;
 import org.bbs.service.AttachmentService;
 import org.bbs.service.BoardService;
 import org.bbs.service.CategoryService;
 import org.bbs.service.GroupService;
+import org.bbs.service.ReplyService;
 import org.bbs.service.TopicService;
 import org.bbs.service.UserService;
 import org.common.util.PermissionUtil;
@@ -56,6 +66,9 @@ public class ForumController {
 	@Autowired
 	GroupService groupService;
 
+	@Autowired
+	ReplyService replyService;
+
 	@RequestMapping("/index")
 	private String index(Model model) {
 		List<Category> list = categoryService.listAll();
@@ -67,7 +80,7 @@ public class ForumController {
 
 	@RequestMapping(value = "/newTopic", method = RequestMethod.GET)
 	private String toNewTopic(Model model, Long id, HttpSession session) throws BusinessException {
-		
+
 		User user = (User) session.getAttribute("currentUser");
 		Group group = null;
 		if (user == null) {
@@ -78,7 +91,7 @@ public class ForumController {
 		if (!PermissionUtil.checkPermission(user, group, boardService.get(id), Contants.PERMIT_NEW_TOPIC)) {
 			throw new BusinessException("你所在的用户组没有该操作的权限");
 		}
-		
+
 		model.addAttribute("board", boardService.get(id));
 		return "bbs/newTopic";
 	}
@@ -107,6 +120,9 @@ public class ForumController {
 			return "bbs/newTopic";
 
 		}
+
+		
+
 		List<Attachment> attachList = new LinkedList<Attachment>();
 		Iterator<String> itr = request.getFileNames();
 		if (request.getFileMap().size() > 10) {
@@ -119,7 +135,7 @@ public class ForumController {
 				String savePath = request.getServletContext().getRealPath("/") + "media/attached/";
 
 				// 文件保存目录URL
-				String saveUrl = request.getContextPath() + "/media/attached/";
+				String saveUrl = "/media/attached/";
 
 				// 最大文件大小
 				long maxSize = 1024 * 1024 * 2;
@@ -159,6 +175,8 @@ public class ForumController {
 
 				while (itr.hasNext()) {
 					String name = itr.next();
+					if (name == null || name.equals(""))
+						continue;
 					item = request.getFile(name);
 					String fileName = item.getOriginalFilename();
 					String description = request.getParameter("description" + name);
@@ -180,7 +198,7 @@ public class ForumController {
 					attach.setSize(fileSize);
 					attach.setFilename(fileName);
 					attach.setFilepath(saveUrl + newFileName);
-					attachmentService.add(attach);
+					//attachmentService.add(attach);
 					attachList.add(attach);
 				}
 
@@ -189,17 +207,31 @@ public class ForumController {
 				return "bbs/newTopic";
 			}
 		}
-		System.out.println(content.length());
+
+		
+		
+		Board board = boardService.get(id);
+		Category c = board.getCategory();
 		Topic topic = new Topic();
 		topic.setAttachments(attachList);
+		topic.setCategory(c);
 		topic.setTitle(title);
 		topic.setType(1);
 		topic.setContent(content);
 		topic.setPostTime(new Date());
+		topic.setBoard(board);
+		topic.setAuthor(user);
+		topic.setLastReplyName(user.getUsername());
+		topic.setLastReplyTime(new Date());
 		topicService.add(topic);
-		model.addAttribute("board", boardService.get(id));
+		for(Attachment attach:attachList){
+			attach.setTopic(topic);
+			attachmentService.update(attach);
+		}
 
-		return "bbs/newTopic";
+		model.addAttribute("board", board);
+
+		return "redirect:/board?id=" + board.getId();
 	}
 
 	@RequestMapping(value = "/newVote", method = RequestMethod.GET)
@@ -209,9 +241,10 @@ public class ForumController {
 	}
 
 	@RequestMapping(value = "/board", method = RequestMethod.GET)
-	private String toBoard(Model model, Long id,HttpSession session) throws BusinessException {
-		
+	private String toBoard(Model model, Long id, HttpSession session) throws BusinessException {
+
 		User user = (User) session.getAttribute("currentUser");
+		Board board = boardService.get(id);
 		Group group = null;
 		if (user == null) {
 			group = groupService.get(1l);
@@ -221,9 +254,135 @@ public class ForumController {
 		if (!PermissionUtil.checkPermission(user, group, boardService.get(id), Contants.PERMIT_VISIT)) {
 			throw new BusinessException("你所在的用户组没有该操作的权限");
 		}
-		
-		model.addAttribute("board", boardService.get(id));
+		model.addAttribute("topAll", topicService.findTopAll());
+
+		model.addAttribute("topCategory", topicService.findTopCategory(board.getCategory()));
+
+		model.addAttribute("topBoard", topicService.findTopBoard(board));
+
+		SystemContext.setPageSize(20);
+
+		SystemContext.setOrder("desc");
+
+		SystemContext.setSort("lastReplyTime");
+
+		model.addAttribute("page", topicService.findTopicByBoard(board));
+
+		SystemContext.setPageSize(10);
+
+		SystemContext.removeOrder();
+
+		SystemContext.removeSort();
+
+		model.addAttribute("board", board);
+
+		model.addAttribute("isModerator", PermissionUtil.isModerator(user, board));
 		return "bbs/board";
+	}
+
+	@RequestMapping(value = "/topic", method = RequestMethod.GET)
+	private String topic(Model model, Long id, HttpSession session) throws BusinessException {
+		User user = (User) session.getAttribute("currentUser");
+		Topic topic = topicService.get(id);
+		Board board = topic.getBoard();
+
+		Group group = null;
+		if (user == null) {
+			group = groupService.get(1l);
+		} else {
+			group = user.getGroup();
+		}
+		if (!PermissionUtil.checkPermission(user, group, board, Contants.PERMIT_VISIT)) {
+			throw new BusinessException("你所在的用户组没有该操作的权限");
+		}
+
+		topic.setViewTimes(topic.getViewTimes() + 1);
+		topicService.update(topic);
+		board.setLastPostTime(new Date());
+		board.setTopicTimes(board.getTopicTimes() + 1);
+		boardService.update(board);
+		model.addAttribute("topic", topic);
+		model.addAttribute("isModerator", PermissionUtil.isModerator(user, board));
+		SystemContext.setSort("floor");
+		SystemContext.setOrder("asc");
+		model.addAttribute("page", replyService.findReplyByTopic(topic));
+		SystemContext.removeOrder();
+		SystemContext.removeSort();
+		return "bbs/topic";
+	}
+
+	@RequestMapping(value = "/reply", method = RequestMethod.POST)
+	private String reply(Model model, Long id, String content, HttpSession session) throws BusinessException {
+		User user = (User) session.getAttribute("currentUser");
+		Topic topic = topicService.get(id);
+		Board board = topic.getBoard();
+		Group group = null;
+		if (user == null) {
+			group = groupService.get(1l);
+		} else {
+			group = user.getGroup();
+		}
+		if (!PermissionUtil.checkPermission(user, group, board, Contants.PERMIT_REPLY_TOPIC)) {
+			throw new BusinessException("你所在的用户组没有该操作的权限");
+		}
+
+		Reply reply = new Reply();
+		reply.setAuthor(user);
+		reply.setContent(content);
+		reply.setTopic(topic);
+		reply.setTime(new Date());
+		reply.setFloor(replyService.getMaxFloor(topic) + 1);
+		replyService.add(reply);
+		if (user != null)
+			topic.setLastReplyName(user.getUsername());
+		topic.setLastReplyTime(new Date());
+		topic.setReplyTimes(topic.getReplyTimes() + 1);
+		topicService.update(topic);
+		model.addAttribute("topic", topic);
+		model.addAttribute("isModerator", PermissionUtil.isModerator(user, board));
+		board.setLastPostTime(new Date());
+		board.setTopicTimes(board.getReplyTimes() + 1);
+		boardService.update(board);
+
+		Page<Reply> page = replyService.findReplyByTopic(topic);
+		return "redirect:/topic?id=" + id + "&pageNum=" + page.getTotalPage();
+	}
+
+	@RequestMapping(value = "/downloadAttachment", method = RequestMethod.GET)
+	private void downloadAttachment(Model model, Long id, HttpSession session, HttpServletResponse res,
+			HttpServletRequest request) throws BusinessException, IOException {
+		User user = (User) session.getAttribute("currentUser");
+		Attachment attach = attachmentService.get(id);
+		Board board = attach.getTopic().getBoard();
+		Group group = null;
+		if (user == null) {
+			group = groupService.get(1l);
+		} else {
+			group = user.getGroup();
+		}
+		if (!PermissionUtil.checkPermission(user, group, board, Contants.PERMIT_DOWNLOAD)) {
+			throw new BusinessException("你所在的用户组没有该操作的权限");
+		}
+
+		OutputStream os = res.getOutputStream();
+		FileInputStream in = null;
+		try {
+			String fp = request.getSession().getServletContext().getRealPath(attach.getFilepath());
+			File f = new File(fp);
+			res.reset();
+			res.setHeader("Content-Disposition", "attachment; filename=" + attach.getFilename());
+			res.setContentType("application/octet-stream; charset=utf-8");
+
+			os.write(FileUtils.readFileToByteArray(f));
+			os.flush();
+		} finally {
+			if (os != null) {
+				os.close();
+			}
+		}
+		attach.setDownloadTimes(attach.getDownloadTimes() + 1);
+		attachmentService.update(attach);
+
 	}
 
 	@RequestMapping(value = "/register/", method = RequestMethod.GET)
@@ -241,8 +400,42 @@ public class ForumController {
 	private String testUser(HttpSession session) {
 		User user = userService.findByUsername("admin");
 		session.setAttribute("currentUser", user);
-		return "bbs/index";
+		return "redirect:index";
 
 	}
+	
+	
+	@RequestMapping("/closeTopic")
+	private String closeTopic() {
+		return "redirect:board";
+
+	}
+	
+
+	@RequestMapping("/deleteTopic")
+	private String deleteTopic(Long id,HttpSession session) throws BusinessException {
+		Topic topic = topicService.get(id);
+		Board board = null;
+		if(topic!=null){
+			board= topic.getBoard();
+		}	
+		User user = (User) session.getAttribute("currentUser");
+		Group group = null;
+		if (user == null) {
+			group = groupService.get(1l);
+		} else {
+			group = user.getGroup();
+		}
+		if (!PermissionUtil.checkPermission(user, group, board, Contants.PERMIT_DELETE_POST)) {
+			throw new BusinessException("你所在的用户组没有该操作的权限");
+		}
+		topicService.delete(id);
+		return "redirect:board?id="+board.getId();
+
+	}
+	
+	
+	
+	
 
 }

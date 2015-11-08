@@ -1,9 +1,11 @@
 package org.bbs.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -37,11 +38,13 @@ public class Topic {
 	private long viewTimes;
 	private long replyTimes;
 	private Date lastReplyTime;
+	private String lastReplyName;
 	private Boolean isHighlight = Boolean.FALSE;
 	private String highlightReason;
 	private String highlightUsername;
 	private String titleColor;
 	private Boolean isTop = Boolean.FALSE;
+	private int topType = 0;//1本版置顶，2分区置顶，3全局置顶
 	private String topUsername;
 	private String topReason;
 	private Boolean isColse = Boolean.FALSE;
@@ -59,7 +62,7 @@ public class Topic {
 	private Date editTime;
 	private Date voteEndTime;
 	private List<VoteChoice> voteChoices = new LinkedList<VoteChoice>();
-	private List<Attachment> attachments = new LinkedList<Attachment>();
+	private List<Attachment> attachments = new ArrayList<Attachment>();
 
 	@Id
 	@GeneratedValue
@@ -215,6 +218,15 @@ public class Topic {
 	public void setTopUsername(String topUsername) {
 		this.topUsername = topUsername;
 	}
+	
+	
+	public int getTopType() {
+		return topType;
+	}
+
+	public void setTopType(int topType) {
+		this.topType = topType;
+	}
 
 	public String getTopReason() {
 		return topReason;
@@ -345,8 +357,7 @@ public class Topic {
 		this.voteChoices = voteChoices;
 	}
 
-	@OneToMany
-	@JoinTable(name = "bbs_topic_attachment", joinColumns = { @JoinColumn(name = "topic_id") }, inverseJoinColumns = { @JoinColumn(name = "attachment_id") })
+	@OneToMany(targetEntity=Attachment.class,cascade=CascadeType.ALL,mappedBy="topic")
 	public List<Attachment> getAttachments() {
 		return attachments;
 	}
@@ -354,5 +365,15 @@ public class Topic {
 	public void setAttachments(List<Attachment> attachments) {
 		this.attachments = attachments;
 	}
+
+	public String getLastReplyName() {
+		return lastReplyName;
+	}
+
+	public void setLastReplyName(String lastReplyName) {
+		this.lastReplyName = lastReplyName;
+	}
+	
+	
 
 }

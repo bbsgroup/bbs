@@ -1,8 +1,10 @@
 package org.bbs.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -20,6 +22,7 @@ public class Attachment {
 	private int downloadTimes=0;
 	private long size;
 	private String description;
+	private Topic topic;
 	@Id
 	@GeneratedValue
 	public Long getId() {
@@ -57,6 +60,13 @@ public class Attachment {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	@ManyToOne(targetEntity=Topic.class,cascade=CascadeType.ALL)  
+	public Topic getTopic() {
+		return topic;
+	}
+	public void setTopic(Topic topic) {
+		this.topic = topic;
 	}
 
 	
