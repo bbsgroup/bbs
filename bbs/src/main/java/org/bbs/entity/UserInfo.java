@@ -2,14 +2,13 @@ package org.bbs.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.bbs.entity.User;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -23,8 +22,8 @@ public class UserInfo {
 	private Date lastLoginTime;
 	private String ip;
 	private String lastIp;
-	private Integer totalPost;
-	private Integer totalGoodPost;
+	private Integer totalPost =0;
+	private Integer totalGoodPost=0;
 	private String PersonSign;
 	private String heanImage;
 	private User user;
@@ -95,6 +94,7 @@ public class UserInfo {
 		this.lastIp = lastIp;
 	}
 
+	@Column(nullable=false)
 	public Integer getTotalPost() {
 		return totalPost;
 	}
@@ -102,7 +102,7 @@ public class UserInfo {
 	public void setTotalPost(Integer totalPost) {
 		this.totalPost = totalPost;
 	}
-
+	@Column(nullable=false)
 	public Integer getTotalGoodPost() {
 		return totalGoodPost;
 	}

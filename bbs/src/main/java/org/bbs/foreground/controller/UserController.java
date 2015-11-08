@@ -233,7 +233,7 @@ public class UserController {
 		SystemContext.removeOrder();
 		SystemContext.removeSort();
 		model.addAttribute("page", page);
-		return "test/listUser";
+		return "bbs/userList";
 	}
 
 	/**
