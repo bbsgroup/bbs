@@ -31,24 +31,28 @@
 
 		<div id="foruminfo">
 			<div id="nav">
-				<a href="${pageContext.request.contextPath}/unnamed.html">bbs</a>
-
 				<p></p>
+				<c:if test="${ empty sessionScope.currentUser}">
+				
+				
 				<form id="loginform" method="post" name="login"
-					action="#perform.jsp?act=lgn" style="vertical-align: middle"
-					onsubmit="checkfield(this); return false;">
+					action="${pageContext.request.contextPath}/forum/user/login"
+					style="vertical-align: middle"
+					>
+					<!-- onsubmit="checkfield(this); return false;" -->
 					<input type="hidden" name="cookietime" value="0/"> <input
-						type="text" id="userID" name="userID" size="13" maxlength="30"
+						type="text" id="userID" name="username" size="13" maxlength="30"
 						tabindex="1/"> <input type="password" id="pwd1"
-						name="pwd1" size="8" tabindex="2/"><input type="hidden"
-						id="pwd" name="pwd">&nbsp;
+						name="password" size="8" tabindex="2/"><input
+						type="hidden" id="pwd" name="pwd">&nbsp;
 					<button type="submit" name="loginsubmit" tabindex="3"
 						style="width: 46px">登录</button>
 				</form>
+				</c:if>
 				<p></p>
 				<script src="${pageContext.request.contextPath}/media/css/md5.js"
 					type="text/javascript"></script>
-				<script type="text/javascript">
+				<!-- 				<script type="text/javascript">
 function checkfield(theform) {
 	if(trim($('userID').value) == '') {
 		$('userID').focus();	return false;
@@ -60,7 +64,7 @@ function checkfield(theform) {
 		theform.submit();return false;
 	}
 }
-</script>
+</script> -->
 
 			</div>
 			<div id="headsearch">

@@ -40,4 +40,6 @@ public interface UserService extends BaseService<User> {
     
     public abstract Page<User> findByUsernameLike(String keyword);
     
+    public abstract boolean exsit(String username,String password);
+    
 }
