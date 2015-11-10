@@ -75,23 +75,40 @@
 				用户名: <input type="text" size="15" name="username" />&nbsp;
 				<button type="submit">搜索</button>
 			</form>
-			<DIV style="padding-left: 2px">
+			<DIV style="padding-left: 2px" id="order">
 				<!-- 分页要怎么做？ -->
 				排序方式: <a
-					href="${pageContext.request.contextPath}/forum/user/listUser?sort=user.username">用户名</a>
+					href="javascript:void()" name="user.username" >用户名</a>
 				- <a
-					href="${pageContext.request.contextPath}/forum/user/listUser?sort=user.group.id">用户组</a>
+					href="javascript:void()" name="user.group.id">用户组</a>
 				- <a
-					href="${pageContext.request.contextPath}/forum/user/listUser?sort=totalPost">帖子数</a>
+					href="javascript:void()" name="totalPost">帖子数</a>
 				- <a
-					href="${pageContext.request.contextPath}/forum/user/listUser?sort=lastLoginTime">上次访问</a>
+					href="javascript:void()" name="lastLoginTime">上次访问</a>
 				- <a
-					href="${pageContext.request.contextPath}/forum/user/listUser?sort=user.createDate">注册日期</a>
+					href="javascript:void()" name="user.createDate">注册日期</a>
+				<input type="radio" name="order" value="asc" >升序&nbsp;&nbsp;
+				<input type="radio" name="order" value="desc" checked="checked" >降序
 			</DIV>
 		</DIV>
+		<SCRIPT
+			src="${pageContext.request.contextPath}/media/js/jquery-1.10.0.js"
+			type=text/javascript></SCRIPT>
+		<script type="text/javascript">
+			$(function(){
+			$("#order a").click(function(){
+				var url = "${pageContext.request.contextPath}/forum/user/listUser?sort=";
+				window.location.href=url+$(this).attr('name')+"&order="+$("input:checked").val();
+			});
+		
+			})
+			
+			
+		</script>
 	</DIV>
 	<UL class="popmenu_popup headermenu_popup" id=myspace_menu
 		style="DISPLAY: none;">
+		
 		<LI><A href="/ejforum/uspace.jsp?uid=aaa">个人信息页</A></LI>
 		<LI><A href="/ejforum/member/my_profile.jsp">编辑个人资料</A></LI>
 		<LI><A href="/ejforum/member/sms_list.jsp">短消息</A></LI>
