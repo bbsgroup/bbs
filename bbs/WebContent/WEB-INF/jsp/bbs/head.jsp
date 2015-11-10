@@ -24,6 +24,15 @@
 		<c:if test="${not empty currentUser}">
 			<li><a href="#">欢迎${currentUser.username}</a></li>
 			<li><a href="${pageContext.request.contextPath}/forum/user/quit">退出</a></li>
+			<c:if test="${currentUser.group.id==6}">
+				<li><a
+					href="${pageContext.request.contextPath}/forum/user/quit">进入后台</a></li>
+				<LI><A href="/ejforum/member/sms_list.jsp">短消息</A></LI>
+				<LI class=dropmenu id=myspace onmouseover='showMenu(this.id)'
+					style='BACKGROUND-POSITION: 94%'><A
+					href="/ejforum/member/my_topics.jsp">我的空间</A></LI>
+			</c:if>
+
 		</c:if>
 		<c:if test="${ empty sessionScope.currentUser}">
 			<LI><A
@@ -32,7 +41,7 @@
 				href="${pageContext.request.contextPath}/forum/user/loginPage">登录</A></LI>
 		</c:if>
 		<LI><A href="/ejforum/feeds.jsp">订阅</A></LI>
-		<LI><A href="/ejforum/userlist.jsp">会员列表</A></LI>
+		<LI><A href="${pageContext.request.contextPath}/forum/user/listUser">会员列表</A></LI>
 		<LI class=dropmenu id=advsearch onmouseover='showMenu(this.id)'
 			style='BACKGROUND-POSITION: 94%'><A
 			href="/ejforum/advsearch.jsp">搜索</A></LI>

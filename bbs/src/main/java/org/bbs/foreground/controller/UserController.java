@@ -224,16 +224,14 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/listUser", method = RequestMethod.GET)
-	public String listUser(Model model) {
+	public String listUser(Model model,String sort,String order) {
 
 		Page<UserInfo> page = null;
-		SystemContext.setSort("id");
-		SystemContext.setOrder("desc");
 		page = userInfoService.findPage();
 		SystemContext.removeOrder();
 		SystemContext.removeSort();
 		model.addAttribute("page", page);
-		return "test/listUser";
+		return "bbs/userList";
 	}
 
 	/**

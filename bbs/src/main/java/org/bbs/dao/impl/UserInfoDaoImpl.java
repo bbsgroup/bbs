@@ -21,7 +21,9 @@ public class UserInfoDaoImpl extends BaseDaoImpl<UserInfo> implements
 	public UserInfo findByUserId(Long id) {
 		String hql = "from UserInfo u where u.user.id = ?";
 		List<UserInfo> userInfo = this.list(hql, id);
+		if(userInfo!=null)
 			return userInfo.get(0);
+		return null;
 	}
 
 }

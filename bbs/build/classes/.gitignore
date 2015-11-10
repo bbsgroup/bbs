@@ -1,12 +1,2 @@
-/ValidationMessages.properties
 /baseProject/
-/baseinfo.properties
-/ehcache/
-/email.properties
-/log4j.properties
-/messages.properties
 /org/
-/resources.properties
-/spring-config-cache.xml
-/spring-config.xml
-/springmvc.xml
