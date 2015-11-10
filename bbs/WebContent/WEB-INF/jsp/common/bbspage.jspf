@@ -1,0 +1,71 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+
+
+<div class="pages">
+
+	<em style="float: left;">
+		页次：${page.currentPage}/${page.totalPage}页 &nbsp; 每页显示：${page.pageSize }条
+		&nbsp; 总记录数：${page.totalRecord }条 </em> <a
+		href="javascript: gotoPage(${page.currentPage-1});"> &laquo; </a>
+
+	<c:forEach begin="${page.begin}" end="${page.end}" var="num">
+		<c:if test="${page.currentPage eq num}">
+			<strong>${num}</strong>
+		</c:if>
+		<c:if test="${page.currentPage ne num}">
+			<a href="javascript:gotoPage(${num});">${num}</a>
+		</c:if>
+	</c:forEach>
+
+	<a href="javascript: gotoPage(${page.currentPage+1});">&raquo;</a>
+
+</div>
+
+<div >
+	<input type="button" style="float: right;" onclick="javascript:gotoPage();" value="跳转"/>
+	<input style="float: right;vertical-align:middle;" name="pageNum" id="pageNum" type="text">
+	
+</div>
+
+
+
+
+
+<script type="text/javascript">
+
+ function changeURLArg(url,arg,arg_val){ 
+     var pattern=arg+'=([^&]*)'; 
+     var replaceText=arg+'='+arg_val; 
+     if(url.match(pattern)){ 
+         var tmp='/('+ arg+'=)([^&]*)/gi'; 
+         tmp=url.replace(eval(tmp),replaceText); 
+         return tmp; 
+     }else{ 
+         if(url.match('[\?]')){ 
+             return url+'&'+replaceText; 
+         }else{ 
+             return url+'?'+replaceText; 
+         } 
+     } 
+     return url+'\n'+arg+'\n'+arg_val; 
+ } 
+	function gotoPage(pageNum) {
+		if(typeof(pageNum) == "undefined"){
+			pageNum=$("#pageNum").val()
+
+		}
+		if (pageNum < 1) {
+			pageNum = 1;
+		}
+		if (pageNum > ${page.totalPage}) {
+			pageNum = ${page.totalPage};
+		}
+
+		var href = window.location.href;
+		href=changeURLArg(href,"pageNum",pageNum);
+		window.location.href = href;
+
+	}
+</script>
