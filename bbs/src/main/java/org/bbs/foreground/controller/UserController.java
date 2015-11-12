@@ -185,11 +185,20 @@ public class UserController {
 	 * @param currentUser
 	 * @return
 	 */
-	@RequestMapping(value = "/updateUserInfoPage", method = RequestMethod.GET)
+	@RequestMapping(value = "/editUserInfoPage", method = RequestMethod.GET)
 	public String updateUserInfoPage(Model model, HttpSession session) {
-		return "test/updateUserInfoPage";
+		return "bbs/editUserInfo";
+	}
+	
+	@RequestMapping(value = "/changePasswordPage", method = RequestMethod.GET)
+	public String changePasswordPage(Model model, HttpSession session) {
+		return "bbs/changePassword";
 	}
 
+	@RequestMapping(value = "/editPersonalInfoPage", method = RequestMethod.GET)
+	public String editPersonalInfoPage(Model model, HttpSession session) {
+		return "bbs/editPersonalInfo";
+	}
 	/**
 	 * 用户修改论坛个人信息与论坛设置功能(通过测试)
 	 * 
@@ -199,7 +208,7 @@ public class UserController {
 	 * @param userInfo
 	 * @return
 	 */
-	@RequestMapping(value = "/updateUserInfo", method = RequestMethod.POST)
+	@RequestMapping(value = "/editUserInfo", method = RequestMethod.POST)
 	public String updateUserInfo(HttpServletRequest request, Model model,
 			HttpSession session, UserInfo userInfo,
 			@ModelAttribute("currentUser") User currentUser) {
@@ -212,7 +221,7 @@ public class UserController {
 		currentUserInfo.setShowHead(userInfo.isShowHead());
 		userInfoService.update(currentUserInfo);
 		model.addAttribute("userInfo", currentUserInfo);
-		return "test/showUserInfo";
+		return "redirect:myUserInfo";
 
 	}
 
@@ -251,9 +260,20 @@ public class UserController {
 			return "error/error";
 		}
 		model.addAttribute("userInfo", currentuserInfo);
-		return "test/showUserInfo";
+		return "bbs/showUserInfo";
 	}
 
+	@RequestMapping(value = "/myUserInfo", method = RequestMethod.GET)
+	public String myUserInfo( Model model,@ModelAttribute("currentUser") User currentUser,
+			HttpSession session) {
+		UserInfo currentuserInfo = userInfoService.findByUserId(currentUser.getId());
+		if (currentuserInfo == null) {
+			model.addAttribute("error", "非法操作");
+			return "error/error";
+		}
+		model.addAttribute("userInfo", currentuserInfo);
+		return "bbs/showUserInfo";
+	}
 	/**
 	 * 用来校验用户名是否被使用了(待测试)
 	 * 

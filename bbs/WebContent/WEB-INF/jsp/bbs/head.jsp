@@ -5,6 +5,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <LINK href="${pageContext.request.contextPath}/media/css/forum.css"
 	type=text/css rel=stylesheet>
+	<SCRIPT src="${pageContext.request.contextPath}/media/js/common.js"
+	type=text/javascript></SCRIPT>
 <DIV id=header>
 	<H2>
 		<A href="${pageContext.request.contextPath}/index"><IMG
@@ -27,11 +29,12 @@
 			<c:if test="${currentUser.group.id==6}">
 				<li><a
 					href="${pageContext.request.contextPath}/forum/user/quit">进入后台</a></li>
-				<LI><A href="/ejforum/member/sms_list.jsp">短消息</A></LI>
-				<LI class=dropmenu id=myspace onmouseover='showMenu(this.id)'
-					style='BACKGROUND-POSITION: 94%'><A
-					href="/ejforum/member/my_topics.jsp">我的空间</A></LI>
 			</c:if>
+			<LI><A href="/ejforum/member/sms_list.jsp">短消息</A></LI>
+			<LI class=dropmenu id=myspace onmouseover='showMenu(this.id)'
+				style='BACKGROUND-POSITION: 94%'><A
+				href="/ejforum/member/my_topics.jsp">我的空间</A></LI>
+
 
 		</c:if>
 		<c:if test="${ empty sessionScope.currentUser}">
@@ -41,13 +44,23 @@
 				href="${pageContext.request.contextPath}/forum/user/loginPage">登录</A></LI>
 		</c:if>
 		<LI><A href="/ejforum/feeds.jsp">订阅</A></LI>
-		<LI><A href="${pageContext.request.contextPath}/forum/user/listUser">会员列表</A></LI>
+		<LI><A
+			href="${pageContext.request.contextPath}/forum/user/listUser">会员列表</A></LI>
 		<LI class=dropmenu id=advsearch onmouseover='showMenu(this.id)'
 			style='BACKGROUND-POSITION: 94%'><A
 			href="/ejforum/advsearch.jsp">搜索</A></LI>
 		<LI><A href="/ejforum/help/index.jsp">帮助</A></LI>
 
+	</UL>
 
-
+	<UL class="popmenu_popup headermenu_popup" id=myspace_menu
+		style="DISPLAY: none;">
+		<LI><A href="${pageContext.request.contextPath}/forum/user/myUserInfo">个人信息页</A></LI>
+		<LI><A href="${pageContext.request.contextPath}/forum/user/editUserInfoPage">编辑个人资料</A></LI>
+		<LI><A href="/ejforum/member/sms_list.jsp">短消息</A></LI>
+		<LI><A href="/ejforum/member/my_topics.jsp">我的话题</A></LI>
+		<LI><A href="/ejforum/member/my_favors.jsp">我的收藏</A></LI>
+		<LI><A href="/ejforum/member/my_friends.jsp">我的好友</A></LI>
+		<LI><A href="/ejforum/member/my_rights.jsp">我的权限</A></LI>
 	</UL>
 </DIV>

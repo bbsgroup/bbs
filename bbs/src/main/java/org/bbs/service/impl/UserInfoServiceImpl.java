@@ -23,7 +23,11 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements
 	}
 	@Override
 	public UserInfo findByUserId(Long id) {
+		
 		UserInfo userInfo = userInfoDao.findByUserId( id);
+		if(userInfo == null){
+			return null;
+		}
 		return userInfo;
 	}
 
