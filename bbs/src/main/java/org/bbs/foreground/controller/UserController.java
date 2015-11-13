@@ -185,20 +185,53 @@ public class UserController {
 	 * @param currentUser
 	 * @return
 	 */
-	@RequestMapping(value = "/editUserInfoPage", method = RequestMethod.GET)
-	public String updateUserInfoPage(Model model, HttpSession session) {
-		return "bbs/editUserInfo";
+
+	
+	@RequestMapping(value = "/my_userInfo", method = RequestMethod.GET)
+	public String myUserInfo( Model model,@ModelAttribute("currentUser") User currentUser,
+			HttpSession session,String action) {
+		//判断是否要跳转
+		if(action!=null){
+			return "bbs/my_userInfo_"+action;
+		}
+		
+		UserInfo currentuserInfo = userInfoService.findByUserId(currentUser.getId());
+		if (currentuserInfo == null) {
+			model.addAttribute("error", "非法操作");
+			return "error/error";
+		}
+		model.addAttribute("userInfo", currentuserInfo);
+		return "bbs/userInfo";
 	}
 	
-	@RequestMapping(value = "/changePasswordPage", method = RequestMethod.GET)
-	public String changePasswordPage(Model model, HttpSession session) {
-		return "bbs/changePassword";
+	
+	@RequestMapping(value = "/my_msg", method = RequestMethod.GET)
+	public String my_msg(Model model, HttpSession session) {
+		return "bbs/my_msg";
 	}
-
-	@RequestMapping(value = "/editPersonalInfoPage", method = RequestMethod.GET)
-	public String editPersonalInfoPage(Model model, HttpSession session) {
-		return "bbs/editPersonalInfo";
+	
+	@RequestMapping(value = "/my_topics", method = RequestMethod.GET)
+	public String my_topics(Model model, HttpSession session) {
+		return "bbs/my_topics";
 	}
+	@RequestMapping(value = "/my_favors", method = RequestMethod.GET)
+	public String my_favors(Model model, HttpSession session) {
+		return "bbs/my_favors";
+	}
+	
+	@RequestMapping(value = "/my_friends", method = RequestMethod.GET)
+	public String my_friends(Model model, HttpSession session) {
+		return "bbs/my_friends";
+	}
+	
+	@RequestMapping(value = "/my_rights", method = RequestMethod.GET)
+	public String my_rights(Model model, HttpSession session,String gid) {
+		if(gid!=null){
+			return "bbs/my_rights_"+gid;
+		}
+		return "bbs/my_rights";
+	}
+	
 	/**
 	 * 用户修改论坛个人信息与论坛设置功能(通过测试)
 	 * 
@@ -232,15 +265,15 @@ public class UserController {
 	 * @param currentUser
 	 * @return
 	 */
-	@RequestMapping(value = "/listUser", method = RequestMethod.GET)
-	public String listUser(Model model,String sort,String order) {
+	@RequestMapping(value = "/user_list", method = RequestMethod.GET)
+	public String user_list(Model model,String sort,String order) {
 
 		Page<UserInfo> page = null;
 		page = userInfoService.findPage();
 		SystemContext.removeOrder();
 		SystemContext.removeSort();
 		model.addAttribute("page", page);
-		return "bbs/userList";
+		return "bbs/user_list";
 	}
 
 	/**
@@ -250,8 +283,8 @@ public class UserController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/showUserInfo", method = RequestMethod.GET)
-	public String showUserInfo(String userInfoId, Model model,
+	@RequestMapping(value = "/some_userInfo", method = RequestMethod.GET)
+	public String some_userInfo(String userInfoId, Model model,
 			HttpSession session) {
 		UserInfo currentuserInfo = userInfoService.get(Long
 				.parseLong(userInfoId));
@@ -260,20 +293,10 @@ public class UserController {
 			return "error/error";
 		}
 		model.addAttribute("userInfo", currentuserInfo);
-		return "bbs/showUserInfo";
+		return "bbs/userInfo";
 	}
 
-	@RequestMapping(value = "/myUserInfo", method = RequestMethod.GET)
-	public String myUserInfo( Model model,@ModelAttribute("currentUser") User currentUser,
-			HttpSession session) {
-		UserInfo currentuserInfo = userInfoService.findByUserId(currentUser.getId());
-		if (currentuserInfo == null) {
-			model.addAttribute("error", "非法操作");
-			return "error/error";
-		}
-		model.addAttribute("userInfo", currentuserInfo);
-		return "bbs/showUserInfo";
-	}
+
 	/**
 	 * 用来校验用户名是否被使用了(待测试)
 	 * 

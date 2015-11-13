@@ -56,11 +56,11 @@
 						<H1>编辑个人资料</H1>
 						<UL class="tabs">
 							<LI><A
-								href="${pageContext.request.contextPath}/forum/user/changePasswordPage">修改密码</A></LI>
+								href="${pageContext.request.contextPath}/forum/user/my_userInfo?action=changePassword">修改密码</A></LI>
 							<LI class=current><A
-								href="${pageContext.request.contextPath}/forum/user/editUserInfoPage">基本资料</A></LI>
+								href="${pageContext.request.contextPath}/forum/user/my_userInfo?action=edit">基本资料</A></LI>
 							<LI><A
-								href="${pageContext.request.contextPath}/forum/user/editPersonalInfoPage">个性化资料</A></LI>
+								href="${pageContext.request.contextPath}/forum/user/my_userInfo?action=personal">个性化资料</A></LI>
 						</UL>
 						<TABLE cellSpacing=0 cellPadding=0>
 							<TBODY>
@@ -123,7 +123,7 @@
 				$('email').value = "aaa@1.com";
 				$('isMailPub').checked = false;
 			</script>
-			<%@include file="mySpace.jsp"%>
+				<%@include file="my_space.jsp"%>
 		</DIV>
 	</DIV>
 

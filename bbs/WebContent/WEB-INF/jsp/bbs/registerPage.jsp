@@ -35,7 +35,7 @@
 		<%@include file="head.jsp"%>
 
 		<DIV id=nav>
-			<A href="/ejforum/index.jsp">unnamed</A> &raquo;&nbsp; 注册
+				<A href="${pageContext.request.contextPath}/index">首页</A> &raquo;&nbsp; 注册
 		</DIV>
 		<FORM name="register"
 			action="${pageContext.request.contextPath}/forum/user/register"
