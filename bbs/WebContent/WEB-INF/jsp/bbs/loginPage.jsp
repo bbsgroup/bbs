@@ -30,7 +30,7 @@ if(self.parent.frames.length != 0) {
 		<%@include file="head.jsp"%>
 
 		<DIV id=nav>
-			<A href="/ejforum/index.jsp">unnamed</A> &raquo; 会员登录
+			<A href="${pageContext.request.contextPath}/index">首页</A>&raquo; 会员登录
 		</DIV>
 		<FORM name=login onSubmit="checkfield(this); return false;"
 			action="${pageContext.request.contextPath}/forum/user/login"

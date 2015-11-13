@@ -25,7 +25,7 @@
 
 		<DIV id=nav>
 			<!-- 这里要显示上一页的路径 -->
-			<A href="./index.jsp">返回上一页</A> &raquo;&nbsp; 会员列表
+				<A href="${pageContext.request.contextPath}/index">首页</A>&raquo;&nbsp; 会员列表
 		</DIV>
 		<DIV class=container style="padding-bottom: 0px">
 			<DIV class=mainbox>
@@ -46,7 +46,7 @@
 						<c:forEach items="${page.content}" var="userInfo">
 							<TR>
 								<c:if test="${ not empty currentUser}">
-									<TD><A href="uspace.jsp?uid=administrator" target="_blank"><font
+									<TD><A href="${pageContext.request.contextPath}/forum/user/some_userInfo?userInfoId=${userInfo.userInfoId}" target="_blank"><font
 											color="green"><c:out
 													value="${userInfo.user.username }" /></A></font></TD>
 								</c:if>
@@ -76,7 +76,7 @@
 				<button type="submit">搜索</button>
 			</form>
 			<DIV style="padding-left: 2px" id="order">
-				<!-- 分页要怎么做？ -->
+				<!-- 分页要怎么做？ --> <!-- 下面把a标签变成了一个锚 -->
 				排序方式: <a
 					href="javascript:void()" name="user.username" >用户名</a>
 				- <a
@@ -100,9 +100,7 @@
 				var url = "${pageContext.request.contextPath}/forum/user/listUser?sort=";
 				window.location.href=url+$(this).attr('name')+"&order="+$("input:checked").val();
 			});
-		
 			})
-			
 			
 		</script>
 	</DIV>
