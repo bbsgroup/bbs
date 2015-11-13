@@ -70,7 +70,7 @@ public class ForumController {
 	ReplyService replyService;
 
 	@RequestMapping("/index")
-	private String index(Model model,HttpSession session) {
+	private String index(Model model, HttpSession session) {
 		List<Category> list = categoryService.listAll();
 		Collections.sort(list);
 		model.addAttribute("categorys", list);
@@ -120,8 +120,6 @@ public class ForumController {
 			return "bbs/newTopic";
 
 		}
-
-		
 
 		List<Attachment> attachList = new LinkedList<Attachment>();
 		Iterator<String> itr = request.getFileNames();
@@ -175,10 +173,10 @@ public class ForumController {
 
 				while (itr.hasNext()) {
 					String name = itr.next();
-					if (name == null || name.equals(""))
-						continue;
 					item = request.getFile(name);
 					String fileName = item.getOriginalFilename();
+					if (fileName == null || fileName.equals(""))
+						continue;
 					String description = request.getParameter("description" + name);
 					long fileSize = item.getSize();
 					if (fileSize > maxSize) {
@@ -198,7 +196,7 @@ public class ForumController {
 					attach.setSize(fileSize);
 					attach.setFilename(fileName);
 					attach.setFilepath(saveUrl + newFileName);
-					//attachmentService.add(attach);
+					// attachmentService.add(attach);
 					attachList.add(attach);
 				}
 
@@ -208,8 +206,6 @@ public class ForumController {
 			}
 		}
 
-		
-		
 		Board board = boardService.get(id);
 		Category c = board.getCategory();
 		Topic topic = new Topic();
@@ -224,7 +220,7 @@ public class ForumController {
 		topic.setLastReplyName(user.getUsername());
 		topic.setLastReplyTime(new Date());
 		topicService.add(topic);
-		for(Attachment attach:attachList){
+		for (Attachment attach : attachList) {
 			attach.setTopic(topic);
 			attachmentService.update(attach);
 		}
@@ -313,8 +309,12 @@ public class ForumController {
 
 	@RequestMapping(value = "/reply", method = RequestMethod.POST)
 	private String reply(Model model, Long id, String content, HttpSession session) throws BusinessException {
+		
 		User user = (User) session.getAttribute("currentUser");
 		Topic topic = topicService.get(id);
+		if(topic.getIsColse()){
+			throw new BusinessException("该主题已被关闭");
+		}
 		Board board = topic.getBoard();
 		Group group = null;
 		if (user == null) {
@@ -403,22 +403,40 @@ public class ForumController {
 		return "redirect:index";
 
 	}
-	
-	
+
 	@RequestMapping("/closeTopic")
 	private String closeTopic() {
 		return "redirect:board";
 
 	}
-	
 
-	@RequestMapping("/deleteTopic")
-	private String deleteTopic(Long id,HttpSession session) throws BusinessException {
-		Topic topic = topicService.get(id);
-		Board board = null;
-		if(topic!=null){
-			board= topic.getBoard();
-		}	
+	@RequestMapping(value = "/actionTopicView", method = RequestMethod.POST)
+	private String deleteTopicView(String action,Long boardId,Long[] chkTopicID,Model model) throws BusinessException {
+			Board board = boardService.get(boardId);
+			model.addAttribute("board", board);
+			model.addAttribute("topicIds",chkTopicID);
+			if(action.equals("delete")){
+				return "bbs/deleteTopic";	
+			}
+			if(action.equals("highlight")){
+				return "bbs/highlightTopic";	
+			}
+			if(action.equals("close")){
+				return "bbs/openTopic";	
+			}
+			if(action.equals("top")){
+				return "bbs/topTopic";	
+			}
+			if(action.equals("digest")){
+				return "bbs/sssenceTopic";	
+			}
+			throw new BusinessException("没有该操作");
+	}
+	
+	
+	@RequestMapping(value = "/deleteTopic", method = RequestMethod.POST)
+	private String deleteTopic(String reason,Long boardId,Long[] chkTopicID, HttpSession session) throws BusinessException {
+
 		User user = (User) session.getAttribute("currentUser");
 		Group group = null;
 		if (user == null) {
@@ -426,16 +444,211 @@ public class ForumController {
 		} else {
 			group = user.getGroup();
 		}
-		if (!PermissionUtil.checkPermission(user, group, board, Contants.PERMIT_DELETE_POST)) {
-			throw new BusinessException("你所在的用户组没有该操作的权限");
+
+		for (Long id : chkTopicID) {
+			System.out.println(id);
+			Topic topic = topicService.get(id);
+			Board board = null;
+			if (topic != null) {
+				board = topic.getBoard();
+			}
+			if (!PermissionUtil.checkPermission(user, group, board, Contants.PERMIT_DELETE_POST)) {
+				continue;
+			}
+			topic.setIsDeleted(Boolean.TRUE);
+			topic.setDeleteReason(reason);
+			topic.setDeleteTime(new Date());
+			topic.setDeleteUsername(user.getUsername());
+			topicService.update(topic);
+			
 		}
-		topicService.delete(id);
-		return "redirect:board?id="+board.getId();
+
+		// topicService.delete(id);
+		return "redirect:board?id=" + boardId;
 
 	}
 	
 	
+	@RequestMapping(value = "/highlightTopic", method = RequestMethod.POST)
+	private String highlightTopic(String lightcolor,String reason,Long boardId,Long[] chkTopicID, HttpSession session) throws BusinessException {
+
+		User user = (User) session.getAttribute("currentUser");
+		Group group = null;
+		if (user == null) {
+			group = groupService.get(1l);
+		} else {
+			group = user.getGroup();
+		}
+
+		for (Long id : chkTopicID) {
+			Topic topic = topicService.get(id);
+			Board board = null;
+			if (topic != null) {
+				board = topic.getBoard();
+			}
+			if (!PermissionUtil.checkPermission(user, group, board, Contants.PERMIT_TOP_POST)) {
+				continue;
+			}
+			topic.setHighlightReason(reason);
+			topic.setIsHighlight(Boolean.TRUE);
+			topic.setHighlightUsername(user.getUsername());
+			topic.setTitleColor(lightcolor);
+
+			topicService.update(topic);
+			
+		}
+
+		return "redirect:board?id=" + boardId;
+
+	}
 	
+	
+	@RequestMapping(value = "/closeTopic", method = RequestMethod.POST)
+	private String closetTopic(Boolean state,String reason,Long boardId,Long[] chkTopicID, HttpSession session) throws BusinessException {
+
+		User user = (User) session.getAttribute("currentUser");
+		Group group = null;
+		if (user == null) {
+			group = groupService.get(1l);
+		} else {
+			group = user.getGroup();
+		}
+
+		for (Long id : chkTopicID) {
+			Topic topic = topicService.get(id);
+			Board board = null;
+			if (topic != null) {
+				board = topic.getBoard();
+			}
+			if (!PermissionUtil.checkPermission(user, group, board, Contants.PERMIT_EDIT_POST)) {
+				continue;
+			}
+			topic.setColseReason(reason);
+			topic.setColseUsername(user.getUsername());
+			topic.setIsColse(state);
+			topicService.update(topic);
+			
+		}
+
+		return "redirect:board?id=" + boardId;
+
+	}
+	
+	
+	@RequestMapping(value = "/topTopic", method = RequestMethod.POST)
+	private String topTopic(int topType,String reason,Long boardId,Long[] chkTopicID, HttpSession session) throws BusinessException {
+
+		User user = (User) session.getAttribute("currentUser");
+		Group group = null;
+		if (user == null) {
+			group = groupService.get(1l);
+		} else {
+			group = user.getGroup();
+		}
+
+		for (Long id : chkTopicID) {
+			Topic topic = topicService.get(id);
+			Board board = null;
+			if (topic != null) {
+				board = topic.getBoard();
+			}
+			if (!PermissionUtil.checkPermission(user, group, board, Contants.PERMIT_EDIT_POST)) {
+				continue;
+			}
+			topic.setTopReason(reason);
+			topic.setTopUsername(user.getUsername());
+			topic.setTopType(topType);
+			topicService.update(topic);
+			
+		}
+
+		return "redirect:board?id=" + boardId;
+
+	}
+	
+	@RequestMapping(value = "/sssenceTopic", method = RequestMethod.POST)
+	private String sssenceTopic(Boolean sssence,String reason,Long boardId,Long[] chkTopicID, HttpSession session) throws BusinessException {
+
+		User user = (User) session.getAttribute("currentUser");
+		Group group = null;
+		if (user == null) {
+			group = groupService.get(1l);
+		} else {
+			group = user.getGroup();
+		}
+
+		for (Long id : chkTopicID) {
+			Topic topic = topicService.get(id);
+			Board board = null;
+			if (topic != null) {
+				board = topic.getBoard();
+			}
+			if (!PermissionUtil.checkPermission(user, group, board, Contants.PERMIT_EDIT_POST)) {
+				continue;
+			}
+			topic.setSssenceReason(reason);
+			topic.setSessenceUsername(user.getUsername());
+			topic.setSssence(sssence);		
+			topicService.update(topic);
+			
+		}
+
+		return "redirect:board?id=" + boardId;
+
+	}
+	
+	
+	@RequestMapping(value = "/deleteTopicContent")
+	private String deleteTopicContent(Long id, HttpSession session) throws BusinessException {
+
+		User user = (User) session.getAttribute("currentUser");
+		Group group = null;
+		if (user == null) {
+			group = groupService.get(1l);
+		} else {
+			group = user.getGroup();
+		}
+
+			Topic topic = topicService.get(id);
+			Board board = null;
+			if (topic != null) {
+				board = topic.getBoard();
+			}
+			if (!PermissionUtil.checkPermission(user, group, board, Contants.PERMIT_DELETE_POST)) {
+				throw new BusinessException("你所在的用户组没有该操作的权限");
+			}
+			topic.setStatus(Boolean.FALSE);
+			topicService.update(topic);
+			
+		return "redirect:topic?id=" + id;
+
+	}
+	
+	@RequestMapping(value = "/deleteReply")
+	private String deleteReply(Long id, HttpSession session) throws BusinessException {
+
+		User user = (User) session.getAttribute("currentUser");
+		Group group = null;
+		if (user == null) {
+			group = groupService.get(1l);
+		} else {
+			group = user.getGroup();
+		}
+
+			Reply reply = replyService.get(id);
+			Board board = null;
+			if (reply != null) {
+				board = reply.getTopic().getBoard();
+			}
+			if (!PermissionUtil.checkPermission(user, group, board, Contants.PERMIT_DELETE_POST)) {
+				throw new BusinessException("你所在的用户组没有该操作的权限");
+			}
+			reply.setStatus(Boolean.FALSE);
+			replyService.update(reply);
+			
+		return "redirect:topic?id=" + reply.getTopic().getId();
+
+	}
 	
 
 }

@@ -15,25 +15,24 @@ public class TopicDaoImpl extends BaseDaoImpl<Topic>implements TopicDao {
 
 	@Override
 	public List<Topic> findTopAll() {
-		String hql = "from Topic t where t.topType = 3";
+		String hql = "from Topic t where t.topType = 3 and t.isDeleted = false";
 		return this.list(hql);
 	}
 
 	@Override
 	public List<Topic> findTopCategory(Category c) {
-		String hql = "from Topic t where t.topType = 2 and t.category = ?";
+		String hql = "from Topic t where t.topType = 2 and t.category = ? and t.isDeleted = false ";
 		return this.list(hql, c);
 	}
 
 	@Override
 	public List<Topic> findTopBoard(Board board) {
-		String hql = "from Topic t where t.topType = 1 and t.board = ?";
-		return this.list(hql, board);
+		String hql = "from Topic t where t.topType = 1 and t.board = ? and t.isDeleted = false";
+		return list(hql, board);
 	}
-
 	@Override
 	public Page<Topic> findTopicByBoard(Board board) {
-		String hql = "from Topic t where t.board = ? and t.topType = 0";
+		String hql = "from Topic t where t.board = ? and t.topType = 0 and t.isDeleted = false";
 		return this.findPage(hql, board);
 	}
 

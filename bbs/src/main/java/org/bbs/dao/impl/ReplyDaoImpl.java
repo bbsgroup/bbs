@@ -12,7 +12,7 @@ public class ReplyDaoImpl extends BaseDaoImpl<Reply> implements ReplyDao {
 
 	@Override
 	public Page<Reply> findReplyByTopic(Topic topic) {
-		String hql = "from Reply r where r.topic = ?";
+		String hql = "from Reply r where r.topic = ? and r.status = true";
 		return this.findPage(hql, topic);
 	
 	}

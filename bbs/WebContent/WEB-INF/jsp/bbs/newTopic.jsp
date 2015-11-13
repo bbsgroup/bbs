@@ -28,7 +28,8 @@
 		editor = K.create('textarea[name="content"]', {
 			resizeType : 1,
 			allowPreviewEmoticons : false,
-			allowImageUpload : false,
+			allowImageUpload : true,
+			uploadJson : '${pageContext.request.contextPath}/file/upload',
 			items : [ 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor',
 					'bold', 'italic', 'underline', 'removeformat', '|',
 					'justifyleft', 'justifycenter', 'justifyright',
@@ -36,6 +37,7 @@
 					'emoticons', 'image', 'link' ]
 		});
 	});
+	
 </script>
 <body onkeydown="if(event.keyCode==27) return false;">
 	<div class="wrap">

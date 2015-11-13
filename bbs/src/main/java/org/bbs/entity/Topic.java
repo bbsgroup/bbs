@@ -51,10 +51,10 @@ public class Topic {
 	private String colseUsername;
 	private String colseReason;
 	private Boolean sssence = Boolean.FALSE;
-	private String essenceUsername;
+	private String sessenceUsername;
 	private String sssenceReason;
 	private Date sssenceDate;
-	private Boolean idDeleted = Boolean.FALSE;
+	private Boolean isDeleted = Boolean.FALSE;
 	private String deleteUsername;
 	private String deleteReason;
 	private Date deleteTime;
@@ -268,12 +268,12 @@ public class Topic {
 		this.sssence = sssence;
 	}
 
-	public String getEssenceUsername() {
-		return essenceUsername;
+	public String getSessenceUsername() {
+		return sessenceUsername;
 	}
 
-	public void setEssenceUsername(String essenceUsername) {
-		this.essenceUsername = essenceUsername;
+	public void setSessenceUsername(String essenceUsername) {
+		this.sessenceUsername = essenceUsername;
 	}
 
 	public String getSssenceReason() {
@@ -292,12 +292,12 @@ public class Topic {
 		this.sssenceDate = sssenceDate;
 	}
 
-	public Boolean getIdDeleted() {
-		return idDeleted;
+	public Boolean getIsDeleted() {
+		return isDeleted;
 	}
 
-	public void setIdDeleted(Boolean idDeleted) {
-		this.idDeleted = idDeleted;
+	public void setIsDeleted(Boolean idDeleted) {
+		this.isDeleted = idDeleted;
 	}
 
 	public String getDeleteUsername() {

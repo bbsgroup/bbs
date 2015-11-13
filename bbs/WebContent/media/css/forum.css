@@ -362,7 +362,7 @@ SPAN.passed {
 	BORDER: #ddd 1px solid; PADDING: 1px; BACKGROUND: #FFF; MARGIN-BOTTOM: 10px
 }
 .mainbox H1 {
-	PADDING-LEFT: 1em; BACKGROUND: url(/media/images/header_bg.gif) repeat-x 0px 0px; COLOR: #fff; LINE-HEIGHT: 30px
+	PADDING-LEFT: 1em; BACKGROUND: url(./images/header_bg.gif) repeat-x 0px 0px; COLOR: #fff; LINE-HEIGHT: 30px
 }
 .mainbox H3 {
 	PADDING-LEFT: 1em; BACKGROUND: url(./images/header_bg.gif) repeat-x 0px 0px; COLOR: #fff; LINE-HEIGHT: 29px; padding-bottom:1px
