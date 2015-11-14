@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -136,9 +137,13 @@ function checkfield(theform) {
 										${board.moderators }
 									</p>
 								</th>
-								<td class="nums">0</td>
-								<td class="nums">0</td>
-								<td class="lastpost">无</td>
+								<td class="nums">${board.topicTimes }</td>
+								<td class="nums">${board.replyTimes }</td>
+								<td class="lastpost"><em><a href="${pageContext.request.contextPath}/topic?id=${board.lastReplyId}&pageNum=<%= Integer.MAX_VALUE%>">
+											<fmt:formatDate value="${board.lastPostTime}"
+												pattern="yyyy-MM-dd HH:mm" />
+
+									</a></em></td>
 							</tr>
 
 						</c:forEach>

@@ -224,7 +224,11 @@ public class ForumController {
 			attach.setTopic(topic);
 			attachmentService.update(attach);
 		}
-
+		board.setTopicTimes(board.getTopicTimes()+1);
+		board.setLastPostTime(new Date());
+		board.setLastReplyId(topic.getId());
+		board.setLastReplyPage(1);
+		boardService.update(board);
 		model.addAttribute("board", board);
 
 		return "redirect:/board?id=" + board.getId();
@@ -242,6 +246,10 @@ public class ForumController {
 		User user = (User) session.getAttribute("currentUser");
 		Board board = boardService.get(id);
 		Group group = null;
+		if(board==null){
+			throw new BusinessException("该板块不存在");
+		}
+		
 		if (user == null) {
 			group = groupService.get(1l);
 		} else {
@@ -340,8 +348,10 @@ public class ForumController {
 		topicService.update(topic);
 		model.addAttribute("topic", topic);
 		model.addAttribute("isModerator", PermissionUtil.isModerator(user, board));
+		board.setReplyTimes(board.getReplyTimes() + 1);
 		board.setLastPostTime(new Date());
-		board.setTopicTimes(board.getReplyTimes() + 1);
+		board.setLastReplyId(topic.getId());
+		board.setLastReplyPage(SystemContext.getPageNum());
 		boardService.update(board);
 
 		Page<Reply> page = replyService.findReplyByTopic(topic);

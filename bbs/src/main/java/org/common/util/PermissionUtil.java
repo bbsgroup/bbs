@@ -2,6 +2,7 @@ package org.common.util;
 
 import org.bbs.common.Contants;
 import org.bbs.entity.Board;
+import org.bbs.entity.Category;
 import org.bbs.entity.Group;
 import org.bbs.entity.User;
 
@@ -93,17 +94,28 @@ public class PermissionUtil {
 	}
 
 	public static boolean isModerator(User user, Board board) {
+		
+		
 		if(user==null){
 			return false;
 		}
+		
+		
 		Group group = user.getGroup();
+		Category category = board.getCategory();
+		String[] list1 = category.getModerators().split(",");
+		String[] list2 = board.getModerators().split(",");
 		if (group.getId() == 6||group.getId()==5) // 管理员
 			return true;
-		if (board.getCategory().getModerators().contains(user.getUsername()))
-			return true;
-
-		if (board.getModerators().contains(user.getUsername()))
-			return true;
+		for(String item:list1){
+			if (item.equals(user.getUsername()))
+				return true;
+		}
+		for(String item:list2){
+			if (item.equals(user.getUsername()))
+				return true;
+		}
+	
 
 		return false;
 	}

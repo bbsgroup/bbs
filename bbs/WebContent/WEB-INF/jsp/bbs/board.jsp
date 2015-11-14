@@ -28,7 +28,11 @@
 					${board.name }
 				</p>
 				<p>
-					版主: <a href="#" target="_blank"></a>
+					版主: <a href="#" target="_blank"> <c:if
+							test="${empty board.moderators}">空缺中</c:if> ${board.moderators }
+					</a>
+
+
 				</p>
 			</div>
 
@@ -196,7 +200,8 @@
 
 											</c:when>
 
-											<c:otherwise>
+											<c:otherwise>						
+											
 												<img
 													src="${pageContext.request.contextPath}/media/images/folder_common.gif">
 
@@ -275,7 +280,8 @@
 
 								<td class="nums"><span> ${topic.replyTimes}</span> / <em>${topic.viewTimes}</em></td>
 
-								<td class="lastpost"><em><a href="javascript:void(0);">
+								<td class="lastpost"><em><a
+										href="${pageContext.request.contextPath }/topic?id=${topic.id}&pageNum=<%=Integer.MAX_VALUE %>">
 											<fmt:formatDate value="${topic.lastReplyTime}"
 												pattern="yyyy-MM-dd HH:mm" />
 

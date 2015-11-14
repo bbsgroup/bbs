@@ -1,6 +1,7 @@
 package org.bbs.entity;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -28,11 +29,12 @@ public class Category implements Comparable<Category> {
 
 	private Boolean status = Boolean.TRUE;
 
-	private String moderators;
+	private String moderators="";
 
 	private long sort;
 
 	private List<Board> boards = new LinkedList<Board>();
+
 
 
 	@Id
@@ -96,5 +98,9 @@ public class Category implements Comparable<Category> {
 		return -1;
 
 	}
+
+	
+	
+	
 
 }

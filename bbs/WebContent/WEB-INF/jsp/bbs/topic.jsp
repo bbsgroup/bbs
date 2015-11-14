@@ -79,10 +79,7 @@
 								</div>
 
 
-								<dl class="profile">
-									<dt>帖子&nbsp;</dt>
-									<dd>36&nbsp;</dd>
-								</dl>
+								
 								<ul>
 									<li class="friend"><a href="javascript:void(0);"
 										target="_blank">加为好友</a></li>

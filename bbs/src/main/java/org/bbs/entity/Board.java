@@ -28,7 +28,7 @@ public class Board implements Comparable<Board> {
 
 	private Category category;
 
-	private String moderators;
+	private String moderators="";
 
 	private long sort;
 
@@ -45,6 +45,11 @@ public class Board implements Comparable<Board> {
 	private String uploadGroups;
 		
 	private Date lastPostTime;
+	
+	private Long lastReplyId;
+	
+	private int lastReplyPage;
+
 	
 	private long topicTimes =0;
 	
@@ -183,6 +188,24 @@ public class Board implements Comparable<Board> {
 	public void setReplyTimes(long replyTimes) {
 		this.replyTimes = replyTimes;
 	}
+
+	public Long getLastReplyId() {
+		return lastReplyId;
+	}
+
+	public void setLastReplyId(Long lastReplyId) {
+		this.lastReplyId = lastReplyId;
+	}
+
+	public int getLastReplyPage() {
+		return lastReplyPage;
+	}
+
+	public void setLastReplyPage(int lastReplyPage) {
+		this.lastReplyPage = lastReplyPage;
+	}
+	
+	
 	
 	
 
