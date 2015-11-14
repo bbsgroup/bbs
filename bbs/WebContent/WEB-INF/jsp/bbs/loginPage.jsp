@@ -53,7 +53,7 @@ if(self.parent.frames.length != 0) {
 						<TR>
 							<TH><LABEL for=pwd1>密码</LABEL></TH>
 							<TD><INPUT id=pwd1 tabIndex=5 type=password size=25
-								name=password> &nbsp;<A href="/ejforum/findpwd.jsp">忘记密码</A>
+								name=password> &nbsp;<A href="${pageContext.request.contextPath}/forum/user/forget_password">忘记密码</A>
 								<font color="red"><c:if test="${not empty passwordError}">
 										<c:out value="${passwordError }" />
 									</c:if></font>

@@ -206,7 +206,10 @@ public class UserController {
 	
 	
 	@RequestMapping(value = "/my_msg", method = RequestMethod.GET)
-	public String my_msg(Model model, HttpSession session) {
+	public String my_msg(Model model, HttpSession session,String action) {
+		if(action!=null){
+			return "bbs/my_msg_"+action;
+		}
 		return "bbs/my_msg";
 	}
 	
@@ -220,7 +223,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/my_friends", method = RequestMethod.GET)
-	public String my_friends(Model model, HttpSession session) {
+	public String my_friends(Model model, HttpSession session,String action) {
+		if(action!=null){
+			return "bbs/my_friends_"+action;
+		}
 		return "bbs/my_friends";
 	}
 	
@@ -338,14 +344,14 @@ public class UserController {
 	 * @param currentUser
 	 * @return
 	 */
-	@RequestMapping(value = "/forgetPasswordPage", method = RequestMethod.GET)
+	@RequestMapping(value = "/forget_password", method = RequestMethod.GET)
 	public String forgetPasswordPage(Model model, HttpSession session,
 			String username) {
 		if (!this.isLogin(session, "currentUser")) {
 			model.addAttribute("error", "您已经登录了喔，怎么会忘记密码呢");
-			return "test/error";
+			return "error/error";
 		}
-		return "test/forgetPasswordPage";
+		return "bbs/forget_password";
 
 	}
 
@@ -394,9 +400,9 @@ public class UserController {
 	 */
 	private boolean isLogin(HttpSession session, String currentUser) {
 		if (session.getAttribute(currentUser) != null) {
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	/**

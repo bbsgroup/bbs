@@ -3,7 +3,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <HTML xmlns="http://www.w3.org/1999/xhtml">
 <HEAD>
-<TITLE>${userInfo.user.username }的个人信息页 - unnamed</TITLE>
+<TITLE>${userInfo.user.username }的个人信息页- unnamed</TITLE>
 <META http-equiv=Content-Type content="text/html;charset=UTF-8">
 
 <LINK href="${pageContext.request.contextPath}/media/css/forum.css"
@@ -33,7 +33,8 @@
 				<DIV class=mainbox>
 					<H2>
 						<label><a title="RSS Feed" href="./rss?uid=aaa&page=1"
-							target=_blank> <IMG alt="RSS Feed" src="${pageContext.request.contextPath}/media/images/rss.gif"
+							target=_blank> <IMG alt="RSS Feed"
+								src="${pageContext.request.contextPath}/media/images/rss.gif"
 								border="0" style="margin-top: 8px; margin-right: 7px;"></a></label> <a
 							href="./uspace.jsp?uid=aaa&act=topic" class="caton">主题</a>&nbsp;&nbsp;
 						<a href="./uspace.jsp?uid=aaa&act=reply" class="catoff">回复</a>
@@ -42,7 +43,14 @@
 						<TBODY>
 
 							<TR>
-								<TD><p>&nbsp;没有记录</p></TD>
+								<TD><LABEL><A href="./forum-1.html" target="_blank">默认版块</A>&nbsp;&nbsp;|&nbsp;&nbsp;2015-11-13
+										16:26 </LABEL> <A href="./topic-1.html" target=_blank class="subject">1.
+										hahaha</A>
+
+									<p>
+										最后发表 <A href="./topic-1.html?page=999" target="_blank">2015-11-13
+											16:38</A>&nbsp;&nbsp;|&nbsp;&nbsp;回复(2) &nbsp;|&nbsp;&nbsp;查看(0)
+									</p></TD>
 							</TR>
 
 						</TBODY>
@@ -64,10 +72,14 @@
 						<LI class="side_info"><H3>${userInfo.user.username }</H3></LI>
 						<LI class="side_info">
 							<H3>
-								<IMG src="${pageContext.request.contextPath}/media/images/user_add.gif" align="absmiddle" border="0">&nbsp;
-								<A href="./member/my_addfriend.jsp?uid=aaa" target=_blank>加为好友</A>&nbsp;&nbsp;
-								<IMG src="${pageContext.request.contextPath}/media/images/sendsms.gif" align="absmiddle" border="0">&nbsp;
-								<A href="./member/sms_compose.jsp?uid=aaa" target=_blank>发短消息</A>
+								<IMG
+									src="${pageContext.request.contextPath}/media/images/user_add.gif"
+									align="absmiddle" border="0">&nbsp; <A
+									href="./member/my_addfriend.jsp?uid=aaa" target=_blank>加为好友</A>&nbsp;&nbsp;
+								<IMG
+									src="${pageContext.request.contextPath}/media/images/sendsms.gif"
+									align="absmiddle" border="0">&nbsp; <A
+									href="./member/sms_compose.jsp?uid=aaa" target=_blank>发短消息</A>
 							</H3>
 						</LI>
 					</UL>

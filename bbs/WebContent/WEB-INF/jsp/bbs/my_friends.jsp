@@ -29,10 +29,62 @@
 
 	<%@include file="head.jsp"%>
 		<DIV id=nav>
-				<A href="${pageContext.request.contextPath}/index">首页</A> &raquo;&nbsp; 我的话题
+				<A href="${pageContext.request.contextPath}/index">首页</A> &raquo;&nbsp; 我的好友
 		</DIV>
 		<DIV class=container>
-		
+		<DIV class=content>
+<FORM name="myform" onSubmit="return validate(this)" action="./my_friends.jsp?mod=del" method=post>
+<DIV class=mainbox style="padding-bottom:5px">
+<H1>我的好友</H1>
+<UL class="tabs headertabs">
+  <LI class="additem"><A href="${pageContext.request.contextPath}/forum/user/my_friends?action=add">添加好友</A> </LI>
+  <LI class="current"><A href="${pageContext.request.contextPath}/forum/user/my_friends">我的好友</A> </LI></UL>
+<TABLE cellSpacing=0 cellPadding=0 width="100%">
+  <THEAD>
+  <TR>
+    <TD class=selector>&nbsp;</TD>
+    <TD>用户名</TD>
+    <TD width="120">昵称</TD>
+    <TD width="120">备注</TD>
+    <TD class=time>加入时间</TD></TR></THEAD>
+  <TBODY>
+	
+  <TR>
+    <TD colspan="5">没有记录</TD></TR>
+
+</TBODY></TABLE>
+<DIV class="management"><LABEL><INPUT class=checkbox id=chkall onclick=checkall(this.form) 
+	type=checkbox name=chkall> 全选</LABEL><BUTTON name=delfriends type=submit>删除</BUTTON></DIV>
+</DIV></FORM>
+<DIV class=pages_btns>
+
+</DIV>
+<SCRIPT type=text/javascript>
+	function validate(theform) 
+	{
+		var hasCheckedID = false;
+		if (typeof(theform.friendID) != "undefined")
+		{
+			if (typeof(theform.friendID.length) != "undefined")
+			{
+				for (i=0; i<theform.friendID.length; i++){
+					if (theform.friendID[i].checked){
+						hasCheckedID = true;
+						break;
+					}
+				}
+			}
+			else if (theform.friendID.checked)
+				hasCheckedID = true;
+		}
+		if (!hasCheckedID){
+			alert("请至少选中一条记录");
+			return false;
+		}
+		theform.submit();
+	}
+</SCRIPT>
+</DIV>
 		
 		
 		

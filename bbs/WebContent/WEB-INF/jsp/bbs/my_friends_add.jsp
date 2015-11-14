@@ -30,63 +30,48 @@
 		<%@include file="head.jsp"%>
 		<DIV id=nav>
 			<A href="${pageContext.request.contextPath}/index">首页</A>
-			&raquo;&nbsp; 我的收藏
+			&raquo;&nbsp; 我的好友
 		</DIV>
 		<DIV class=container>
 			<DIV class=content>
-				<FORM name="myform" onSubmit="return validate(this)"
-					action="./my_favors.jsp?mod=del" method=post>
-					<DIV class=mainbox style="padding-bottom: 5px">
-						<H1>我的收藏</H1>
-						<UL class="tabs headertabs">
-							<LI class="additem"><A href="my_addfavor.jsp">添加收藏</A></LI>
-							<LI class="current"><A href="my_favors.jsp">我的收藏夹</A></LI>
+				<FORM name="friendform" onSubmit="return validate(this)"
+					action="../perform.jsp?act=member_friend_add" method=post>
+					<DIV class=mainbox>
+						<H1>我的好友</H1>
+						<UL class="tabs">
+							<LI  class="current additem"><A href="${pageContext.request.contextPath}/forum/user/my_friends?action=add">添加好友</A>
+							</LI>
+							<LI ><A href="${pageContext.request.contextPath}/forum/user/my_friends">我的好友</A></LI>
 						</UL>
-						<TABLE cellSpacing=0 cellPadding=0 width="100%">
-							<THEAD>
-								<TR>
-									<TD class=selector>&nbsp;</TD>
-									<TD>标题</TD>
-									<TD width="120">所属版块&nbsp;/&nbsp;网站</TD>
-									<TD class=time>创建时间</TD>
-								</TR>
-							</THEAD>
+						<TABLE cellSpacing=0 cellPadding=0>
 							<TBODY>
-
 								<TR>
-									<TD colspan="4">没有记录</TD>
+									<TH><LABEL for=friendID>用户名</LABEL></TH>
+									<TD><INPUT id=friendID tabIndex=1 size=50 name=friendID
+										maxlength="15" value=""></TD>
 								</TR>
-
+								<TR>
+									<TH><LABEL for=remark>备注</LABEL></TH>
+									<TD><INPUT id=remark tabIndex=2 size=50 name=remark
+										maxlength="50" value=""></TD>
+								</TR>
+								<TR class=btns>
+									<TH>&nbsp;</TH>
+									<TD height="30"><BUTTON class=submit id=postsubmit
+											tabIndex=7 name=postsubmit type=submit>提交</BUTTON></TD>
+								</TR>
 							</TBODY>
 						</TABLE>
-						<DIV class="management">
-							<LABEL><INPUT class=checkbox id=chkall
-								onclick=checkall(this.form) type=checkbox name=chkall>
-								全选</LABEL>
-							<BUTTON name=delfavors type=submit>删除</BUTTON>
-						</DIV>
 					</DIV>
 				</FORM>
-				<DIV class=pages_btns></DIV>
 				<SCRIPT type=text/javascript>
 					function validate(theform) {
-						var hasCheckedID = false;
-						if (typeof (theform.markID) != "undefined") {
-							if (typeof (theform.markID.length) != "undefined") {
-								for (i = 0; i < theform.markID.length; i++) {
-									if (theform.markID[i].checked) {
-										hasCheckedID = true;
-										break;
-									}
-								}
-							} else if (theform.markID.checked)
-								hasCheckedID = true;
-						}
-						if (!hasCheckedID) {
-							alert("请至少选中一条记录");
+						if (trim(theform.friendID.value) == '') {
+							alert("请输入好友的用户名。");
+							theform.friendID.focus();
 							return false;
 						}
-						theform.submit();
+						return true;
 					}
 				</SCRIPT>
 			</DIV>
