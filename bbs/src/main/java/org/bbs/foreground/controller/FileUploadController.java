@@ -45,7 +45,7 @@ public class FileUploadController {
 			String savePath = request.getServletContext().getRealPath("/")
 					+ "media/attached/";
 
-			// 文件保存目录URL
+			// 文件保存目录URL 
 			String saveUrl = request.getContextPath() + "/media/attached/";
 
 			// 定义允许上传的文件扩展名

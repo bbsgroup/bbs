@@ -50,16 +50,11 @@
 							theform.pwd2.focus();
 							return false;
 						}
-						theform.pwd.value = hex_md5(pwd);
-						theform.oldpwd.value = hex_md5(trim(theform.oldpwd1.value));
-						theform.oldpwd1.value = '';
-						theform.pwd1.value = '';
-						theform.pwd2.value = '';
 						return true;
 					}
 				</SCRIPT>
 				<FORM name="settings" onSubmit="return validate(this)"
-					action="../perform.jsp?act=member_chgpwd" method=post>
+					action="${pageContext.request.contextPath}/forum/user/resetPassword" method=post>
 					<DIV class="mainbox formbox">
 						<H1>编辑个人资料</H1>
 						<UL class="tabs">

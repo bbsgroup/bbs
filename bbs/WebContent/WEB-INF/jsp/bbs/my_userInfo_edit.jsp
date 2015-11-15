@@ -51,7 +51,7 @@
 					}
 				</SCRIPT>
 				<FORM name="settings" onSubmit="return validate(this)"
-					action="../perform.jsp?act=member_profile" method=post>
+					action="${pageContext.request.contextPath}/forum/user/editUserInfo" method=post>
 					<DIV class="mainbox formbox">
 						<H1>编辑个人资料</H1>
 						<UL class="tabs">
@@ -80,29 +80,18 @@
 								<TR>
 									<TH><LABEL for=birth>生日</LABEL></TH>
 									<TD><INPUT id=birth maxlength=10 size=30 value=1970-01-01
-										name=birth> (&nbsp;格式为 yyyy-mm-dd , 年-月-日&nbsp;)</TD>
+										name=birthday> (&nbsp;格式为 yyyy-mm-dd , 年-月-日&nbsp;)</TD>
 								</TR>
 								<TR>
 									<TH><LABEL for=city>来自</LABEL></TH>
-									<TD><INPUT id=city size=30 name=city maxlength="20"></TD>
+									<TD><INPUT id=city size=30 name=nativePlace maxlength="20"></TD>
 								</TR>
-								<TR>
-									<TH><LABEL for=webpage>个人网站</LABEL></TH>
-									<TD><INPUT id=webpage size=30 name=webpage maxlength="60"></TD>
-								</TR>
-								<TR>
-									<TH><LABEL for=icq>QQ/MSN</LABEL></TH>
-									<TD><INPUT id=icq size=30 name=icq maxlength="40"></TD>
-								</TR>
+								
 								<TR>
 									<TH><LABEL for=email>Email</LABEL></TH>
 									<TD><INPUT id=email size=30 name=email maxlength="40"></TD>
 								</TR>
-								<TR>
-									<TH></TH>
-									<TD><INPUT id=isMailPub class=checkbox type=checkbox
-										value='T' name=isMailPub> Email 地址可见 &nbsp;</TD>
-								</TR>
+						
 								<TR>
 									<TH>&nbsp;</TH>
 									<TD height="30"><BUTTON class=submit name=editsubmit

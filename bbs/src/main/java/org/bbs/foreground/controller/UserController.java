@@ -197,8 +197,8 @@ public class UserController {
 		
 		UserInfo currentuserInfo = userInfoService.findByUserId(currentUser.getId());
 		if (currentuserInfo == null) {
-			model.addAttribute("error", "非法操作");
-			return "error/error";
+			model.addAttribute("message", "非法操作");
+			return "bbs/msg";
 		}
 		model.addAttribute("userInfo", currentuserInfo);
 		return "bbs/userInfo";
@@ -250,17 +250,22 @@ public class UserController {
 	@RequestMapping(value = "/editUserInfo", method = RequestMethod.POST)
 	public String updateUserInfo(HttpServletRequest request, Model model,
 			HttpSession session, UserInfo userInfo,
-			@ModelAttribute("currentUser") User currentUser) {
+			@ModelAttribute("currentUser") User currentUser ,String email,String nickname) {
 		UserInfo currentUserInfo = userInfoService.findByUserId(currentUser
 				.getId());
 		currentUserInfo.setSex(userInfo.getSex());
 		currentUserInfo.setBirthday(userInfo.getBirthday());
 		currentUserInfo.setNativePlace(userInfo.getNativePlace());
-		currentUserInfo.setPersonSign(userInfo.getPersonSign());
-		currentUserInfo.setShowHead(userInfo.isShowHead());
+	//	currentUserInfo.setPersonSign(userInfo.getPersonSign());
+	//	currentUserInfo.setShowHead(userInfo.isShowHead());
 		userInfoService.update(currentUserInfo);
+		User user =  userService.get(currentUser.getId());
+		user.setEmail(email);
+		user.setNickname(nickname);
+		userService.update(user);
 		model.addAttribute("userInfo", currentUserInfo);
-		return "redirect:myUserInfo";
+		model.addAttribute("currentUser", currentUser);
+		return "redirect:my_userInfo";
 
 	}
 
@@ -348,8 +353,8 @@ public class UserController {
 	public String forgetPasswordPage(Model model, HttpSession session,
 			String username) {
 		if (!this.isLogin(session, "currentUser")) {
-			model.addAttribute("error", "您已经登录了喔，怎么会忘记密码呢");
-			return "error/error";
+			model.addAttribute("message", "您已经登录了喔，怎么会忘记密码呢");
+			return "bbs/msg";
 		}
 		return "bbs/forget_password";
 
@@ -384,10 +389,22 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
 	public String resetPassword(Model model,
-			@ModelAttribute("currentUser") User currentUser, String username,
-			String passwordAnswer) {
-
-		return "test/login";
+			@ModelAttribute("currentUser") User currentUser, 
+			String oldpwd1,String pwd1) {
+		try {
+			if(currentUser.getPassword().equals(SecurityUtil.md5(oldpwd1 + currentUser.getSalt()))){
+				userService.resetPassword(currentUser.getUsername(), pwd1);
+				model.addAttribute("message", "修改密码成功");
+				return "bbs/msg";
+			}else {
+				model.addAttribute("message", "原密码不正确，密码失败");
+				return "bbs/msg";
+			}
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		
+		return "bbs/msg";
 
 	}
 
