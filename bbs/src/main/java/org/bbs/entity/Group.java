@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class Group {
 	private Long id; // 编号
 	private String name; // 用户组名
-	private String permission; //权限
+	private String permission=""; //权限
 	
 	@Id
 	@GeneratedValue

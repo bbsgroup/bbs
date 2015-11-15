@@ -77,6 +77,11 @@ public class ForumController {
 		return "bbs/index";
 
 	}
+	
+	@RequestMapping("/avatorDemo")
+	public String avatorDemo(){
+		return "demo";
+	}
 
 	@RequestMapping(value = "/newTopic", method = RequestMethod.GET)
 	private String toNewTopic(Model model, Long id, HttpSession session) throws BusinessException {
@@ -255,6 +260,7 @@ public class ForumController {
 		} else {
 			group = user.getGroup();
 		}
+		System.out.println(group.getId());
 		if (!PermissionUtil.checkPermission(user, group, boardService.get(id), Contants.PERMIT_VISIT)) {
 			throw new BusinessException("你所在的用户组没有该操作的权限");
 		}
