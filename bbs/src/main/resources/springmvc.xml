@@ -48,9 +48,9 @@
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/" />
-		<property name="suffix" value=".jsp" >
-	<!--	<property name="allowSessionOverride" value="true"> --> 
-	 <!-- 这里允许复写session中的对象   -->
+		<property name="suffix" value=".jsp">
+			<!-- <property name="allowSessionOverride" value="true"> -->
+			<!-- 这里允许复写session中的对象 -->
 		</property>
 	</bean>
 
@@ -58,10 +58,10 @@
 	<!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> 
 		<property name="exceptionMappings"> <props> <prop key="org.hxj.core.exception.MyException">error</prop> 
 		</props> </property> </bean> -->
-		
-<!-- 	<bean id="exceptionHandler" class="org.base.exception.MyExceptionHandler"/>   -->
-		
-		
+
+	<!-- <bean id="exceptionHandler" class="org.base.exception.MyExceptionHandler"/> -->
+
+
 
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -69,17 +69,11 @@
 	</bean>
 
 
-<!-- 	<bean id="exceptionResolver"
-		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		<property name="exceptionMappings">
-			<props>
-				<prop key="org.hxj.core.exception.MyException">error</prop>
-				 <prop key="org.base.exception.SessionTimeoutException">redirect:/forum/user/loginPage</prop>  
-			</props>
-		</property>
-	</bean>
- -->
-<!-- <bean id="exceptionHandler" class="org.base.exception.MyExceptionHandler"/>  -->
+	<!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> 
+		<property name="exceptionMappings"> <props> <prop key="org.hxj.core.exception.MyException">error</prop> 
+		<prop key="org.base.exception.SessionTimeoutException">redirect:/forum/user/loginPage</prop> 
+		</props> </property> </bean> -->
+	<!-- <bean id="exceptionHandler" class="org.base.exception.MyExceptionHandler"/> -->
 
 
 	<!-- 拦截器拦截用户是否登录，只对/forum/user**后的东西拦截 -->
@@ -109,6 +103,11 @@
 					</list>
 				</property>
 			</bean>
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/**" />
+			<bean class="org.bbs.interceptor.AdminInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
 

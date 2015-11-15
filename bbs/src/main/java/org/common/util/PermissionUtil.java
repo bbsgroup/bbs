@@ -9,6 +9,8 @@ import org.bbs.entity.User;
 public class PermissionUtil {
 
 	public static boolean checkPermission(User user,Group group, Board board, String permission) {
+		
+		
 		if (!group.getPermission().contains(permission)) {
 			return false;
 		} else {
