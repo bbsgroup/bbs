@@ -38,8 +38,6 @@ alert(callbackdata);
  </head>
  <body>
   <div id="altContent">
-
-
 <OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
 codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0"
 WIDTH="650" HEIGHT="450" id="myMovieName">
@@ -52,10 +50,7 @@ NAME="myMovieName" ALIGN="" TYPE="application/x-shockwave-flash" allowScriptAcce
 PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">
 </EMBED>
 </OBJECT>
- 
-
   </div>
-
   <div id="avatar_priview"></div>
 
 </body>

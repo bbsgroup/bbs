@@ -25,7 +25,7 @@
 		编辑个人资料
 		<DIV class=container>
 			<DIV class=content>
-				<SCRIPT type=text/javascript>
+ 				<SCRIPT type=text/javascript>
 					var encoding = 'gbk';
 					function validate(theform) {
 						if (uc_strlen(theform.brief.value) > 200) {
@@ -78,12 +78,52 @@
 						}
 					}
 					function switchavatarlist() {
-						if ($("avatardiv").attr("display") == 'none')
-							$("avatardiv").attr("display","block") ;
-						else
-							$("avatardiv").attr("display","none") ;
+						jQuery("#avatardiv").toggle();
+				
 					}
 				</SCRIPT>
+				
+				<script type="text/javascript">
+											function uploadevent(status,
+													picUrl, callbackdata) {
+												alert(picUrl); //后端存储图片
+												jQuery("#urlavatar").text(picUrl);
+												alert(callbackdata);
+												status += '';
+												switch (status) {
+												case '1':
+													var time = new Date()
+															.getTime();
+													var filename162 = picUrl
+															+ '_162.jpg';
+													var filename48 = picUrl
+															+ '_48.jpg';
+													var filename20 = picUrl
+															+ "_20.jpg";
+
+													document
+															.getElementById('avatar_priview').innerHTML = "头像1 : <img src='"
+															+ filename162
+															+ "?"
+															+ time
+															+ "'/> <br/> 头像2: <img src='"
+															+ filename48
+															+ "?"
+															+ time
+															+ "'/><br/> 头像3: <img src='"
+															+ filename20
+															+ "?"
+															+ time + "'/>";
+
+													break;
+												case '-1':
+													window.location.reload();
+													break;
+												default:
+													window.location.reload();
+												}
+											}
+										</script>
 				<FORM name="settings" onSubmit="return validate(this)"
 					action="../perform.jsp?act=member_special" method=post
 					enctype="multipart/form-data">
@@ -92,7 +132,7 @@
 						<UL class="tabs">
 							<LI><A
 								href="${pageContext.request.contextPath}/forum/user/my_userInfo?action=changePassword">修改密码</A></LI>
-							<LI ><A
+							<LI><A
 								href="${pageContext.request.contextPath}/forum/user/my_userInfo?action=edit">基本资料</A></LI>
 							<LI class=current><A
 								href="${pageContext.request.contextPath}/forum/user/my_userInfo?action=personal">个性化资料</A></LI>
@@ -227,9 +267,32 @@
 													</TBODY>
 												</TABLE>
 											</DIV>
-										</DIV> <BR> <INPUT type=file
+										</DIV> <BR> <!-- <INPUT type=file
 										onchange="customavatar(this.value);" size=60 id=avatarcustom
-										name=avatarcustom style='margin-top: 3px'></TD>
+										name=avatarcustom style='margin-top: 3px'> -->
+										<div id="altContent" style='margin-top: 3px'>
+											<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+												codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0"
+												WIDTH="650" HEIGHT="450" id="myMovieName">
+												<PARAM NAME=movie
+													VALUE="${pageContext.request.contextPath }/media/uploadAvator/avatar.swf">
+												<PARAM NAME=quality VALUE=high>
+												<PARAM NAME=bgcolor VALUE=#FFFFFF>
+												<param name="flashvars"
+													value="uploadUrl=${pageContext.request.contextPath }/file/uploadAvator&uploadSrc=false" />
+												<EMBED
+													src="${pageContext.request.contextPath }/media/uploadAvator/avatar.swf"
+													quality=high bgcolor=#FFFFFF WIDTH="650" HEIGHT="450"
+													wmode="transparent"
+													flashVars="uploadUrl=${pageContext.request.contextPath }/file/uploadAvator&uploadSrc=false"
+													NAME="myMovieName" ALIGN=""
+													TYPE="application/x-shockwave-flash"
+													allowScriptAccess="always"
+													PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">
+												</EMBED>
+											</OBJECT>
+										</div> 
+										<div id="avatar_priview" ></div></TD>
 								</TR>
 								<TR>
 									<TH vAlign=top><LABEL for=brief>自我介绍&nbsp;/&nbsp;个性签名<BR />(&nbsp;200
@@ -252,7 +315,7 @@
 				$('urlavatar').value = "";
 				previewavatar($('urlavatar').value);
 			</script>
-					<%@include file="my_space.jsp"%>
+			<%@include file="my_space.jsp"%>
 		</DIV>
 	</DIV>
 	<%@include file="foot.jsp"%>
