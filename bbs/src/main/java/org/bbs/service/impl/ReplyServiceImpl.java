@@ -24,6 +24,12 @@ public class ReplyServiceImpl extends BaseServiceImpl<Reply>implements ReplyServ
 	}
 
 	@Override
+	public Page<Reply> findReplyByUserId(Long id) {
+		
+		return replyDao.findReplyByUserId(id);
+	}
+
+	@Override
 	public long getMaxFloor(Topic topic) {
 	
 		return replyDao.getMaxFloor(topic);

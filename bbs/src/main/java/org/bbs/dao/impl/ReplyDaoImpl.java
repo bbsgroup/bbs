@@ -27,5 +27,11 @@ public class ReplyDaoImpl extends BaseDaoImpl<Reply> implements ReplyDao {
 		return count;
 	}
 
+	@Override
+	public Page<Reply> findReplyByUserId(Long id) {
+		String hql = "from Reply r where r.author.id = ? and r.status = true";
+		return this.findPage(hql, id);
+	}
+
 
 }

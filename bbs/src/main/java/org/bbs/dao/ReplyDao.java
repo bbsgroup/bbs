@@ -10,4 +10,6 @@ public interface ReplyDao extends BaseDao<Reply> {
 	public Page<Reply> findReplyByTopic(Topic topic);
 	
 	public long getMaxFloor(Topic topic);
+	
+	public Page<Reply> findReplyByUserId(Long id);
 }

@@ -57,7 +57,7 @@ public class Reply {
 		return author;
 	}
 
-	public void setAuthor(User autor) {
+	public void setAuthor(User author) {
 		this.author = author;
 	}
 

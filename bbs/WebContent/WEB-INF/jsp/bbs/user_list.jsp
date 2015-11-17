@@ -25,7 +25,8 @@
 
 		<DIV id=nav>
 			<!-- 这里要显示上一页的路径 -->
-				<A href="${pageContext.request.contextPath}/index">首页</A>&raquo;&nbsp; 会员列表
+			<A href="${pageContext.request.contextPath}/index">首页</A>&raquo;&nbsp;
+			会员列表
 		</DIV>
 		<DIV class=container style="padding-bottom: 0px">
 			<DIV class=mainbox>
@@ -46,9 +47,10 @@
 						<c:forEach items="${page.content}" var="userInfo">
 							<TR>
 								<c:if test="${ not empty currentUser}">
-									<TD><A href="${pageContext.request.contextPath}/forum/user/some_userInfo?userInfoId=${userInfo.userInfoId}" target="_blank"><font
-											color="green"><c:out
-													value="${userInfo.user.username }" /></A></font></TD>
+									<TD><A
+										href="${pageContext.request.contextPath}/forum/user/some_userInfo?userInfoId=${userInfo.userInfoId}"
+										target="_blank"><font color="green"><c:out
+													value="${userInfo.user.username }" /></font></A></TD>
 								</c:if>
 								<c:if test="${  empty currentUser}">
 									<TD><A href="javascript:void();" target="_blank"><c:out
@@ -68,6 +70,13 @@
 			</DIV>
 
 		</DIV>
+		<div class="pages_btns">
+
+
+			<%@ include file="/WEB-INF/jsp/common/bbspage.jspf"%>
+
+
+		</div>
 		<DIV id="footfilter" class=legend style="margin-top: 0px">
 			<form id="frmsearch" name="frmsearch"
 				action="${pageContext.request.contextPath}/forum/user/listUser"
@@ -76,37 +85,36 @@
 				<button type="submit">搜索</button>
 			</form>
 			<DIV style="padding-left: 2px" id="order">
-				<!-- 分页要怎么做？ --> <!-- 下面把a标签变成了一个锚 -->
-				排序方式: <a
-					href="javascript:void()" name="user.username" >用户名</a>
-				- <a
-					href="javascript:void()" name="user.group.id">用户组</a>
-				- <a
-					href="javascript:void()" name="totalPost">帖子数</a>
-				- <a
-					href="javascript:void()" name="lastLoginTime">上次访问</a>
-				- <a
-					href="javascript:void()" name="user.createDate">注册日期</a>
-				<input type="radio" name="order" value="asc" >升序&nbsp;&nbsp;
-				<input type="radio" name="order" value="desc" checked="checked" >降序
+				<!-- 分页要怎么做？ -->
+				<!-- 下面把a标签变成了一个锚 -->
+				排序方式: <a href="javascript:void()" name="user.username">用户名</a> - <a
+					href="javascript:void()" name="user.group.id">用户组</a> - <a
+					href="javascript:void()" name="totalPost">帖子数</a> - <a
+					href="javascript:void()" name="lastLoginTime">上次访问</a> - <a
+					href="javascript:void()" name="user.createDate">注册日期</a> <input
+					type="radio" name="order" value="asc">升序&nbsp;&nbsp; <input
+					type="radio" name="order" value="desc" checked="checked">降序
 			</DIV>
 		</DIV>
 		<SCRIPT
 			src="${pageContext.request.contextPath}/media/js/jquery-1.10.0.js"
 			type=text/javascript></SCRIPT>
 		<script type="text/javascript">
-			$(function(){
-			$("#order a").click(function(){
-				var url = "${pageContext.request.contextPath}/forum/user/listUser?sort=";
-				window.location.href=url+$(this).attr('name')+"&order="+$("input:checked").val();
-			});
+			$(function() {
+				$("#order a")
+						.click(
+								function() {
+									var url = "${pageContext.request.contextPath}/forum/user/listUser?sort=";
+									window.location.href = url
+											+ $(this).attr('name') + "&order="
+											+ $("input:checked").val();
+								});
 			})
-			
 		</script>
 	</DIV>
 	<UL class="popmenu_popup headermenu_popup" id=myspace_menu
 		style="DISPLAY: none;">
-		
+
 		<LI><A href="/ejforum/uspace.jsp?uid=aaa">个人信息页</A></LI>
 		<LI><A href="/ejforum/member/my_profile.jsp">编辑个人资料</A></LI>
 		<LI><A href="/ejforum/member/sms_list.jsp">短消息</A></LI>

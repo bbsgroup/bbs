@@ -18,4 +18,6 @@ public interface TopicDao extends BaseDao<Topic> {
 	
 	public Page<Topic> findTopicByBoard(Board board);
 
+	public Page<Topic> findTopicByUserId(Long id);
+
 }

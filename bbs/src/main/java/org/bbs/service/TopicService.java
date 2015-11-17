@@ -19,6 +19,6 @@ public interface TopicService extends BaseService<Topic> {
 	
 	public Page<Topic> findTopicByBoard(Board board);
 	
-		
+	public Page<Topic> findTopicByUserId(Long id);
     
 }

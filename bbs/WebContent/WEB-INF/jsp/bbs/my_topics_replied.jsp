@@ -37,10 +37,9 @@
 				<DIV class=mainbox>
 					<H1>我的话题</H1>
 					<UL class="tabs headertabs">
-						<LI class=current><A
-							href="${pageContext.request.contextPath}/forum/user/my_topics">我的主题</A>
-						</LI>
 						<LI><A
+							href="${pageContext.request.contextPath}/forum/user/my_topics">我的主题</A></LI>
+						<LI class=current><A
 							href="${pageContext.request.contextPath}/forum/user/my_topics?act=replied">最新回复</A></LI>
 						<LI><A
 							href="${pageContext.request.contextPath}/forum/user/my_topics?act=reply">我的回复</A></LI>
@@ -51,35 +50,36 @@
 
 								<TD WIDTH="50%">标题</TD>
 								<TD WIDTH="13%">版块</TD>
-								<TD WIDTH="10%">查看/回复</TD>
+								<TD WIDTH="10%">回复的用戶</TD>
 								<TD WIDTH="17%">发表时间</TD>
-								<TD WIDTH="10%">置顶状态</TD>
+								<TD WIDTH="10%">状态</TD>
 
 							</TR>
 						</THEAD>
 						<TBODY>
-							<c:forEach items="${page.content }" var="topic"
+
+							<c:forEach items="${page.content }" var="reply"
 								varStatus="status">
 								<TR>
 									<TD><A
-										href="${pageContext.request.contextPath}/topic?id=${topic.id }"
-										target=_blank>${status.count}. ${topic.title }</A></TD>
+										href="${pageContext.request.contextPath}/topic?id=${reply.topic.id }"
+										target=_blank>${status.count}. ${reply.topic.title }</A></TD>
 									<TD><A
-										href="${pageContext.request.contextPath}/board?id=${topic.board.id}"
-										target=_blank>${topic.board.name }</A></TD>
-									<TD>${topic.viewTimes }/${topic.replyTimes }</TD>
-									<TD>${topic.postTime }</TD>
-									<TD><c:if test="${topic.topType==0}">
-											<c:out value="非置頂"></c:out>
-										</c:if> <c:if test="${topic.topType==1}">
-											<c:out value="本版置顶"></c:out>
-										</c:if> <c:if test="${topic.topType==2}">
-											<c:out value="分区置顶"></c:out>
-										</c:if> <c:if test="${topic.topType==3}">
-											<c:out value="全局置顶"></c:out>
+										href="${pageContext.request.contextPath}/board?id=${reply.topic.board.id}"
+										target=_blank>${reply.topic.board.name }</A></TD>
+									<TD><A
+										href="${pageContext.request.contextPath}/forum/user/some_userInfo?id=${reply.topic.author.id}"
+										target=_blank><font color="green">${reply.topic.author.username}</font></A></TD>
+									<!-- 这里不能直接reply.author -->
+									<TD>${reply.topic.postTime }</TD>
+									<TD><c:if test="${reply.status}">
+											<c:out value="正常"></c:out>
+										</c:if> <c:if test="${!reply.status}">
+											<c:out value="被刪除"></c:out>
 										</c:if></TD>
 								</TR>
 							</c:forEach>
+
 
 						</TBODY>
 					</TABLE>

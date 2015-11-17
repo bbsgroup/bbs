@@ -15,6 +15,8 @@ import org.bbs.entity.Group;
 import org.bbs.entity.User;
 import org.bbs.entity.UserInfo;
 import org.bbs.service.GroupService;
+import org.bbs.service.ReplyService;
+import org.bbs.service.TopicService;
 import org.bbs.service.UserInfoService;
 import org.bbs.service.UserService;
 import org.common.util.IpUtil;
@@ -45,6 +47,12 @@ public class UserController {
 
 	@Autowired
 	GroupService groupService;
+
+	@Autowired
+	ReplyService replyService;
+
+	@Autowired
+	TopicService topicService;
 
 	@InitBinder
 	public void initBinder(ServletRequestDataBinder binder) {
@@ -110,10 +118,9 @@ public class UserController {
 			attr.addFlashAttribute("usernameError", "用户不存在");
 			return "redirect:loginPage";
 		}
-		
-	
+
 		try {
-			 String  pwd = SecurityUtil.md5(user.getPassword().trim()
+			String pwd = SecurityUtil.md5(user.getPassword().trim()
 					+ currentUser.getSalt());
 			if (!pwd.equals(currentUser.getPassword())) {
 				attr.addFlashAttribute("passwordError", "用户密码错误");
@@ -147,7 +154,7 @@ public class UserController {
 		} else {
 			// 新写一个cookie
 			Cookie cookie = new Cookie("userCookie", user.getUsername().trim()
-					+ "," +currentUser.getPassword());
+					+ "," + currentUser.getPassword());
 			cookie.setMaxAge(cookieTime);// 保存cookie的时间
 			cookie.setPath("/");// 设置同一服务器下其他服务也能获取
 			response.addCookie(cookie);
@@ -186,16 +193,17 @@ public class UserController {
 	 * @return
 	 */
 
-	
 	@RequestMapping(value = "/my_userInfo", method = RequestMethod.GET)
-	public String myUserInfo( Model model,@ModelAttribute("currentUser") User currentUser,
-			HttpSession session,String action) {
-		//判断是否要跳转
-		if(action!=null){
-			return "bbs/my_userInfo_"+action;
+	public String myUserInfo(Model model,
+			@ModelAttribute("currentUser") User currentUser,
+			HttpSession session, String action) {
+		// 判断是否要跳转
+		if (action != null) {
+			return "bbs/my_userInfo_" + action;
 		}
-		
-		UserInfo currentuserInfo = userInfoService.findByUserId(currentUser.getId());
+
+		UserInfo currentuserInfo = userInfoService.findByUserId(currentUser
+				.getId());
 		if (currentuserInfo == null) {
 			model.addAttribute("message", "非法操作");
 			return "bbs/msg";
@@ -203,41 +211,54 @@ public class UserController {
 		model.addAttribute("userInfo", currentuserInfo);
 		return "bbs/userInfo";
 	}
-	
-	
+
 	@RequestMapping(value = "/my_msg", method = RequestMethod.GET)
-	public String my_msg(Model model, HttpSession session,String action) {
-		if(action!=null){
-			return "bbs/my_msg_"+action;
+	public String my_msg(Model model, HttpSession session, String action) {
+		if (action != null) {
+			return "bbs/my_msg_" + action;
 		}
 		return "bbs/my_msg";
 	}
-	
+
 	@RequestMapping(value = "/my_topics", method = RequestMethod.GET)
-	public String my_topics(Model model, HttpSession session) {
+	public String my_topics(Model model, HttpSession session, String act,
+			@ModelAttribute("currentUser") User currentUser) {
+		if (act != null) {
+			if (act.equals("replied")) {
+				model.addAttribute("page", replyService.findPage());
+				return "bbs/my_topics" + "_" + act;
+			} else if (act.equals("reply")) {
+				model.addAttribute("page", replyService.findReplyByUserId(currentUser.getId()));
+				return "bbs/my_topics" + "_" + act;
+			}
+
+		}
+		model.addAttribute("page",
+				topicService.findTopicByUserId(currentUser.getId()));
 		return "bbs/my_topics";
 	}
+
 	@RequestMapping(value = "/my_favors", method = RequestMethod.GET)
 	public String my_favors(Model model, HttpSession session) {
 		return "bbs/my_favors";
 	}
-	
+
 	@RequestMapping(value = "/my_friends", method = RequestMethod.GET)
-	public String my_friends(Model model, HttpSession session,String action) {
-		if(action!=null){
-			return "bbs/my_friends_"+action;
+	public String my_friends(Model model, HttpSession session, String action) {
+		if (action != null) {
+			return "bbs/my_friends_" + action;
 		}
 		return "bbs/my_friends";
 	}
-	
+
 	@RequestMapping(value = "/my_rights", method = RequestMethod.GET)
-	public String my_rights(Model model, HttpSession session,String gid) {
-		if(gid!=null){
-			return "bbs/my_rights_"+gid;
+	public String my_rights(Model model, HttpSession session, String gid) {
+		if (gid != null) {
+			return "bbs/my_rights_" + gid;
 		}
 		return "bbs/my_rights";
 	}
-	
+
 	/**
 	 * 用户修改论坛个人信息与论坛设置功能(通过测试)
 	 * 
@@ -250,16 +271,17 @@ public class UserController {
 	@RequestMapping(value = "/editUserInfo", method = RequestMethod.POST)
 	public String updateUserInfo(HttpServletRequest request, Model model,
 			HttpSession session, UserInfo userInfo,
-			@ModelAttribute("currentUser") User currentUser ,String email,String nickname) {
+			@ModelAttribute("currentUser") User currentUser, String email,
+			String nickname) {
 		UserInfo currentUserInfo = userInfoService.findByUserId(currentUser
 				.getId());
 		currentUserInfo.setSex(userInfo.getSex());
 		currentUserInfo.setBirthday(userInfo.getBirthday());
 		currentUserInfo.setNativePlace(userInfo.getNativePlace());
-	//	currentUserInfo.setPersonSign(userInfo.getPersonSign());
-	//	currentUserInfo.setShowHead(userInfo.isShowHead());
+		// currentUserInfo.setPersonSign(userInfo.getPersonSign());
+		// currentUserInfo.setShowHead(userInfo.isShowHead());
 		userInfoService.update(currentUserInfo);
-		User user =  userService.get(currentUser.getId());
+		User user = userService.get(currentUser.getId());
 		user.setEmail(email);
 		user.setNickname(nickname);
 		userService.update(user);
@@ -267,6 +289,23 @@ public class UserController {
 		model.addAttribute("currentUser", currentUser);
 		return "redirect:my_userInfo";
 
+	}
+
+	@RequestMapping(value = "/editUserInfoPersonal", method = RequestMethod.POST)
+	public String editUserInfoPersonal(HttpServletRequest request, Model model,
+			HttpSession session, UserInfo userInfo,
+			@ModelAttribute("currentUser") User currentUser) {
+		UserInfo currentUserInfo = userInfoService.findByUserId(currentUser
+				.getId());
+		currentUserInfo.setShowHead(userInfo.isShowHead());
+		currentUserInfo.setHeanImage(userInfo.getHeanImage());
+		System.out.println(userInfo.isShowHead());
+		System.out.println(userInfo.isShowSign());
+		currentUserInfo.setShowSign(userInfo.isShowSign());
+		currentUserInfo.setPersonSign(userInfo.getPersonSign());
+		userInfoService.update(currentUserInfo);
+		model.addAttribute("userInfo", currentUserInfo);
+		return "redirect:my_userInfo";
 	}
 
 	/**
@@ -277,7 +316,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/user_list", method = RequestMethod.GET)
-	public String user_list(Model model,String sort,String order) {
+	public String user_list(Model model, String sort, String order) {
 
 		Page<UserInfo> page = null;
 		page = userInfoService.findPage();
@@ -295,18 +334,21 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/some_userInfo", method = RequestMethod.GET)
-	public String some_userInfo(String userInfoId, Model model,
+	public String some_userInfo(String userInfoId, Model model, Long id,
 			HttpSession session) {
-		UserInfo currentuserInfo = userInfoService.get(Long
-				.parseLong(userInfoId));
+		UserInfo currentuserInfo = null;
+		if (id != null) {
+			currentuserInfo = userInfoService.findByUserId(id);
+		} else if (userInfoId != null) {
+			currentuserInfo = userInfoService.get(Long.parseLong(userInfoId));
+		}
 		if (currentuserInfo == null) {
 			model.addAttribute("error", "您查询了不存在的用户信息");
-			return "error/error";
+			return "bbs/msg";
 		}
 		model.addAttribute("userInfo", currentuserInfo);
 		return "bbs/userInfo";
 	}
-
 
 	/**
 	 * 用来校验用户名是否被使用了(待测试)
@@ -323,23 +365,6 @@ public class UserController {
 			return true;
 		}
 
-	}
-
-	@RequestMapping(value = "/uploadHeadImage", method = RequestMethod.POST)
-	public String uploadHeadImage() {
-		// 还没想好如何异步上传图片
-		return null;
-	}
-
-	/**
-	 * 异步上传头像的页面和方法都还没有写
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "/uploadHeadImagePage", method = RequestMethod.GET)
-	public String uploadHeadImagePage() {
-		// 还没想好如何异步上传图片
-		return "test/uploadHeadImagePage";
 	}
 
 	/**
@@ -389,21 +414,22 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
 	public String resetPassword(Model model,
-			@ModelAttribute("currentUser") User currentUser, 
-			String oldpwd1,String pwd1) {
+			@ModelAttribute("currentUser") User currentUser, String oldpwd1,
+			String pwd1) {
 		try {
-			if(currentUser.getPassword().equals(SecurityUtil.md5(oldpwd1 + currentUser.getSalt()))){
+			if (currentUser.getPassword().equals(
+					SecurityUtil.md5(oldpwd1 + currentUser.getSalt()))) {
 				userService.resetPassword(currentUser.getUsername(), pwd1);
 				model.addAttribute("message", "修改密码成功");
 				return "bbs/msg";
-			}else {
+			} else {
 				model.addAttribute("message", "原密码不正确，密码失败");
 				return "bbs/msg";
 			}
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		
+
 		return "bbs/msg";
 
 	}

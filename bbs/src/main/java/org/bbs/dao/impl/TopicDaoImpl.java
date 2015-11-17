@@ -20,6 +20,12 @@ public class TopicDaoImpl extends BaseDaoImpl<Topic>implements TopicDao {
 	}
 
 	@Override
+	public Page<Topic> findTopicByUserId(Long id) {
+		String hql = "from Topic t where t.author.id = ? and t.isDeleted = false";
+		return this.findPage(hql, id);
+	}
+
+	@Override
 	public List<Topic> findTopCategory(Category c) {
 		String hql = "from Topic t where t.topType = 2 and t.category = ? and t.isDeleted = false ";
 		return this.list(hql, c);

@@ -40,31 +40,49 @@
 						<H1>短消息</H1>
 						<UL class="tabs headertabs">
 							<LI class=additem><A href="sms_compose.jsp">发送短消息</A></LI>
-							<LI><A href="${pageContext.request.contextPath}/forum/user/my_msg?action=inbox">收件箱 (<SPAN
-									id=sms_unread>0</SPAN>)
+							<LI><A
+								href="${pageContext.request.contextPath}/forum/user/my_msg?action=inbox">收件箱
+									(<SPAN id=sms_unread>0</SPAN>)
 							</A></LI>
-							<LI class=current><A href="${pageContext.request.contextPath}/forum/user/my_msg?action=outbox">已发送</A></LI>
+							<LI class=current><A
+								href="${pageContext.request.contextPath}/forum/user/my_msg?action=outbox">已发送</A></LI>
 							<LI style="border: none; float: right"><a title="RSS Feed"
 								href="../rss?uid=aaa&act=sms&page=1" target=_blank> <IMG
-									alt="RSS Feed" src="${pageContext.request.contextPath}/media/images/rss.gif" border="0"></a></LI>
+									alt="RSS Feed"
+									src="${pageContext.request.contextPath}/media/images/rss.gif"
+									border="0"></a></LI>
 						</UL>
-						<TABLE id=smslist cellSpacing=0 cellPadding=0
-							style="table-layout: fixed">
-							<THEAD>
-								<TR>
-									<TD class=selector>&nbsp;</TD>
-									<TH>标题</TH>
-									<TD class=user>发送到</TD>
-									<TD class=time>时间</TD>
-									<TD width="100">操作</TD>
-								</TR>
-							</THEAD>
+						<TABLE cellSpacing=0 cellPadding=0>
 							<TBODY>
-
 								<TR>
-									<TD colspan="5">没有记录</TD>
+									<TH><LABEL for=users>发送到</LABEL></TH>
+									<TD><INPUT id=users tabIndex=2 size=65 name=users
+										maxlength="100" value=""> &nbsp;(多个用户名之间以逗号","分隔)</TD>
 								</TR>
-
+								<TR>
+									<TH><LABEL for=subject>标题</LABEL></TH>
+									<TD><INPUT id=subject tabIndex=4 size=65 name=subject
+										maxlength="100" value=""></TD>
+								</TR>
+								<TR>
+									<TH vAlign=top><LABEL for=message>内容</LABEL><BR />(200
+										个字以内)</TH>
+									<TD><TEXTAREA id=message style="WIDTH: 85%" tabIndex=5
+											name=message rows=8></TEXTAREA></TD>
+								</TR>
+								<TR>
+									<TH><LABEL for=verifycode>验证码</LABEL></TH>
+									<TD>
+										<DIV id=verifycodeimage style="margin-bottom: 3px"></DIV> <INPUT
+										id=verifycode name=verifycode tabIndex=8 maxLength=4 size=15>
+										<SPAN id=checkverifycode></SPAN>
+									</TD>
+								</TR>
+								<TR class=btns>
+									<TH>&nbsp;</TH>
+									<TD height="30"><BUTTON class=submit id=postsubmit
+											tabIndex=7 name=smssubmit type=submit>提交</BUTTON></TD>
+								</TR>
 							</TBODY>
 						</TABLE>
 						<DIV class="management">
@@ -75,10 +93,17 @@
 						</DIV>
 					</DIV>
 				</FORM>
-				<DIV class=pages_btns></DIV>
+				<div class="pages_btns">
+
+
+					<%@ include file="/WEB-INF/jsp/common/bbspage.jspf"%>
+
+
+				</div>
 				<DIV class=remark>
-					<img src="${pageContext.request.contextPath}/media/images/notice.gif" border="0" align="absmiddle" />
-					&nbsp;收件箱最大容量: 50
+					<img
+						src="${pageContext.request.contextPath}/media/images/notice.gif"
+						border="0" align="absmiddle" /> &nbsp;收件箱最大容量: 50
 				</DIV>
 				<SCRIPT type=text/javascript>
 					var lastdiv_id = '';

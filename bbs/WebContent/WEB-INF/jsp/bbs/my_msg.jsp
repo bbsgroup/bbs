@@ -39,9 +39,9 @@
 					<DIV class=mainbox style="padding-bottom: 5px">
 						<H1>短消息</H1>
 						<UL class="tabs headertabs">
-							<LI class=additem><A
+							<LI class=additem class=current><A
 								href="${pageContext.request.contextPath}/forum/user/sms_compose.jsp">发送短消息</A></LI>
-							<LI class=current><A
+							<LI ><A
 								href="${pageContext.request.contextPath}/forum/user/my_msg?action=inbox">收件箱
 									(<SPAN id=sms_unread>0</SPAN>)
 							</A></LI>
@@ -90,13 +90,7 @@
 						</DIV>
 					</DIV>
 				</FORM>
-				<div class="pages_btns">
-
-
-					<%@ include file="/WEB-INF/jsp/common/bbspage.jspf"%>
-
-
-				</div>
+				<DIV class=pages_btns></DIV>
 				<DIV class=remark>
 					<img
 						src="${pageContext.request.contextPath}/media/images/notice.gif"

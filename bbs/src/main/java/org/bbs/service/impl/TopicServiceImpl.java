@@ -32,6 +32,12 @@ public class TopicServiceImpl extends BaseServiceImpl<Topic> implements TopicSer
 	}
 
 	@Override
+	public Page<Topic> findTopicByUserId(Long id) {
+		// TODO Auto-generated method stub
+		return topicDao.findTopicByUserId(id);
+	}
+
+	@Override
 	public List<Topic> findTopBoard(Board board) {
 		return topicDao.findTopBoard(board);
 	}

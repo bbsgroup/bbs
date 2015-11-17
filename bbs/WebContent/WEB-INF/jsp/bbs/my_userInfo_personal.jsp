@@ -25,7 +25,7 @@
 		编辑个人资料
 		<DIV class=container>
 			<DIV class=content>
- 				<SCRIPT type=text/javascript>
+				<SCRIPT type=text/javascript>
 					var encoding = 'gbk';
 					function validate(theform) {
 						if (uc_strlen(theform.brief.value) > 200) {
@@ -37,9 +37,8 @@
 					}
 					function previewavatar(url) {
 						if (url) {
-							$('avatarview').innerHTML = '<img id="previewimg" onload="resizeImage(this, 150);"/><br/>';
-							$('previewimg').src = "/ejforum/upload/avatar/"
-									+ url;
+							$('avatarview').innerHTML = '<img id="previewimg" onload="resizeImage(this, 90);" /><br/>';
+							$('previewimg').src = url;
 						} else {
 							$('avatarview').innerHTML = '';
 						}
@@ -47,7 +46,7 @@
 					function customavatar(value) {
 						$('urlavatar').value = '';
 						if (value) {
-							$('avatarview').innerHTML = '<img id="previewimg" onload="checkImageSize(this, 150);"/><br/>';
+							$('avatarview').innerHTML = '<img id="previewimg" onload="checkImageSize(this, 100);"/><br/>';
 							var url = getFullPath($('avatarcustom'));
 							$('previewimg').src = url;
 						}
@@ -74,58 +73,71 @@
 						if ($('urlavatar')) {
 							$('urlavatar').value = value;
 							previewavatar(value);
-							switchavatarlist();
 						}
 					}
+
 					function switchavatarlist() {
-						jQuery("#avatardiv").toggle();
-				
+						if (jQuery("#altContent").css('display') == 'block') {
+							jQuery("#altContent").hide();
+						}
+
+						if (jQuery("#avatardiv").css('display') == 'block') {
+							jQuery("#avatardiv").hide();
+						} else
+							jQuery("#avatardiv").show();
+					}
+					function switchaltContent() {
+						if (jQuery("#avatardiv").css('display') == 'block') {
+							jQuery("#avatardiv").hide();
+						}
+
+						if (jQuery("#altContent").css('display') == 'block') {
+							jQuery("#altContent").hide();
+						} else
+							jQuery("#altContent").show();
 					}
 				</SCRIPT>
-				
+
 				<script type="text/javascript">
-											function uploadevent(status,
-													picUrl, callbackdata) {
-												alert(picUrl); //后端存储图片
-												jQuery("#urlavatar").text(picUrl);
-												alert(callbackdata);
-												status += '';
-												switch (status) {
-												case '1':
-													var time = new Date()
-															.getTime();
-													var filename162 = picUrl
-															+ '_162.jpg';
-													var filename48 = picUrl
-															+ '_48.jpg';
-													var filename20 = picUrl
-															+ "_20.jpg";
+					function uploadevent(status, picUrl, callbackdata) {
 
-													document
-															.getElementById('avatar_priview').innerHTML = "头像1 : <img src='"
-															+ filename162
-															+ "?"
-															+ time
-															+ "'/> <br/> 头像2: <img src='"
-															+ filename48
-															+ "?"
-															+ time
-															+ "'/><br/> 头像3: <img src='"
-															+ filename20
-															+ "?"
-															+ time + "'/>";
+						status += '';
+						switch (status) {
+						case '1':
+							var time = new Date().getTime();
+							var filename162 = picUrl + '_162.jpg';
+							var filename48 = picUrl + '_48.jpg';
+							var filename20 = picUrl + "_20.jpg";
+							$('urlavatar').value = filename162;
+							previewavatar(filename162);
+							switchaltContent();
+							/* 					document
+														.getElementById('avatarview').innerHTML = "<img src='"
+														+ filename162
+														+ "?"
+														+ time
+														+ "'/>"
+														+"<br/>"; */
+							/* 	 <br/> 头像2: <img src='"
+										+ filename48
+										+ "?"
+										+ time
+										+ "'/><br/> 头像3: <img src='"
+										+ filename20
+										+ "?"
+										+ time + "'/> */
 
-													break;
-												case '-1':
-													window.location.reload();
-													break;
-												default:
-													window.location.reload();
-												}
-											}
-										</script>
+							break;
+						case '-1':
+							window.location.reload();
+							break;
+						default:
+							window.location.reload();
+						}
+					}
+				</script>
 				<FORM name="settings" onSubmit="return validate(this)"
-					action="../perform.jsp?act=member_special" method=post
+					action="${pageContext.request.contextPath}/forum/user/editUserInfoPersonal" method=post
 					enctype="multipart/form-data">
 					<DIV class="mainbox formbox">
 						<H1>编辑个人资料</H1>
@@ -144,9 +156,10 @@
 											(&nbsp;150x150&nbsp;像素以内&nbsp;)
 									</LABEL></TH>
 									<TD><SPAN id=avatarview></SPAN> <INPUT id=urlavatar
-										onchange=previewavatar(this.value) size=25 name=urlavatar
+										onchange=previewavatar(this.value) size=25 name=heanImage
 										style='margin-top: 3px'> &nbsp; <A href="#"
-										onclick="switchavatarlist();">论坛头像列表</A>
+										onclick="switchavatarlist();">论坛头像列表</A> <A href="#"
+										onclick="switchaltContent();">自定义头像</A>
 										<DIV id=avatardiv style="MARGIN-TOP: 10px; DISPLAY: none">
 											<DIV class=spaceborder style="CLEAR: both">
 												<TABLE style="TABLE-LAYOUT: fixed" cellSpacing=1
@@ -172,13 +185,16 @@
 																name=systemavatar><STRONG>None</STRONG></TD>
 															<TD align=middle width="25%"><INPUT
 																onclick="selectavatar(this.value);" type=radio CHECKED
-																value="sample/01.gif" name=systemavatar>01.gif</TD>
+																value="${pageContext.request.contextPath}/media/images/avatar/01.gif"
+																name=systemavatar>01.gif</TD>
 															<TD align=middle width="25%"><INPUT
 																onclick="selectavatar(this.value);" type=radio
-																value="sample/02.gif" name=systemavatar>02.gif</TD>
+																value="${pageContext.request.contextPath}/media/images/avatar/02.gif"
+																name=systemavatar>02.gif</TD>
 															<TD align=middle width="25%"><INPUT
 																onclick="selectavatar(this.value);" type=radio
-																value="sample/03.gif" name=systemavatar>03.gif</TD>
+																value="${pageContext.request.contextPath}/media/images/avatar/03.gif"
+																name=systemavatar>03.gif</TD>
 														</TR>
 														<TR>
 															<TD style="BORDER-BOTTOM: medium none" align=middle
@@ -197,16 +213,20 @@
 														<TR>
 															<TD align=middle width="25%"><INPUT
 																onclick="selectavatar(this.value);" type=radio
-																value="sample/04.gif" name=systemavatar>04.gif</TD>
+																value="${pageContext.request.contextPath}/media/images/avatar/04.gif"
+																name=systemavatar>04.gif</TD>
 															<TD align=middle width="25%"><INPUT
 																onclick="selectavatar(this.value);" type=radio
-																value="sample/05.gif" name=systemavatar>05.gif</TD>
+																value="${pageContext.request.contextPath}/media/images/avatar/05.gif"
+																name=systemavatar>05.gif</TD>
 															<TD align=middle width="25%"><INPUT
 																onclick="selectavatar(this.value);" type=radio
-																value="sample/06.gif" name=systemavatar>06.gif</TD>
+																value="${pageContext.request.contextPath}/media/images/avatar/06.gif"
+																name=systemavatar>06.gif</TD>
 															<TD align=middle width="25%"><INPUT
 																onclick="selectavatar(this.value);" type=radio
-																value="sample/07.gif" name=systemavatar>07.gif</TD>
+																value="${pageContext.request.contextPath}/media/images/avatar/07.gif"
+																name=systemavatar>07.gif</TD>
 														</TR>
 														<TR>
 															<TD style="BORDER-BOTTOM: medium none" align=middle
@@ -225,16 +245,20 @@
 														<TR>
 															<TD align=middle width="25%"><INPUT
 																onclick="selectavatar(this.value);" type=radio
-																value="sample/08.gif" name=systemavatar>08.gif</TD>
+																value="${pageContext.request.contextPath}/media/images/avatar/08.gif"
+																name=systemavatar>08.gif</TD>
 															<TD align=middle width="25%"><INPUT
 																onclick="selectavatar(this.value);" type=radio
-																value="sample/09.gif" name=systemavatar>09.gif</TD>
+																value="${pageContext.request.contextPath}/media/images/avatar/09.gif"
+																name=systemavatar>09.gif</TD>
 															<TD align=middle width="25%"><INPUT
 																onclick="selectavatar(this.value);" type=radio
-																value="sample/10.gif" name=systemavatar>10.gif</TD>
+																value="${pageContext.request.contextPath}/media/images/avatar/10.gif"
+																name=systemavatar>10.gif</TD>
 															<TD align=middle width="25%"><INPUT
 																onclick="selectavatar(this.value);" type=radio
-																value="sample/11.gif" name=systemavatar>11.gif</TD>
+																value="${pageContext.request.contextPath}/media/images/avatar/11.gif"
+																name=systemavatar>11.gif</TD>
 														</TR>
 														<TR>
 															<TD style="BORDER-BOTTOM: medium none" align=middle
@@ -253,16 +277,20 @@
 														<TR>
 															<TD align=middle width="25%"><INPUT
 																onclick="selectavatar(this.value);" type=radio
-																value="sample/12.jpg" name=systemavatar>12.jpg</TD>
+																value="${pageContext.request.contextPath}/media/images/avatar/12.jpg"
+																name=systemavatar>12.jpg</TD>
 															<TD align=middle width="25%"><INPUT
 																onclick="selectavatar(this.value);" type=radio
-																value="sample/13.jpg" name=systemavatar>13.jpg</TD>
+																value="${pageContext.request.contextPath}/media/images/avatar/13.jpg"
+																name=systemavatar>13.jpg</TD>
 															<TD align=middle width="25%"><INPUT
 																onclick="selectavatar(this.value);" type=radio
-																value="sample/14.jpg" name=systemavatar>14.jpg</TD>
+																value="${pageContext.request.contextPath}/media/images/avatar/14.jpg"
+																name=systemavatar>14.jpg</TD>
 															<TD align=middle width="25%"><INPUT
 																onclick="selectavatar(this.value);" type=radio
-																value="sample/15.jpg" name=systemavatar>15.jpg</TD>
+																value="${pageContext.request.contextPath}/media/images/avatar/15.jpg"
+																name=systemavatar>15.jpg</TD>
 														</TR>
 													</TBODY>
 												</TABLE>
@@ -270,7 +298,7 @@
 										</DIV> <BR> <!-- <INPUT type=file
 										onchange="customavatar(this.value);" size=60 id=avatarcustom
 										name=avatarcustom style='margin-top: 3px'> -->
-										<div id="altContent" style='margin-top: 3px'>
+										<div id="altContent" style="MARGIN-TOP: 10px; DISPLAY: none">
 											<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
 												codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0"
 												WIDTH="650" HEIGHT="450" id="myMovieName">
@@ -291,16 +319,30 @@
 													PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">
 												</EMBED>
 											</OBJECT>
-										</div> 
-										<div id="avatar_priview" ></div></TD>
+										</div>
+										<div id="avatar_priview"></div></TD>
 								</TR>
+									<tr>
+									<TH vAlign=top><LABEL for=brief>是否显示&nbsp;/&nbsp;头像<BR />
+									</LABEL></TH>
+									<TD><input type="radio" name="showHead" value="true">显示&nbsp;&nbsp;
+										<input type="radio" name="showHead" value="false"
+										checked="checked">不显示</TD>
+								</tr>
 								<TR>
 									<TH vAlign=top><LABEL for=brief>自我介绍&nbsp;/&nbsp;个性签名<BR />(&nbsp;200
 											个字以内&nbsp;)
 									</LABEL></TH>
-									<TD><TEXTAREA id=brief style="WIDTH: 393px" name=brief
+									<TD><TEXTAREA id=brief style="WIDTH: 393px" name=PersonSign
 											rows=7></TEXTAREA></TD>
 								</TR>
+								<tr>
+									<TH vAlign=top><LABEL for=brief>是否显示&nbsp;/&nbsp;个性签名<BR />
+									</LABEL></TH>
+									<TD><input type="radio" name="showSign" value="true">显示&nbsp;&nbsp;
+										<input type="radio" name="showSign" value="false"
+										checked="checked">不显示</TD>
+								</tr>
 								<TR>
 									<TH>&nbsp;</TH>
 									<TD height="30"><BUTTON class=submit name=editsubmit

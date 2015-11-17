@@ -65,8 +65,14 @@
 					<UL style="padding-bottom: 12px">
 						<LI class="side_info" style="padding-top: 2px">
 							<H3>
-								<IMG src="/ejforum/upload/avatar/sample/unknown.gif" border=0
+							<c:if test="${userInfo.showHead}">
+								<IMG src="${userInfo.heanImage }" border=0
 									onload="resizeImage(this, 150);">
+									</c:if>
+										<c:if test="!${userInfo.showHead}">
+								<IMG src="${pageContext.request.contextPath}/media/images/avatar/unknown.gif" border=0
+									onload="resizeImage(this, 150);">
+									</c:if>
 							</H3>
 						</LI>
 						<LI class="side_info"><H3>${userInfo.user.username }</H3></LI>
