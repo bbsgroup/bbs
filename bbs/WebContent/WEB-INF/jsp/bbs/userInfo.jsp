@@ -36,9 +36,9 @@
 							target=_blank> <IMG alt="RSS Feed"
 								src="${pageContext.request.contextPath}/media/images/rss.gif"
 								border="0" style="margin-top: 8px; margin-right: 7px;"></a></label> <a
-							href="${pageContext.request.contextPath}/forum/user/some_userInfo?id=${currentUser.id}"
+							href="${pageContext.request.contextPath}/forum/user/some_userInfo?id=${userInfo.user.id}"
 							class="caton">主题</a>&nbsp;&nbsp; <a
-							href="${pageContext.request.contextPath}/forum/user/some_userInfo?id=${currentUser.id}&act=reply"
+							href="${pageContext.request.contextPath}/forum/user/some_userInfo?id=${userInfo.user.id}&act=reply"
 							class="catoff">回复</a>
 					</H2>
 					<TABLE cellSpacing=0 cellPadding=0>
