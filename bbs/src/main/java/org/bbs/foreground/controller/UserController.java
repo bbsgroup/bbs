@@ -335,7 +335,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/some_userInfo", method = RequestMethod.GET)
 	public String some_userInfo(String userInfoId, Model model, Long id,
-			HttpSession session) {
+			HttpSession session,String act) {
 		UserInfo currentuserInfo = null;
 		if (id != null) {
 			currentuserInfo = userInfoService.findByUserId(id);
@@ -346,6 +346,14 @@ public class UserController {
 			model.addAttribute("error", "您查询了不存在的用户信息");
 			return "bbs/msg";
 		}
+		if(act!=null&&act.equals("reply")){
+			model.addAttribute("flag", act);
+			model.addAttribute("replyPage", replyService.findReplyByUserId(currentuserInfo.getUser().getId()));
+		}else {
+			model.addAttribute("flag", "topic");
+			model.addAttribute("topicPage", topicService.findTopicByUserId(currentuserInfo.getUser().getId()));
+		}
+	
 		model.addAttribute("userInfo", currentuserInfo);
 		return "bbs/userInfo";
 	}

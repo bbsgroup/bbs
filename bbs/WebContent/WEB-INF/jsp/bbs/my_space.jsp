@@ -5,7 +5,7 @@
 		<H2>我的空间</H2>
 		<UL>
 			<LI><H3>
-					<A href="../uspace.jsp?uid=aaa" target="_blank">个人信息页</A>
+					<A href="${pageContext.request.contextPath}/forum/user/some_userInfo?id=${currentUser.id}" target="_blank">个人信息页</A>
 				</H3></LI>
 			<LI class="side_on"><H3>
 					<A href="${pageContext.request.contextPath}/forum/user/my_userInfo">编辑个人资料</A>

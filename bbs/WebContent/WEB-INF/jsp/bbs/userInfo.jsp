@@ -3,7 +3,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <HTML xmlns="http://www.w3.org/1999/xhtml">
 <HEAD>
-<TITLE>${userInfo.user.username }的个人信息页- unnamed</TITLE>
+<TITLE>${userInfo.user.username }的个人信息页-unnamed</TITLE>
 <META http-equiv=Content-Type content="text/html;charset=UTF-8">
 
 <LINK href="${pageContext.request.contextPath}/media/css/forum.css"
@@ -36,22 +36,47 @@
 							target=_blank> <IMG alt="RSS Feed"
 								src="${pageContext.request.contextPath}/media/images/rss.gif"
 								border="0" style="margin-top: 8px; margin-right: 7px;"></a></label> <a
-							href="./uspace.jsp?uid=aaa&act=topic" class="caton">主题</a>&nbsp;&nbsp;
-						<a href="./uspace.jsp?uid=aaa&act=reply" class="catoff">回复</a>
+							href="${pageContext.request.contextPath}/forum/user/some_userInfo?id=${currentUser.id}"
+							class="caton">主题</a>&nbsp;&nbsp; <a
+							href="${pageContext.request.contextPath}/forum/user/some_userInfo?id=${currentUser.id}&act=reply"
+							class="catoff">回复</a>
 					</H2>
 					<TABLE cellSpacing=0 cellPadding=0>
 						<TBODY>
+							<c:if test="${flag=='topic' }">
 
-							<TR>
-								<TD><LABEL><A href="./forum-1.html" target="_blank">默认版块</A>&nbsp;&nbsp;|&nbsp;&nbsp;2015-11-13
-										16:26 </LABEL> <A href="./topic-1.html" target=_blank class="subject">1.
-										hahaha</A>
+								<c:forEach items="${topicPage.content }" var="topic"
+									varStatus="status">
+									<TR>
+										<TD><LABEL><A
+												href="${pageContext.request.contextPath}/board?id=${topic.board.id}"
+												target=_blank>${topic.board.name }</A>&nbsp;&nbsp;|&nbsp;&nbsp;${topic.postTime }</LABEL>
+											<A
+											href="${pageContext.request.contextPath}/topic?id=${topic.id }"
+											target=_blank>${status.count}. ${topic.title }</A>
 
-									<p>
-										最后发表 <A href="./topic-1.html?page=999" target="_blank">2015-11-13
-											16:38</A>&nbsp;&nbsp;|&nbsp;&nbsp;回复(2) &nbsp;|&nbsp;&nbsp;查看(0)
-									</p></TD>
-							</TR>
+											<p>
+												最后发表 <A
+													href="${pageContext.request.contextPath}/board?id=${topic.board.id}"
+													target="_blank">${topic.lastReplyTime }</A>&nbsp;&nbsp;|&nbsp;&nbsp;回复(${topic.replyTimes })
+												&nbsp;|&nbsp;&nbsp;查看(${topic.viewTimes })
+											</p></TD>
+									</TR>
+								</c:forEach>
+							</c:if>
+							<c:if test="${flag=='reply' }">
+								<c:forEach items="${replyPage.content }" var="reply" varStatus="status">
+									<TR>
+										<TD><LABEL><A href="${pageContext.request.contextPath}/board?id=${reply.topic.board.id}"
+												target="_blank">${reply.topic.board.name }</A> &nbsp;|&nbsp;&nbsp;${reply.time}
+										</LABEL> <A href="${pageContext.request.contextPath}/topic?id=${reply.topic.id }&rid=2" target=_blank
+											class="subject">${status.count}. 主题: ${reply.topic.title} (RID:${reply.id})</A></TD>
+									</TR>
+
+
+								</c:forEach>
+
+							</c:if>
 
 						</TBODY>
 					</TABLE>
@@ -65,14 +90,15 @@
 					<UL style="padding-bottom: 12px">
 						<LI class="side_info" style="padding-top: 2px">
 							<H3>
-							<c:if test="${userInfo.showHead}">
-								<IMG src="${userInfo.heanImage }" border=0
-									onload="resizeImage(this, 150);">
-									</c:if>
-										<c:if test="!${userInfo.showHead}">
-								<IMG src="${pageContext.request.contextPath}/media/images/avatar/unknown.gif" border=0
-									onload="resizeImage(this, 150);">
-									</c:if>
+								<c:if test="${userInfo.showHead}">
+									<IMG src="${userInfo.heanImage }" border=0
+										onload="resizeImage(this, 150);">
+								</c:if>
+								<c:if test="!${userInfo.showHead}">
+									<IMG
+										src="${pageContext.request.contextPath}/media/images/avatar/unknown.gif"
+										border=0 onload="resizeImage(this, 150);">
+								</c:if>
 							</H3>
 						</LI>
 						<LI class="side_info"><H3>${userInfo.user.username }</H3></LI>

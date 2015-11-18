@@ -55,7 +55,7 @@
 
 	<UL class="popmenu_popup headermenu_popup" id=myspace_menu
 		style="DISPLAY: none;">
-		<LI><A href="${pageContext.request.contextPath}/forum/user/my_userInfo">个人信息页</A></LI>
+		<LI><A href="${pageContext.request.contextPath}/forum/user/some_userInfo?id=${currentUser.id}">个人信息页</A></LI>
 			<LI><A href="${pageContext.request.contextPath}/forum/user/my_userInfo?action=edit">编辑个人信息</A></LI>
 		<LI><A href="${pageContext.request.contextPath}/forum/user/my_topics">我的话题</A></LI>
 		<LI><A href="${pageContext.request.contextPath}/forum/user/my_favors">我的收藏</A></LI>
