@@ -14,6 +14,7 @@ import org.base.entity.SystemContext;
 import org.bbs.entity.Group;
 import org.bbs.entity.User;
 import org.bbs.entity.UserInfo;
+import org.bbs.service.FriendService;
 import org.bbs.service.GroupService;
 import org.bbs.service.ReplyService;
 import org.bbs.service.TopicService;
@@ -53,6 +54,9 @@ public class UserController {
 
 	@Autowired
 	TopicService topicService;
+
+	@Autowired
+	FriendService friendService;
 
 	@InitBinder
 	public void initBinder(ServletRequestDataBinder binder) {
@@ -228,7 +232,8 @@ public class UserController {
 				model.addAttribute("page", replyService.findPage());
 				return "bbs/my_topics" + "_" + act;
 			} else if (act.equals("reply")) {
-				model.addAttribute("page", replyService.findReplyByUserId(currentUser.getId()));
+				model.addAttribute("page",
+						replyService.findReplyByUserId(currentUser.getId()));
 				return "bbs/my_topics" + "_" + act;
 			}
 
@@ -244,11 +249,44 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/my_friends", method = RequestMethod.GET)
-	public String my_friends(Model model, HttpSession session, String action) {
+	public String my_friends(Model model, HttpSession session, String action,
+			@ModelAttribute("currentUser") User currentUser) {
 		if (action != null) {
 			return "bbs/my_friends_" + action;
 		}
+		model.addAttribute("page",
+				friendService.findByUserId(currentUser.getId()));
 		return "bbs/my_friends";
+	}
+
+	@RequestMapping(value = "/my_friends_add", method = RequestMethod.POST)
+	public String my_friends_add(Model model,
+			@ModelAttribute("currentUser") User currentUser, String friendName,
+			String remark) {
+		if (friendService.exitfriend(currentUser.getId(), friendName)) {
+			model.addAttribute("message", "您已经添加了这个朋友了");
+			return "bbs/msg";
+		} else {
+			if (friendService
+					.addFriend(currentUser.getId(), friendName, remark)) {
+				model.addAttribute("message", "添加朋友成功");
+			} else {
+				model.addAttribute("message", "添加朋友失败，不存在这样的用户");
+			}
+			return "bbs/msg";
+		}
+	}
+
+	@RequestMapping(value = "/my_friends_delete", method = RequestMethod.POST)
+	public String my_friends_delete(Model model,
+			@ModelAttribute("currentUser") User currentUser,
+			String[] friendName) {
+		Long id = currentUser.getId();
+		for (String friendname : friendName) {
+			friendService.delectFriends(id, friendname);
+		}
+
+		return "redirect:my_friends";
 	}
 
 	@RequestMapping(value = "/my_rights", method = RequestMethod.GET)
@@ -335,7 +373,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/some_userInfo", method = RequestMethod.GET)
 	public String some_userInfo(String userInfoId, Model model, Long id,
-			HttpSession session,String act) {
+			HttpSession session, String act) {
 		UserInfo currentuserInfo = null;
 		if (id != null) {
 			currentuserInfo = userInfoService.findByUserId(id);
@@ -346,14 +384,16 @@ public class UserController {
 			model.addAttribute("error", "您查询了不存在的用户信息");
 			return "bbs/msg";
 		}
-		if(act!=null&&act.equals("reply")){
+		if (act != null && act.equals("reply")) {
 			model.addAttribute("flag", act);
-			model.addAttribute("replyPage", replyService.findReplyByUserId(currentuserInfo.getUser().getId()));
-		}else {
+			model.addAttribute("replyPage", replyService
+					.findReplyByUserId(currentuserInfo.getUser().getId()));
+		} else {
 			model.addAttribute("flag", "topic");
-			model.addAttribute("topicPage", topicService.findTopicByUserId(currentuserInfo.getUser().getId()));
+			model.addAttribute("topicPage", topicService
+					.findTopicByUserId(currentuserInfo.getUser().getId()));
 		}
-	
+
 		model.addAttribute("userInfo", currentuserInfo);
 		return "bbs/userInfo";
 	}

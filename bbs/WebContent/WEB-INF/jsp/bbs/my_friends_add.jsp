@@ -35,7 +35,7 @@
 		<DIV class=container>
 			<DIV class=content>
 				<FORM name="friendform" onSubmit="return validate(this)"
-					action="../perform.jsp?act=member_friend_add" method=post>
+					action="${pageContext.request.contextPath}/forum/user/my_friends_add" method=post>
 					<DIV class=mainbox>
 						<H1>我的好友</H1>
 						<UL class="tabs">
@@ -47,7 +47,7 @@
 							<TBODY>
 								<TR>
 									<TH><LABEL for=friendID>用户名</LABEL></TH>
-									<TD><INPUT id=friendID tabIndex=1 size=50 name=friendID
+									<TD><INPUT id=friendID tabIndex=1 size=50 name=friendName
 										maxlength="15" value=""></TD>
 								</TR>
 								<TR>
