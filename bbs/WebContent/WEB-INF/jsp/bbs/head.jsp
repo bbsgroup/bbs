@@ -28,7 +28,7 @@
 			<li><a href="${pageContext.request.contextPath}/forum/user/quit">退出</a></li>
 			<c:if test="${currentUser.group.id==6}">
 				<li><a
-					href="${pageContext.request.contextPath}/forum/user/">进入后台</a></li>
+					href="${pageContext.request.contextPath}/admin/index">进入后台</a></li>
 			</c:if>
 			<LI><A href="${pageContext.request.contextPath}/forum/user/my_msg">短消息</A></LI>
 			<LI class=dropmenu id=myspace onmouseover='showMenu(this.id)'
@@ -43,13 +43,10 @@
 			<LI><A
 				href="${pageContext.request.contextPath}/forum/user/loginPage">登录</A></LI>
 		</c:if>
-		<LI><A href="/ejforum/feeds.jsp">订阅</A></LI>
+		
 		<LI><A
 			href="${pageContext.request.contextPath}/forum/user/user_list">会员列表</A></LI>
-		<LI class=dropmenu id=advsearch onmouseover='showMenu(this.id)'
-			style='BACKGROUND-POSITION: 94%'><A
-			href="/ejforum/advsearch.jsp">搜索</A></LI>
-		<LI><A href="/ejforum/help/index.jsp">帮助</A></LI>
+	
 
 	</UL>
 

@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>demo</title>
+<title>管理后台</title>
 <link href="${pageContext.request.contextPath}/media/css/bootstrap.min.css"
 	rel="stylesheet" />
 <script src="${pageContext.request.contextPath}/media/js/jquery-2.1.4.min.js"></script>
@@ -164,29 +164,8 @@ body {
 										target="content">版块管理</a></li>
 								</ul>
 							</div>
-							<div class="div2">
-								<div class="zxcp"></div>
-								最新产品
-							</div>
-							<div class="div3">
-								<ul>
-									<li>图片管理</li>
-									<li>图片分类</li>
-									<li>添加图片</li>
-								</ul>
-							</div>
-							<div class="div2">
-								<div class="lmtj"></div>
-								栏目添加
-							</div>
-							<div class="div3">
-								<ul>
-									<li>文章系统</li>
-									<li>图片系统</li>
-									<li>添加表单</li>
-									<li>招聘系统</li>
-								</ul>
-							</div>
+					
+						
 						</div>
 					</div>
 				</td>
