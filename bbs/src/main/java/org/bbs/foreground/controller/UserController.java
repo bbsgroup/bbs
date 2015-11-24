@@ -12,10 +12,12 @@ import javax.servlet.http.HttpSession;
 import org.base.entity.Page;
 import org.base.entity.SystemContext;
 import org.bbs.entity.Group;
+import org.bbs.entity.Message;
 import org.bbs.entity.User;
 import org.bbs.entity.UserInfo;
 import org.bbs.service.FriendService;
 import org.bbs.service.GroupService;
+import org.bbs.service.MessageService;
 import org.bbs.service.ReplyService;
 import org.bbs.service.TopicService;
 import org.bbs.service.UserInfoService;
@@ -57,6 +59,9 @@ public class UserController {
 
 	@Autowired
 	FriendService friendService;
+
+	@Autowired
+	MessageService messageService;
 
 	@InitBinder
 	public void initBinder(ServletRequestDataBinder binder) {
@@ -217,11 +222,60 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/my_msg", method = RequestMethod.GET)
-	public String my_msg(Model model, HttpSession session, String action) {
+	public String my_msg(Model model, HttpSession session, String action,
+			@ModelAttribute("currentUser") User currentUser) {
 		if (action != null) {
+			if (action.equals("outbox")) {
+				model.addAttribute("page",
+						messageService.findBySender(currentUser.getId()));
+			} else if (action.equals("inbox")) {
+				model.addAttribute("page",
+						messageService.findByReceiver(currentUser.getId()));
+			}
 			return "bbs/my_msg_" + action;
 		}
 		return "bbs/my_msg";
+	}
+
+	@RequestMapping(value = "/my_msg_send", method = RequestMethod.POST)
+	public String my_msg_send(@ModelAttribute("currentUser") User currentUser,
+			Model model, HttpSession session, String title, String content,
+			String receivers, String verifycode) {
+		if (!verifycode.equalsIgnoreCase((String) session.getAttribute("code"))) {
+			model.addAttribute("message", "验证码错误");
+			return "bbs/msg";
+		}
+		String temp = receivers.trim();
+		String[] receivername = temp.split(",");
+
+		for (String username : receivername) {
+			User receiver = userService.findByUsername(username);
+			if (receiver != null) {
+				messageService.sendMessage(receiver, currentUser, title,
+						content, new Date());
+			}
+		}
+		return "redirect:my_msg?action=outbox";
+	}
+
+	@RequestMapping(value = "/my_msg_delete", method = RequestMethod.POST)
+	public String my_msg_delete(
+			@ModelAttribute("currentUser") User currentUser, Model model,
+			HttpSession session, String[] Message_id,String act) {
+		System.out.println("currentUser.id= "+currentUser.getId());
+		if(act!=null&&act.equals("inbox")){
+		for (String id1 : Message_id) {
+		System.out.println(	messageService.remove_inbox_msg(currentUser.getId(), Long.parseLong(id1)));
+		}
+		}
+		else if(act!=null&&act.equals("outbox")){
+			for (String id1 : Message_id) {
+				System.out.println(currentUser.getId()+","+Long.parseLong(id1));
+			System.out.println(	messageService.remove_outbox_msg(currentUser.getId(),  Long.parseLong(id1)));
+			}
+		}
+		
+		return "redirect:my_msg?action="+act;
 	}
 
 	@RequestMapping(value = "/my_topics", method = RequestMethod.GET)
@@ -279,8 +333,7 @@ public class UserController {
 
 	@RequestMapping(value = "/my_friends_delete", method = RequestMethod.POST)
 	public String my_friends_delete(Model model,
-			@ModelAttribute("currentUser") User currentUser,
-			String[] friendName) {
+			@ModelAttribute("currentUser") User currentUser, String[] friendName) {
 		Long id = currentUser.getId();
 		for (String friendname : friendName) {
 			friendService.delectFriends(id, friendname);

@@ -34,12 +34,14 @@
 		</DIV>
 		<DIV class=container>
 			<DIV class=content>
-				<FORM name="smsform" onSubmit="return validate(this)"
-					action="./sms_list.jsp?act=outbox&mod=del" method=post>
+				<FORM name="smsform"
+					action="${pageContext.request.contextPath}/forum/user/my_msg_delete"
+					method=post>
 					<DIV class=mainbox style="padding-bottom: 5px">
 						<H1>短消息</H1>
 						<UL class="tabs headertabs">
-							<LI class=additem><A href="sms_compose.jsp">发送短消息</A></LI>
+							<LI class=additem><A
+								href="${pageContext.request.contextPath}/forum/user/my_msg">发送短消息</A></LI>
 							<LI><A
 								href="${pageContext.request.contextPath}/forum/user/my_msg?action=inbox">收件箱
 									(<SPAN id=sms_unread>0</SPAN>)
@@ -52,46 +54,137 @@
 									src="${pageContext.request.contextPath}/media/images/rss.gif"
 									border="0"></a></LI>
 						</UL>
-						<TABLE cellSpacing=0 cellPadding=0>
+						<TABLE id=smslist cellSpacing=0 cellPadding=0
+							style="table-layout: fixed">
+							<THEAD>
+								<TR>
+									<TD class=selector>&nbsp;</TD>
+									<TH>标题</TH>
+									<TD class=user>发送到</TD>
+									<TD class=time>时间</TD>
+									<TD width="100">操作</TD>
+								</TR>
+							</THEAD>
 							<TBODY>
-								<TR>
-									<TH><LABEL for=users>发送到</LABEL></TH>
-									<TD><INPUT id=users tabIndex=2 size=65 name=users
-										maxlength="100" value=""> &nbsp;(多个用户名之间以逗号","分隔)</TD>
-								</TR>
-								<TR>
-									<TH><LABEL for=subject>标题</LABEL></TH>
-									<TD><INPUT id=subject tabIndex=4 size=65 name=subject
-										maxlength="100" value=""></TD>
-								</TR>
-								<TR>
-									<TH vAlign=top><LABEL for=message>内容</LABEL><BR />(200
-										个字以内)</TH>
-									<TD><TEXTAREA id=message style="WIDTH: 85%" tabIndex=5
-											name=message rows=8></TEXTAREA></TD>
-								</TR>
-								<TR>
-									<TH><LABEL for=verifycode>验证码</LABEL></TH>
-									<TD>
-										<DIV id=verifycodeimage style="margin-bottom: 3px"></DIV> <INPUT
-										id=verifycode name=verifycode tabIndex=8 maxLength=4 size=15>
-										<SPAN id=checkverifycode></SPAN>
-									</TD>
-								</TR>
-								<TR class=btns>
-									<TH>&nbsp;</TH>
-									<TD height="30"><BUTTON class=submit id=postsubmit
-											tabIndex=7 name=smssubmit type=submit>提交</BUTTON></TD>
-								</TR>
+
+								<c:forEach items="${page.content }" var="msg" varStatus="status">
+									<c:if test="${msg.outbox_show==true }">
+										<TR>
+											<TD class=selector><INPUT type=checkbox
+												value="${msg.id }" name=Message_id></TD>
+											<TD height="22"><A id="sms_1"
+												onclick="showsms(event, this, '1')" href="#">${msg.title }</A></TD>
+											<TD><A href="" target="_blank">${msg.receiver.username }</A></TD>
+											<TD><fmt:formatDate value="${msg.sendDate }" type="both" /></TD>
+											<TD>[&nbsp;<a href="sms_compose.jsp?mid=1&act=reply">回复</a>&nbsp;]
+												[&nbsp;<a href="sms_compose.jsp?mid=1&act=forward">转发</a>&nbsp;]
+											</TD>
+										</TR>
+									</c:if>
+								</c:forEach>
+
 							</TBODY>
 						</TABLE>
 						<DIV class="management">
 							<LABEL><INPUT class=checkbox id=chkall
 								onclick=checkall(this.form) type=checkbox name=chkall>
 								全选</LABEL>
+								<input type="hidden" name="act" value="outbox">
 							<BUTTON name=smssend type=submit>删除</BUTTON>
 						</DIV>
 					</DIV>
+				</FORM>
+
+				<SCRIPT type=text/javascript>
+					var lastdiv_id = '';
+					var isinbox = false;
+
+					function validate(theform) {
+						var hasCheckedID = false;
+						if (typeof (theform.msgID) != "undefined") {
+							if (typeof (theform.msgID.length) != "undefined") {
+								for (i = 0; i < theform.msgID.length; i++) {
+									if (theform.msgID[i].checked) {
+										hasCheckedID = true;
+										break;
+									}
+								}
+							} else if (theform.msgID.checked)
+								hasCheckedID = true;
+						}
+						if (!hasCheckedID) {
+							alert("请至少选中一条消息");
+							return false;
+						}
+						theform.submit();
+					}
+
+					function changestatus(obj) {
+						if (obj.parentNode.style.fontWeight == "bold") {
+							obj.parentNode.style.fontWeight = "normal";
+							var unreads = parseInt($('sms_unread').innerHTML);
+							if (unreads > 0)
+								$('sms_unread').innerHTML = unreads - 1;
+						}
+					}
+
+					function showsms(event, obj, msgid) {
+						var url = '../ajax?act=';
+						if (isinbox)
+							url = url + 'smsinbox';
+						else
+							url = url + 'smsoutbox';
+						url = url + '&id=' + msgid;
+
+						var msgdiv_id = 'msg_' + msgid + '_div';
+
+						if (!$(msgdiv_id)) {
+							var x = new Ajax();
+							x
+									.get(
+											url,
+											function(s) {
+												var table1 = obj.parentNode.parentNode.parentNode.parentNode;
+												var row1 = table1
+														.insertRow(obj.parentNode.parentNode.rowIndex + 1);
+												row1.id = msgdiv_id;
+												row1.className = 'row';
+
+												var cell1 = row1.insertCell(0);
+												cell1.innerHTML = '&nbsp;';
+												cell1.className = 'selector';
+
+												var cell2 = row1.insertCell(1);
+												cell2.colSpan = '4';
+												cell2.innerHTML = s.replace(
+														/\r?\n/g, '<br/>');
+												cell2.className = 'smsmessage';
+
+												if (lastdiv_id) {
+													$(lastdiv_id).style.display = 'none';
+												}
+												if (isinbox)
+													changestatus(obj);
+												lastdiv_id = msgdiv_id;
+											});
+						} else {
+							if ($(msgdiv_id).style.display == 'none') {
+								$(msgdiv_id).style.display = '';
+								if (isinbox)
+									changestatus(obj);
+								if (lastdiv_id) {
+									$(lastdiv_id).style.display = 'none';
+								}
+								lastdiv_id = msgdiv_id;
+							} else {
+								$(msgdiv_id).style.display = 'none';
+								lastdiv_id = '';
+							}
+						}
+						cancel(event);
+					}
+				</SCRIPT>
+
 				</FORM>
 				<div class="pages_btns">
 

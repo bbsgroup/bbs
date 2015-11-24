@@ -34,13 +34,13 @@
 		</DIV>
 		<DIV class=container>
 			<DIV class=content>
-				<FORM name="smsform" onSubmit="return validate(this)"
-					action="./sms_list.jsp?act=inbox&mod=del" method=post>
+				<FORM name="smsform" 
+					action="${pageContext.request.contextPath}/forum/user/my_msg_delete" method=post>
 					<DIV class=mainbox style="padding-bottom: 5px">
 						<H1>短消息</H1>
 						<UL class="tabs headertabs">
 							<LI class=additem><A
-								href="${pageContext.request.contextPath}/forum/user/sms_compose.jsp">发送短消息</A></LI>
+								href="${pageContext.request.contextPath}/forum/user/my_msg">发送短消息</A></LI>
 							<LI class=current><A
 								href="${pageContext.request.contextPath}/forum/user/my_msg?action=inbox">收件箱
 									(<SPAN id=sms_unread>0</SPAN>)
@@ -65,20 +65,23 @@
 								</TR>
 							</THEAD>
 							<TBODY>
-
+									<c:forEach items="${page.content }" var="msg"
+								varStatus="status">
+								<c:if test="${msg.inbox_show==true }">
 								<TR>
-									<TD class=selector><INPUT type=checkbox value="1"
-										name=msgID></TD>
+									<TD class=selector><INPUT type=checkbox value="${msg.id }"
+										name=Message_id></TD>
 									<TD height="22"><A id="sms_1"
-										onclick="showsms(event, this, '1')" href="#">bbb</A></TD>
-									<TD><A href="../uspace.jsp?uid=administrator"
-										target="_blank">系统管理员</A></TD>
-									<TD>2015-11-13 16:21</TD>
+										onclick="showsms(event, this, '1')" href="#">${msg.title }</A></TD>
+									<TD><A href=""
+										target="_blank">${msg.sender.username}</A></TD>
+									<TD><fmt:formatDate value="${msg.sendDate }" type="both" /></TD>
 									<TD>[&nbsp;<a href="sms_compose.jsp?mid=1&act=reply">回复</a>&nbsp;]
 										[&nbsp;<a href="sms_compose.jsp?mid=1&act=forward">转发</a>&nbsp;]
 									</TD>
 								</TR>
-
+								</c:if>
+								</c:forEach>
 
 							</TBODY>
 						</TABLE>
@@ -86,6 +89,7 @@
 							<LABEL><INPUT class=checkbox id=chkall
 								onclick=checkall(this.form) type=checkbox name=chkall>
 								全选</LABEL>
+									<input type="hidden" name="act" value="inbox">
 							<BUTTON name=smssend type=submit>删除</BUTTON>
 						</DIV>
 					</DIV>
