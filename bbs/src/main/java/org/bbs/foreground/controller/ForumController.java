@@ -68,6 +68,13 @@ public class ForumController {
 
 	@Autowired
 	ReplyService replyService;
+	
+	@RequestMapping("/")
+	private String indexPage(Model model, HttpSession session) {
+	
+		return "redirect:/index";
+
+	}
 
 	@RequestMapping("/index")
 	private String index(Model model, HttpSession session) {
