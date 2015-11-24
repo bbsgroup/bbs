@@ -74,10 +74,10 @@
 
 								<div class="avatar">
 									<a href="javascript:void(0);" target="_blank" title="系统管理员">
-										<c:if test="${userInfo.showHead}">
-											<IMG src="${userInfo.heanImage }" border=0
+										<c:if test="${topic.author.userInfo.showHead}">
+											<IMG src="${topic.author.userInfo.heanImage }" border=0
 												onload="resizeImage(this, 150);">
-										</c:if> <c:if test="!${userInfo.showHead}">
+										</c:if> <c:if test="!${topic.author.userInfo.showHead}">
 											<IMG
 												src="${pageContext.request.contextPath}/media/images/avatar/unknown.gif"
 												border=0 onload="resizeImage(this, 150);">
@@ -191,9 +191,15 @@
 										href="javascript:void(0);" target="_blank">${reply.author.username }</a></cite>
 
 									<div class="avatar">
-										<a href="javascript:void(0);" target="_blank"><img
-											src="${pageContext.request.contextPath}/media/images/avatar/12.jpg"
-											border="0" onload="resizeImage(this, 150);"></a>
+										<a href="javascript:void(0);" target="_blank"><c:if
+												test="${reply.author.userInfo.showHead}">
+												<IMG src="${reply.author.userInfo.heanImage }" border=0
+													onload="resizeImage(this, 150);">
+											</c:if> <c:if test="!${reply.author.userInfo.showHead}">
+												<IMG
+													src="${pageContext.request.contextPath}/media/images/avatar/unknown.gif"
+													border=0 onload="resizeImage(this, 150);">
+											</c:if></a>
 									</div>
 									<ul>
 										<li class="friend"><IMG

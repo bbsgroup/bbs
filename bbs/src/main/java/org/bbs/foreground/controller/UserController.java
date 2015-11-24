@@ -92,12 +92,14 @@ public class UserController {
 			return "redirect:registerPage";
 		}
 
-		Group group = groupService.get(new Long(1));
+		Group group = groupService.get(new Long(2));
 		user.setGroup(group);
 		user.setCreateDate(new Date());
 		userService.createUser(user);
 		userInfo.setUser(user);
 		userInfoService.addUserInfo(userInfo);
+		user.setUserInfo(userInfo);
+		userService.update(user);
 		model.addAttribute("user", user);
 		return "redirect:/index";
 	}
@@ -261,21 +263,23 @@ public class UserController {
 	@RequestMapping(value = "/my_msg_delete", method = RequestMethod.POST)
 	public String my_msg_delete(
 			@ModelAttribute("currentUser") User currentUser, Model model,
-			HttpSession session, String[] Message_id,String act) {
-		System.out.println("currentUser.id= "+currentUser.getId());
-		if(act!=null&&act.equals("inbox")){
-		for (String id1 : Message_id) {
-		System.out.println(	messageService.remove_inbox_msg(currentUser.getId(), Long.parseLong(id1)));
-		}
-		}
-		else if(act!=null&&act.equals("outbox")){
+			HttpSession session, String[] Message_id, String act) {
+		System.out.println("currentUser.id= " + currentUser.getId());
+		if (act != null && act.equals("inbox")) {
 			for (String id1 : Message_id) {
-				System.out.println(currentUser.getId()+","+Long.parseLong(id1));
-			System.out.println(	messageService.remove_outbox_msg(currentUser.getId(),  Long.parseLong(id1)));
+				System.out.println(messageService.remove_inbox_msg(
+						currentUser.getId(), Long.parseLong(id1)));
+			}
+		} else if (act != null && act.equals("outbox")) {
+			for (String id1 : Message_id) {
+				System.out.println(currentUser.getId() + ","
+						+ Long.parseLong(id1));
+				System.out.println(messageService.remove_outbox_msg(
+						currentUser.getId(), Long.parseLong(id1)));
 			}
 		}
-		
-		return "redirect:my_msg?action="+act;
+
+		return "redirect:my_msg?action=" + act;
 	}
 
 	@RequestMapping(value = "/my_topics", method = RequestMethod.GET)

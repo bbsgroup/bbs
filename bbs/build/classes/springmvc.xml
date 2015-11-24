@@ -95,7 +95,8 @@
 						<value>/resetPassword</value>
 						<value>/checkpasswordAnswer</value>
 						<value>/forgetPasswordPage</value>
-						<value>/checkuserNameExit"</value>
+						<value>/checkusername</value>
+						<value>/user_list</value>
 						<value>/js</value>
 						<value>/css</value>
 						<value>/image</value>
