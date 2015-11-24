@@ -83,6 +83,7 @@ function checkfield(theform) {
 				<h3>
 					<a href="#">${category.name}</a>
 				</h3>
+				
 				<table id="section_${category.id }" cellspacing="0" cellpadding="0">
 
 					<thead class="category">
@@ -131,46 +132,6 @@ function checkfield(theform) {
 
 
 
-
-
-
-		<div class="box">
-			<span class="headactions"><img id="forumlinks_img"
-				onclick="toggle_collapse(&#39;forumlinks&#39;);"
-				src="${pageContext.request.contextPath}/media/images/collapsed_no.gif"></span>
-			<h4>论坛联盟</h4>
-			<table id="forumlinks" cellspacing="0" cellpadding="0"
-				class="forumlinks">
-				<tbody>
-					<tr>
-						<td><a href="http://www.21works.cn/wisbook/index.html"
-							target="_blank" style="FLOAT: right"></a>
-							<h5>
-								<a href="http://www.21works.cn/" target="_blank">21works
-									经典阅读</a>
-							</h5>
-							<p>文学、历史、哲学、艺术经典作品在线阅读乐园 -&nbsp; 改变生活，从阅读开始</p></td>
-					</tr>
-					<tr>
-						<td>
-							<h5>
-								<a href="http://www.easyjforum.cn/" target="_blank">EasyJForum
-									免费论坛</a>
-							</h5>
-							<p>为中小网站提供最好的免费论坛、留言板以及免费调查服务</p>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
-		<div class="box" id="online">
-			<h4>
-				<strong>在线会员</strong>&nbsp;&nbsp;-&nbsp;&nbsp;共&nbsp;<em>2</em>
-				人在线，其中会员&nbsp;<em>1</em> 人&nbsp;-&nbsp;&nbsp;最高记录是&nbsp;<em>2</em>&nbsp;
-				于&nbsp;<em>2015-10-12 15:29</em>
-			</h4>
-		</div>
 
 		<div class="legend">
 			<label><img alt="有新帖的版块" align="absmiddle"

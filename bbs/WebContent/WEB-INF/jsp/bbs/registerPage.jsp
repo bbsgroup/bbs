@@ -30,14 +30,15 @@
 		<%@include file="head.jsp"%>
 
 		<DIV id=nav>
-				<A href="${pageContext.request.contextPath}/index">首页</A> &raquo;&nbsp; 注册
+			<A href="${pageContext.request.contextPath}/index">首页</A>
+			&raquo;&nbsp; 注册
 		</DIV>
 		<FORM name="register"
 			action="${pageContext.request.contextPath}/forum/user/register"
 			method="post">
 			<INPUT type=hidden name=fromPath value="">
 			<DIV class="mainbox formbox">
-			
+
 				<H1>注册</H1>
 				<TABLE cellSpacing=0 cellPadding=0>
 					<THEAD>
@@ -46,24 +47,20 @@
 							<TD></TD>
 						</TR>
 					</THEAD>
-					<TBODY>
-						<TR>
-							<TH><LABEL for=verifycode>验证码 *</LABEL></TH>
-							<TD>
-								<DIV id=verifycodeimage1 style="margin-bottom: 3px"></DIV> <INPUT
-								id=verifycode onblur=checkverifycode() tabIndex=1 maxLength=4
-								size=15 name=code> <img id="verifycodeimage"
-								alt="点击更换验证码"
+					<TBODY>				
+						<tr>
+							<td>验证码</td>
+							<td colspan="2"><input name="code" style="display:inline-block;vertical-align:middle;"/><img
+								id="verifycodeimage" alt="点击更换验证码"
 								src="${pageContext.request.contextPath}/forum/code"
-								onclick="changecode()"><SPAN id=checkverifycode></SPAN>
-							</TD>
-						</TR>
+								onclick="changecode()"  style="margin-left:10px; vertical-align:middle;"></td>
+						</tr>
 						<TR>
 							<TH><LABEL for=userID>用户名 *</LABEL></TH>
 							<TD><INPUT id=userID tabIndex=2 maxLength=15 size=25
 								name=username> <SPAN id=checkuserID>&nbsp;</SPAN></TD>
 						</TR>
-					
+
 						<TR>
 							<TH><LABEL for=pwd1>密码 *</LABEL></TH>
 							<TD><INPUT id=password tabIndex=4 type=password maxLength=15
@@ -106,8 +103,8 @@
 						<TR>
 							<TH><LABEL for=birth>生日</LABEL></TH>
 							<TD><INPUT id=birth tabIndex=20 size=25 maxLength=10
-								value=1970-01-01 name=birthday readonly> (&nbsp;格式为 yyyy-mm-dd ,
-								年-月-日&nbsp;)</TD>
+								value=1970-01-01 name=birthday readonly> (&nbsp;格式为
+								yyyy-mm-dd , 年-月-日&nbsp;)</TD>
 						</TR>
 						<TR>
 							<TH><LABEL for=city>来自</LABEL></TH>
@@ -130,7 +127,7 @@
 				</TABLE>
 				<TABLE cellSpacing=0 cellPadding=0>
 					<TBODY>
-						
+
 						<TR>
 							<TH>&nbsp;</TH>
 							<TD height="30">
@@ -213,20 +210,26 @@
 			});
 		})
 		//日期控件
+		function changecode(){
+			var img1 = document.getElementById("verifycodeimage");
+			img1.src = "${pageContext.request.contextPath}/forum/code?"
+					+ new Date().getTime();
+		}
 	</script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/media/nogray_js/ng_all.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/media/nogray_js/ng_ui.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/media/nogray_js/components/calendar.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/media/nogray_js/ng_all.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/media/nogray_js/ng_ui.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/media/nogray_js/components/calendar.js"></script>
 	<script type="text/javascript">
 		var my_basic_cal = new ng.Calendar({
 			input : 'birth',
-			start_date: 'year-100',
-			end_date:'year+100',
+			start_date : 'year-100',
+			end_date : 'year+100',
 			date_format : 'Y-m-d',
-			display_date: 'today'
+			display_date : 'today'
 		});
-		
-
 	</script>
 
 
