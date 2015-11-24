@@ -65,30 +65,22 @@
 								</TR>
 							</THEAD>
 							<TBODY>
+								<TR>
+									<td>&nbsp;</td>
+									<TD height="22"><A id="sms_1" href="#">${msg.title }</A></TD>
+									<TD><A href="" target="_blank">${msg.receiver.username }</A></TD>
+									<TD><fmt:formatDate value="${msg.sendDate }" type="both" /></TD>
+								</TR>
+								<tr>
+									<td>内容</td>
+									<td>${msg.content }</td>
+								</tr>
 
-								<c:forEach items="${page.content }" var="msg" varStatus="status">
-									<c:if test="${msg.outbox_show==true }">
-										<TR>
-											<TD class=selector><INPUT type=checkbox
-												value="${msg.id }" name=Message_id></TD>
-											<TD height="22"><A id="sms_1"
-												href="${pageContext.request.contextPath}/forum/user/show_message_content?msg_id=${msg.id }">${msg.title }</A></TD>
-											<TD><A href="" target="_blank">${msg.receiver.username }</A></TD>
-											<TD><fmt:formatDate value="${msg.sendDate }" type="both" /></TD>
-											
-										</TR>
-									</c:if>
-								</c:forEach>
+
 
 							</TBODY>
 						</TABLE>
-						<DIV class="management">
-							<LABEL><INPUT class=checkbox id=chkall
-								onclick=checkall(this.form) type=checkbox name=chkall>
-								全选</LABEL>
-								<input type="hidden" name="act" value="outbox">
-							<BUTTON name=smssend type=submit>删除</BUTTON>
-						</DIV>
+
 					</DIV>
 				</FORM>
 
@@ -283,6 +275,9 @@
 						}
 						cancel(event);
 					}
+					
+					
+					
 				</SCRIPT>
 			</DIV>
 

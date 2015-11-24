@@ -41,7 +41,7 @@
 					style="vertical-align: middle"
 					>
 					<!-- onsubmit="checkfield(this); return false;" -->
-					<input type="hidden" name="cookietime" value="0/"> <input
+					<input type="hidden" name="cookietime" value="0"> <input
 						type="text" id="userID" name="username" size="13" maxlength="30"
 						tabindex="1/"> <input type="password" id="pwd1"
 						name="password" size="8" tabindex="2/"><input
