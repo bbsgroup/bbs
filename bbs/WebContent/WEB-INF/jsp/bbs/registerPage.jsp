@@ -42,8 +42,7 @@
 			method="post">
 			<INPUT type=hidden name=fromPath value="">
 			<DIV class="mainbox formbox">
-				<SPAN class=headactions><A class=notabs
-					href="./help/credits_rule.jsp" target=_blank>查看积分策略说明</A> </SPAN>
+			
 				<H1>注册</H1>
 				<TABLE cellSpacing=0 cellPadding=0>
 					<THEAD>
@@ -69,11 +68,7 @@
 							<TD><INPUT id=userID tabIndex=2 maxLength=15 size=25
 								name=username> <SPAN id=checkuserID>&nbsp;</SPAN></TD>
 						</TR>
-						<TR>
-							<TH><LABEL for=nickname>呢称</LABEL></TH>
-							<TD><INPUT id=nickname tabIndex=3 maxLength=15 size=25
-								name=nickname></TD>
-						</TR>
+					
 						<TR>
 							<TH><LABEL for=pwd1>密码 *</LABEL></TH>
 							<TD><INPUT id=password tabIndex=4 type=password maxLength=15
@@ -140,12 +135,7 @@
 				</TABLE>
 				<TABLE cellSpacing=0 cellPadding=0>
 					<TBODY>
-						<TR class="btns">
-							<TH><LABEL>注册条款</LABEL></TH>
-							<TD><INPUT class=checkbox id=protocol tabIndex=99
-								type=checkbox value='T' onclick="agreerule()" name=protocol>&nbsp;我已仔细阅读并接受&nbsp;&raquo;&nbsp;<a
-								href="./help/protocol.jsp" target="_blank">论坛用户守则</a></TD>
-						</TR>
+						
 						<TR>
 							<TH>&nbsp;</TH>
 							<TD height="30">

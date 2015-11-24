@@ -68,35 +68,7 @@ function checkfield(theform) {
 </script> -->
 
 			</div>
-			<div id="headsearch">
-				<p style="margin-bottom: 5px; margin-right: 2px">
-					主题: <em>0</em>&nbsp; 帖子: <em>0</em>&nbsp; <a
-						href="#spec_topics.jsp?spec=pic" title="图片主题">图片</a><em>: 0</em>&nbsp;
-
-					<a href="#spec_topics.jsp?spec=digest" title="精华主题">精华</a><em>:
-						0</em>&nbsp; <a title="RSS 频道列表" href="#feeds.jsp"><img
-						alt="RSS 频道列表"
-						src="${pageContext.request.contextPath}/media/images/rss_sub.gif"
-						align="absmiddle">订阅</a>&nbsp;
-				</p>
-				<form id="frmsearch" name="frmsearch"
-					action="http://www.google.com.hk/search"
-					onsubmit="doSearch(); return false;" method="get"
-					target="google_window">
-					<input type="hidden" value="localhost/ejforum" name="sitesearch">
-					<div style="float: left; width: 100px">&nbsp;</div>
-					<div
-						onclick="javascript:window.open(&#39;http://www.google.com.hk/&#39;)"
-						style="cursor: pointer; float: left; width: 70px; height: 23px; background: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=&amp;#39;images/google.png&amp;#39;,sizingMethod=&amp;#39;scale&amp;#39;)"></div>
-					&nbsp; <input maxlength="255" size="12" name="q" class="search"><input
-						type="hidden" value="UTF-8" name="ie"><input type="hidden"
-						value="UTF-8" name="oe"><input type="hidden" value="zh-CN"
-						name="hl">&nbsp; <a href="#index.jsp#"
-						onclick="doSearch();return false;" style="vertical-align: middle"><img
-						src="${pageContext.request.contextPath}/media/images/search.gif"
-						border="0" alt="站内搜索" align="absbottom"></a>
-				</form>
-			</div>
+	
 		</div>
 		<div id="ad_text"></div>
 
