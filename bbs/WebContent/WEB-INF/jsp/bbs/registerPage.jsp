@@ -9,12 +9,7 @@
 <TITLE>注册新用户</TITLE>
 <LINK href="${pageContext.request.contextPath}/media/css/forum.css"
 	type=text/css rel=stylesheet>
-<SCRIPT src="${pageContext.request.contextPath}/media/js/common.js"
-	type=text/javascript></SCRIPT>
-<SCRIPT src="${pageContext.request.contextPath}/media/js/member.js"
-	type=text/javascript></SCRIPT>
-<SCRIPT src="${pageContext.request.contextPath}/media/js/ajax.js"
-	type=text/javascript></SCRIPT>
+
 <SCRIPT src="${pageContext.request.contextPath}/media/js/md5.js"
 	type=text/javascript></SCRIPT>
 <SCRIPT
@@ -160,8 +155,8 @@
 	</DIV>
 	<script type="text/javascript">
 		var validator;
-		$(function() {
-			validator = $("form")
+		jQuery(function() {
+			validator = jQuery("form")
 					.validate(
 							{
 
@@ -213,18 +208,18 @@
 								}
 
 							})
-			$("#userID").blur(function() {
+			jQuery("#userID").blur(function() {
 				if (validator.element("#userID") == true) {
-					$("#userID~span").text("用户名可以使用");
+					jQuery("#userID~span").text("用户名可以使用");
 				} else
-					$("#userID~span").text("");
+					jQuery("#userID~span").text("");
 			})
 
-			$("#advshow").click(function() {
-				if ($("#advshow").is(':checked')) {
-					$("#adv").show();
+			jQuery("#advshow").click(function() {
+				if (jQuery("#advshow").is(':checked')) {
+					jQuery("#adv").show();
 				} else
-					$("#adv").hide();
+					jQuery("#adv").hide();
 			});
 		})
 		//日期控件
@@ -240,6 +235,8 @@
 			date_format : 'Y-m-d',
 			display_date: 'today'
 		});
+		
+
 	</script>
 
 
