@@ -34,21 +34,20 @@
 			<div id="nav">
 				<p></p>
 				<c:if test="${ empty sessionScope.currentUser}">
-				
-				
-				<form id="loginform" method="post" name="login"
-					action="${pageContext.request.contextPath}/forum/user/login"
-					style="vertical-align: middle"
-					>
-					<!-- onsubmit="checkfield(this); return false;" -->
-					<input type="hidden" name="cookietime" value="0/"> <input
-						type="text" id="userID" name="username" size="13" maxlength="30"
-						tabindex="1/"> <input type="password" id="pwd1"
-						name="password" size="8" tabindex="2/"><input
-						type="hidden" id="pwd" name="pwd">&nbsp;
-					<button type="submit" name="loginsubmit" tabindex="3"
-						style="width: 46px">登录</button>
-				</form>
+
+
+					<form id="loginform" method="post" name="login"
+						action="${pageContext.request.contextPath}/forum/user/login"
+						style="vertical-align: middle">
+						<!-- onsubmit="checkfield(this); return false;" -->
+						<input type="hidden" name="cookietime" value="0/"> <input
+							type="text" id="userID" name="username" size="13" maxlength="30"
+							tabindex="1/"> <input type="password" id="pwd1"
+							name="password" size="8" tabindex="2/"><input
+							type="hidden" id="pwd" name="pwd">&nbsp;
+						<button type="submit" name="loginsubmit" tabindex="3"
+							style="width: 46px">登录</button>
+					</form>
 				</c:if>
 				<p></p>
 				<script src="${pageContext.request.contextPath}/media/css/md5.js"
@@ -68,66 +67,70 @@ function checkfield(theform) {
 </script> -->
 
 			</div>
-	
+
 		</div>
 		<div id="ad_text"></div>
 
 		<c:forEach items="${categorys }" var="category">
 
-			<div class="mainbox forumlist">
-				<span class="headactions"><img id="section_0_img"
-					title="收起/展开"
-					onclick="toggle_collapse(&#39;section_${category.id }&#39;);"
-					alt="收起/展开"
-					src="${pageContext.request.contextPath}/media/images/collapsed_no.gif"></span>
-				<h3>
-					<a href="#">${category.name}</a>
-				</h3>
-				
-				<table id="section_${category.id }" cellspacing="0" cellpadding="0">
+			<c:if test="${category.status }">
 
-					<thead class="category">
-						<tr>
-							<th>版块</th>
-							<td class="nums">主题</td>
-							<td class="nums">帖数</td>
-							<td class="lastpost">最后发表</td>
-						</tr>
-					</thead>
+				<div class="mainbox forumlist">
+					<span class="headactions"><img id="section_0_img"
+						title="收起/展开"
+						onclick="toggle_collapse(&#39;section_${category.id }&#39;);"
+						alt="收起/展开"
+						src="${pageContext.request.contextPath}/media/images/collapsed_no.gif"></span>
+					<h3>
+						<a href="#">${category.name}</a>
+					</h3>
 
-					<tbody>
-						<c:forEach items="${category.boards}" var="board">
+					<table id="section_${category.id }" cellspacing="0" cellpadding="0">
+
+						<thead class="category">
 							<tr>
-								<th>
-									<h2>
-										<a
-											href="${pageContext.request.contextPath}/board?id=${board.id}">${board.name }</a>
-									</h2>
-									<p></p>
-									<p class="moderators">
-										版主:
-										<c:if test="${empty board.moderators}">空缺中</c:if>
-										${board.moderators }
-									</p>
-								</th>
-								<td class="nums">${board.topicTimes }</td>
-								<td class="nums">${board.replyTimes }</td>
-								<td class="lastpost"><em><a href="${pageContext.request.contextPath}/topic?id=${board.lastReplyId}&pageNum=<%= Integer.MAX_VALUE%>">
-											<fmt:formatDate value="${board.lastPostTime}"
-												pattern="yyyy-MM-dd HH:mm" />
-
-									</a></em></td>
+								<th>版块</th>
+								<td class="nums">主题</td>
+								<td class="nums">帖数</td>
+								<td class="lastpost">最后发表</td>
 							</tr>
+						</thead>
 
-						</c:forEach>
+						<tbody>
+							<c:forEach items="${category.boards}" var="board">
+								<c:if test="${board.status }">
+									<tr>
+										<th>
+											<h2>
+												<a
+													href="${pageContext.request.contextPath}/board?id=${board.id}">${board.name }</a>
+											</h2>
+											<p></p>
+											<p class="moderators">
+												版主:
+												<c:if test="${empty board.moderators}">空缺中</c:if>
+												${board.moderators }
+											</p>
+										</th>
+										<td class="nums">${board.topicTimes }</td>
+										<td class="nums">${board.replyTimes }</td>
+										<td class="lastpost"><em><a
+												href="${pageContext.request.contextPath}/topic?id=${board.lastReplyId}&pageNum=<%= Integer.MAX_VALUE%>">
+													<fmt:formatDate value="${board.lastPostTime}"
+														pattern="yyyy-MM-dd HH:mm" />
 
-					</tbody>
+											</a></em></td>
+									</tr>
+								</c:if>
+							</c:forEach>
 
-				</table>
-			</div>
+						</tbody>
+
+					</table>
+				</div>
 
 
-
+			</c:if>
 		</c:forEach>
 
 

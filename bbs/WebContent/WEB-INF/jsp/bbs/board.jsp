@@ -55,18 +55,7 @@
 				href="http://localhost:9999/post.jsp?fid=2&act=vote">发布投票</a></li>
 
 		</ul>
-		<div id="headfilter">
-			<ul class="tabs">
-				<li class="spec"><a href="#">全部</a></li>
-
-				<li><a href="http://localhost:9999/forum.jsp?fid=2&spec=hot">热门</a></li>
-
-				<li><a href="http://localhost:9999/forum.jsp?fid=2&spec=digest">精华</a></li>
-
-				<li><a href="http://localhost:9999/forum.jsp?fid=2&spec=vote">投票</a></li>
-
-			</ul>
-		</div>
+		
 		<div class="mainbox topiclist">
 
 			<form name="frmmanage"
