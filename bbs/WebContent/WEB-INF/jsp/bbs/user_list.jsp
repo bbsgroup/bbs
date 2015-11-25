@@ -78,12 +78,7 @@
 
 		</div>
 		<DIV id="footfilter" class=legend style="margin-top: 0px">
-			<form id="frmsearch" name="frmsearch"
-				action="${pageContext.request.contextPath}/forum/user/listUser"
-				method="post" style="float: right; padding: 1px">
-				用户名: <input type="text" size="15" name="username" />&nbsp;
-				<button type="submit">搜索</button>
-			</form>
+	
 			<DIV style="padding-left: 2px" id="order">
 				<!-- 分页要怎么做？ -->
 				<!-- 下面把a标签变成了一个锚 -->
@@ -104,7 +99,7 @@
 				$("#order a")
 						.click(
 								function() {
-									var url = "${pageContext.request.contextPath}/forum/user/listUser?sort=";
+									var url = "${pageContext.request.contextPath}/forum/user/user_list?sort=";
 									window.location.href = url
 											+ $(this).attr('name') + "&order="
 											+ $("input:checked").val();
