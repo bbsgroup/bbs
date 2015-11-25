@@ -7,7 +7,7 @@
 			<LI><H3>
 					<A href="${pageContext.request.contextPath}/forum/user/some_userInfo?id=${currentUser.id}" target="_blank">个人信息页</A>
 				</H3></LI>
-			<LI class="side_on"><H3>
+			<LI ><H3>
 					<A href="${pageContext.request.contextPath}/forum/user/my_userInfo">编辑个人资料</A>
 				</H3></LI>
 			<LI><H3>
@@ -24,10 +24,5 @@
 				</H3></LI>
 		</UL>
 	</DIV>
-	<DIV>
-		<H2>帖子概况</H2>
-		<UL class="credits">
-			<LI>帖子: 0</LI>
-		</UL>
-	</DIV>
+	
 </DIV>

@@ -87,16 +87,7 @@
 
 
 
-								<ul>
-									<li class="friend"><IMG
-										src="${pageContext.request.contextPath}/media/images/user_add.gif"
-										align="absmiddle" border="0">&nbsp; <a
-										href="javascript:void(0);" target="_blank">加为好友</a></li>
-									<li class="sms"><IMG
-										src="${pageContext.request.contextPath}/media/images/sendsms.gif"
-										align="absmiddle" border="0">&nbsp;<a
-										href="javascript:void(0);" target="_blank">发短消息</a></li>
-								</ul></td>
+								</td>
 							<td class="postdetail">
 								<div class="postinfo">
 									<strong>0<sup>#</sup></strong> 发表于
@@ -201,20 +192,8 @@
 													border=0 onload="resizeImage(this, 150);">
 											</c:if></a>
 									</div>
-									<ul>
-										<li class="friend"><IMG
-											src="${pageContext.request.contextPath}/media/images/user_add.gif"
-											align="absmiddle" border="0">&nbsp; <a
-											href="javascript:void(0);" target="_blank">加为好友</a></li>
-										<li class="sms"><IMG
-											src="${pageContext.request.contextPath}/media/images/sendsms.gif"
-											align="absmiddle" border="0">&nbsp;<a
-											href="javascript:void(0);" target="_blank">发短消息</a></li>
-									</ul>
-									<dl class="profile">
-										<dt>帖子&nbsp;</dt>
-										<dd>36&nbsp;</dd>
-									</dl></td>
+								
+								</td>
 								<td class="postdetail">
 									<div class="postinfo">
 										<strong>${reply.floor }<sup>#</sup></strong> 发表于
