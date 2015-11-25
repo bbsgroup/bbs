@@ -35,19 +35,21 @@
 				<p></p>
 				<c:if test="${ empty sessionScope.currentUser}">
 
+				
+				<form id="loginform" method="post" name="login"
+					action="${pageContext.request.contextPath}/forum/user/login"
+					style="vertical-align: middle"
+					>
+					<!-- onsubmit="checkfield(this); return false;" -->
+					<input type="hidden" name="cookietime" value="0"> <input
+						type="text" id="userID" name="username" size="13" maxlength="30"
+						tabindex="1/"> <input type="password" id="pwd1"
+						name="password" size="8" tabindex="2/"><input
+						type="hidden" id="pwd" name="pwd">&nbsp;
+					<button type="submit" name="loginsubmit" tabindex="3"
+						style="width: 46px">登录</button>
+				</form>
 
-					<form id="loginform" method="post" name="login"
-						action="${pageContext.request.contextPath}/forum/user/login"
-						style="vertical-align: middle">
-						<!-- onsubmit="checkfield(this); return false;" -->
-						<input type="hidden" name="cookietime" value="0/"> <input
-							type="text" id="userID" name="username" size="13" maxlength="30"
-							tabindex="1/"> <input type="password" id="pwd1"
-							name="password" size="8" tabindex="2/"><input
-							type="hidden" id="pwd" name="pwd">&nbsp;
-						<button type="submit" name="loginsubmit" tabindex="3"
-							style="width: 46px">登录</button>
-					</form>
 				</c:if>
 				<p></p>
 				<script src="${pageContext.request.contextPath}/media/css/md5.js"

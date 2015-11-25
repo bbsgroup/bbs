@@ -55,7 +55,6 @@
 		<LI><A href="${pageContext.request.contextPath}/forum/user/some_userInfo?id=${currentUser.id}">个人信息页</A></LI>
 			<LI><A href="${pageContext.request.contextPath}/forum/user/my_userInfo?action=edit">编辑个人信息</A></LI>
 		<LI><A href="${pageContext.request.contextPath}/forum/user/my_topics">我的话题</A></LI>
-		<LI><A href="${pageContext.request.contextPath}/forum/user/my_favors">我的收藏</A></LI>
 		<LI><A href="${pageContext.request.contextPath}/forum/user/my_friends">我的好友</A></LI>
 		<LI><A href="${pageContext.request.contextPath}/forum/user/my_rights">我的权限</A></LI>
 	</UL>

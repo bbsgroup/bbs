@@ -73,7 +73,7 @@
 						<TR>
 							<TH><LABEL for=verifycode>验证码</LABEL></TH>
 							<TD>
-								<DIV id=verifycodeimage style="margin-bottom: 3px"></DIV> <INPUT
+								<DIV id=verifycodeimage style="margin-bottom: 3px" onclick="changecode()"></DIV> <INPUT
 								id=verifycode name=verifycode tabIndex=8 maxLength=4 size=15>
 								<SPAN id=checkverifycode></SPAN>
 							</TD>
@@ -123,6 +123,12 @@
 						return false;
 					}
 					return true;
+				}
+				
+				function changecode(){
+
+					$('verifycodeimage').innerHTML = '<img width="112" height="42" src="${pageContext.request.contextPath}/forum/code?'+ new Date().getTime()+'class="absmiddle"/>';
+				
 				}
 			</SCRIPT>
 

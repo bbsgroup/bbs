@@ -61,7 +61,6 @@
 									<TH>标题</TH>
 									<TD class=user>来自</TD>
 									<TD class=time>时间</TD>
-									<TD width="100">操作</TD>
 								</TR>
 							</THEAD>
 							<TBODY>
@@ -72,13 +71,11 @@
 									<TD class=selector><INPUT type=checkbox value="${msg.id }"
 										name=Message_id></TD>
 									<TD height="22"><A id="sms_1"
-										onclick="showsms(event, this, '1')" href="#">${msg.title }</A></TD>
+										 href="${pageContext.request.contextPath}/forum/user/show_message_content?msg_id=${msg.id }">${msg.title }</A></TD>
 									<TD><A href=""
 										target="_blank">${msg.sender.username}</A></TD>
 									<TD><fmt:formatDate value="${msg.sendDate }" type="both" /></TD>
-									<TD>[&nbsp;<a href="sms_compose.jsp?mid=1&act=reply">回复</a>&nbsp;]
-										[&nbsp;<a href="sms_compose.jsp?mid=1&act=forward">转发</a>&nbsp;]
-									</TD>
+									
 								</TR>
 								</c:if>
 								</c:forEach>

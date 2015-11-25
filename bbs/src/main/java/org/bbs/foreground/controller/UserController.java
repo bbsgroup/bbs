@@ -115,6 +115,13 @@ public class UserController {
 		return "bbs/loginPage";
 	}
 
+	@RequestMapping(value = "/show_message_content", method = RequestMethod.GET)
+	public String show_message_content(Model model,Long msg_id) {
+		model.addAttribute("msg", messageService.get(msg_id));
+		return "bbs/show_message_content";
+	}
+
+	
 	/*
 	 * 用户登录功能 在用户登录的时候更新登录信息，登录ip,上次登录ＩＰ,登录时间，上次登录时间
 	 */

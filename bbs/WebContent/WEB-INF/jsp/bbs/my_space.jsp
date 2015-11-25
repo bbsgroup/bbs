@@ -17,9 +17,6 @@
 					<A href="${pageContext.request.contextPath}/forum/user/my_topics">我的话题</A>
 				</H3></LI>
 			<LI><H3>
-					<A href="${pageContext.request.contextPath}/forum/user/my_favors">我的收藏</A>
-				</H3></LI>
-			<LI><H3>
 					<A href="${pageContext.request.contextPath}/forum/user/my_friends">我的好友</A>
 				</H3></LI>
 			<LI><H3>
