@@ -238,7 +238,7 @@
 
 											<c:if test="${isModerator }">
 												<a
-													href="${pageContext.request.contextPath}/deleteReply?id=${topic.id}&topicId=${topic.id}"
+													href="${pageContext.request.contextPath}/deleteReply?id=${reply.id}"
 													onclick="return confirm('确定要删除吗？')">删除</a>&nbsp;&nbsp;</c:if>
 
 											<a href="javascript:doReport('0');">举报</a>&nbsp;&nbsp; <span
